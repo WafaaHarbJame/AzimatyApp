@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_margin="4dp"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layoutDirection="rtl"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.daimajia.swipe.SwipeLayout
+        xmlns:swipe="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swipe"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        swipe:leftEdgeSwipeOffset="0dp"
+        swipe:rightEdgeSwipeOffset="0dp">
+        <LinearLayout
+            android:tag="Bottom1"
+            android:background="@color/white"
+            android:id="@+id/bottom_wrapper"
+            android:layout_width="wrap_content"
+            android:weightSum="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/edit"
+                android:src="@drawable/editblue"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical"
+                android:gravity="center"
+
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/delete"
+                android:gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/delete"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_margin="4dp"
+            android:padding="8dp"
+            android:layoutDirection="rtl"
+            android:id="@+id/container"
+
+            android:background="@drawable/gray_bacground"
+            android:layout_height="wrap_content">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/familyimage"
+                style="@style/Widget.AppCompat.RatingBar.Small"
+                android:layout_marginStart="10dp"
+                android:numStars="5"
+                android:isIndicator="true"
+                android:clickable="true"
+                android:progressBackgroundTint="@color/yellow"
+                app:layout_constraintTop_toTopOf="parent"
+                android:focusable="true" />
+
+            <TextView
+                android:id="@+id/tv_family_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/item_title"
+                android:textSize="18sp"
+                app:layout_constraintStart_toStartOf="@id/ratingBar"
+                app:layout_constraintTop_toBottomOf="@id/ratingBar" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_sub_item"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal"
+                tools:listitem="@layout/layout_sub_item"
+                app:layout_constraintStart_toStartOf="@id/tv_family_name"
+                app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+                app:layout_constraintTop_toBottomOf="@id/tv_family_name"
+                android:layout_height="wrap_content"/>
+
+            <!--
+                            tools:itemCount="4"
+            -->
+
+
+            <ImageView
+                android:id="@+id/favoirite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/darkfavotite"
+                app:layout_constraintTop_toTopOf="parent"
+
+                app:layout_constraintEnd_toEndOf="parent">
+
+            </ImageView>
+
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="8dp"
+                android:drawableStart="@drawable/location"
+                android:textColor="@color/gray5"
+                app:layout_constraintTop_toBottomOf="@id/rv_sub_item"
+                app:layout_constraintStart_toStartOf="@id/ratingBar"
+                android:text="@string/city" />
+
+            <ImageView
+                android:layout_width="80dp"
+                android:layout_height="0dp"
+                android:id="@+id/familyimage"
+                android:src="@drawable/familyimage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/favoirite"
+                >
+
+            </ImageView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+    </com.daimajia.swipe.SwipeLayout>
+
+
+</LinearLayout>
+
+
+

@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layoutDirection="ltr"
+    android:padding="@dimen/activity_vertical_margin_medium"
+    android:textDirection="ltr">
+
+    <ImageButton
+        android:id="@+id/buttonCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:src="@drawable/close"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvChooselang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin_medium"
+        android:text="@string/chooseservice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/activity_vertical_margin_medium"
+        android:text="@string/save"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <TextView
+        android:id="@+id/family"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/activity_horizontal_margin_large"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/familyservice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvChooselang" />
+
+    <ImageView
+        android:id="@+id/selectedar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/selected"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/family"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvChooselang" />
+    <TextView
+        android:id="@+id/cofee"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/cofffeservice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/family" />
+
+    <ImageView
+        android:id="@+id/selectecofee"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/selected"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/family"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/family" />
+    <TextView
+        android:id="@+id/hotles"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/hotleservice"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cofee" />
+
+    <ImageView
+        android:id="@+id/selectehotles"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/selected"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/family"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cofee" />
+    <TextView
+        android:id="@+id/resturants"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:padding="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/restutrantserv"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hotles" />
+
+    <ImageView
+        android:id="@+id/selectresturants"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/selected"
+        android:visibility="gone"
+        app:layout_constraintHorizontal_bias="1.0"
+        android:layout_marginStart="20dp"
+        app:layout_constraintStart_toEndOf="@+id/family"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hotles" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

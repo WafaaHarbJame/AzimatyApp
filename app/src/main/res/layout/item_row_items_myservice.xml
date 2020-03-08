@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <com.github.siyamed.shapeimageview.RoundedImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/image_item"
+        app:siRadius="6dp"
+        app:siBorderWidth="6dp"
+        app:siBorderColor="#00ffffff"
+        app:siSquare="true"
+        android:src="@drawable/image_item"/>
+
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/delete"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="18dp"
+
+        android:src="@drawable/delete">
+
+    </ImageView>
+
+    <ImageView
+        android:id="@+id/editblue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="18dp"
+        android:layout_toEndOf="@+id/delete"
+        android:src="@drawable/editblue">
+
+    </ImageView>
+</RelativeLayout>

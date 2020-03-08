@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F7F9FA</color>
+    <color name="colorPrimaryDark">#D3D5D5</color>
+    <color name="colorAccent">#FF2D55</color>
+    <color name="darkpink">#FF2D55</color>
+    <color name="red">#FF3B30</color>
+    <color name="green">#4CD964</color>
+    <color name="blue">#007AFF</color>
+    <color name="white">#FFFFFF</color>
+    <color name="Black">#020202</color>
+    <color name="grey">#F2F2F8</color>
+    <color name="darkgrey">#F6F6FA</color>
+    <color name="switchchcolor"> #009688</color>
+    <color name="darkgrey2">#8E8E93</color>
+    <color name="colorActivationText">#6B6B6B</color>
+
+    <color name="colorLightGray">#07000000</color>
+    <color name="gray3">#F2F2F8</color>
+    <color name="darkgrey5">#481D8F</color>
+    <color name="yellow">#FFCC00</color>
+    <color name="gray5">#707070</color>
+    <color name="gray4">#C4C3C3</color>
+    <color name="clickblue">#5AC8FA</color>
+    <color name="greycity">#707070</color>
+    <color name="darkblue">#009688</color>
+    <color name="greenavaliable">#4CD964</color>
+
+
+</resources>

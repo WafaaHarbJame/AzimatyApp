@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/container"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_gravity="end"
+	android:layoutDirection="rtl"
+	android:gravity="end"
+	android:background="@color/gray3"
+
+	>
+	<!--
+    android:paddingTop="?attr/actionBarSize"
+-->
+	<FrameLayout
+		android:id="@+id/mainContainer"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignTop="@id/nav_view"
+		android:layout_alignParentStart="true"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentEnd="true"
+		android:layout_above="@+id/nav_view"
+		>
+
+
+	</FrameLayout>
+
+	<LinearLayout
+		android:id="@+id/nav_view"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_gravity="bottom|center"
+		android:background="?android:attr/windowBackground"
+		android:layout_marginStart="0dp"
+		android:layout_marginEnd="0dp"
+		android:gravity="center"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintLeft_toLeftOf="parent"
+		app:layout_constraintRight_toRightOf="parent"
+		android:orientation="horizontal">
+
+		<ImageView
+			android:id="@+id/navigation_home"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:src="@drawable/home">
+
+		</ImageView>
+
+		<ImageView
+			android:id="@+id/navigation_search"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:src="@drawable/search">
+
+		</ImageView>
+
+		<ImageView
+			android:id="@+id/navigation_add"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:src="@drawable/addservice">
+
+		</ImageView>
+
+		<ImageView
+			android:id="@+id/navigation_favorite"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:src="@drawable/favorite">
+
+		</ImageView>
+
+		<ImageView
+			android:id="@+id/navigation_menu"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+
+			android:src="@drawable/menu">
+
+		</ImageView>
+	</LinearLayout>
+
+
+</RelativeLayout>
+
+
+	<!--
+    <?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="16dp"
+        android:background="@color/gray3"
+
+        >
+        &lt;!&ndash;
+        android:paddingTop="?attr/actionBarSize"
+    &ndash;&gt;
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_marginEnd="0dp"
+            android:background="?android:attr/windowBackground"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="bottom|center"
+            app:itemIconSize="@dimen/bottom_navigation_icon_size"
+
+            app:menu="@menu/bottom_nav_menu" >
+
+            <ImageView
+                android:id="@+id/selectcatogory"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:src="@drawable/addservice"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlHardcoded" />
+        </com.google.android.material.bottomnavigation.BottomNavigationView>
+
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:defaultNavHost="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_above="@+id/nav_view"
+            app:navGraph="@navigation/mobile_navigation" />
+
+    </RelativeLayout>-->

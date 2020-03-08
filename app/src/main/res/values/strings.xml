@@ -1,0 +1,124 @@
+<resources>
+    <string name="app_name">عزيمتي</string>
+    <string name="load_data">
+        الرجاءالانتظار ... يتم تحميل البيانات</string>
+    <string name="loadlogin">
+        الرجاءالانتظار ... يتم الان تسجيل الدخول</string>
+    <string name="startfromhere">ابدأ من هنا</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="bestrating">أفضل التقييمات</string>
+    <string name="city">الرياض</string>
+    <string name="reggister">تسجيل</string>
+    <string name="register">تسجيل</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="phonenumber">رقم الجوال</string>
+    <string name="password">كلمة المرور</string>
+    <string name="reaptedpassword">تأكيد كلمة المرور</string>
+    <string name="privacytext">بتسجيلك في التطبيق أنت توافق على سياسة الخصوصية وشروط الاستخدام</string>
+    <string name="haveacoount">هل لديك حساب ؟</string>
+    <string name="login">دخول</string>
+    <string name="register2">التسجيل</string>
+    <string name="switch1">تذكرني</string>
+    <string name="forgetpassward">نسيت كلمة المرور ؟</string>
+    <string name="remmber">تذكرني</string>
+    <string name="forgetpasswardtx">نسيت كلمة المرور</string>
+    <string name="sent">ارسال</string>
+    <string name="sentnumber">تم إرسال الرمز إلى الرقم \n
+        </string>
+    <string name="sentagain">إعادة إرسال الرمز</string>
+    <string name="item_title">اسم الاسرة المنتجة</string>
+    <string name="activate">تأكيد الجوال</string>
+    <string name="activateaccount">يتم الان تأكيد الجوال</string>
+    <string name="activateaccountagain">يتم الان ارسال كود جديد للجوال</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nameHint">عيسى ابراهيم</string>
+    <string name="Phonenumber">050555555555</string>
+    <string name="myservice">خدماتي</string>
+    <string name="contactus">اتصل بنا</string>
+    <string name="aboutus">من نحن</string>
+    <string name="termscondition">اتفاقية الاستخدام</string>
+    <string name="logout">تسجيل الخروج</string>
+    <string name="menu">القائمة</string>
+    <string name="addervice">إضافة خدمة</string>
+    <string name="servivename">اسم الخدمة</string>
+    <string name="servicetype">اختر نوع الخدمة</string>
+    <string name="serviceitem">ما هي الأصناف التي تقدمها ؟  (مندي-ذبايح-بخاري..الخ)</string>
+    <string name="cityname">المدينة</string>
+    <string name="add">اضافة</string>
+    <string name="AddServiceFragment">AddServiceFragment</string>
+    <string name="conditiontext">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق.
+    إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.
+    ومن هنا وجب على المصمم أن يضع نصوصا مؤقتة على التصميم ليظهر للعميل الشكل كاملاً،دور مولد النص العربى أن يوفر على المصمم عناء البحث عن نص بديل لا علاقة له بالموضوع الذى يتحدث عنه التصميم فيظهر بشكل لا يليق.
+    هذا النص يمكن أن يتم تركيبه على أي تصميم دون مشكلة فلن يبدو وكأنه نص منسوخ، غير منظم، غير منسق، أو حتى غير مفهوم. لأنه مازال نصاً بديلاً ومؤقتاً.
+    </string>
+    <string name="aboutustext">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى، حيث يمكنك أن تولد مثل هذا النص أو العديد من النصوص الأخرى إضافة إلى زيادة عدد الحروف التى يولدها التطبيق. إذا كنت تحتاج إلى عدد أكبر من الفقرات يتيح لك مولد النص العربى زيادة عدد الفقرات كما تريد، النص لن يبدو مقسما ولا يحوي أخطاء لغوية، مولد النص العربى مفيد لمصممي المواقع على وجه الخصوص، حيث يحتاج العميل فى كثير من الأحيان أن يطلع على صورة حقيقية لتصميم الموقع.</string>
+    <string name="email">mail@mail.mail</string>
+    <string name="facebook">facebook.com</string>
+    <string name="twitter">twitter.com</string>
+    <string name="instagram">Instagram.com</string>
+    <string name="advertisawahats">+966 555 555 555</string>
+    <string name="Tvadvertisawahats">للإعلان في التطبيق</string>
+    <string name="search">البحث</string>
+    <string name="searchhinit">اكتب كلمة البحث</string>
+    <string name="favorite">المفضلة</string>
+    <string name="item_title1">اسم القاعة</string>
+    <string name="item_title2">اسم المطعم</string>
+    <string name="item_title3">اسم الاسرة المنتجة</string>
+    <string name="family">الأسر المنتجة</string>
+    <string name="hotles">قاعات وشاليهات</string>
+    <string name="resturants">مطابخ ومطاعم</string>
+    <string name="cofeee">القهوة والحلا</string>
+    <string name="updatedata">تعديل بياناتي</string>
+    <string name="save">حفظ</string>
+    <string name="chooseservice">اختر نوع الجهة</string>
+    <string name="sucessadd">تمت الإضافة بنجاح</string>
+    <string name="sucessaddtv">سيتم إضافة الخدمة  في قائمة خدماتك الخاصة</string>
+    <string name="mServivename">اسم الخدمة مطلوب !</string>
+    <string name="mServiceitem">نوع الخدمة مطلوب !</string>
+    <string name="mCity">المدينة مطلوب</string>
+    <string name="mPhonenumber">رقم الجوال مطلوب!</string>
+    <string name="mServicetype">نوع الخدمة مطلوب</string>
+    <string name="logintxt">تسجيل الدخول</string>
+    <string name="mUsername">اسم المستخدم مطلوب!</string>
+    <string name="mPassword">كلمة المرور مطلوب</string>
+    <string name="mReaptedpassword">تأكيد كلمة المرور مطلوب</string>
+    <string name="mReaptedpasswordnot">كلمتا المرور غير متطابق</string>
+    <string name="items">الاصناف</string>
+    <string name="servicename">مطبخ ميرا جي</string>
+    <string name="desc">الوصف</string>
+    <string name="descdetails">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة </string>
+    <string name="counterating">شخص قيموا هذا الصنف</string>
+    <string name="addrating">أضف تقييمك</string>
+    <string name="rating_user">اسم المستخدم</string>
+    <string name="tv_rating_item">تقييم الصنف</string>
+    <string name="addra">أضف تعليق (أختياري)</string>
+    <string name="serviceava">الخدمة متاحة</string>
+    <string name="add_item">اضافة صنف</string>
+    <string name="itemname">اسم الصنف</string>
+    <string name="contactwhats">رقم الواتس للتواصل</string>
+    <string name="azimaty">عزيمتي النسخة الاولى</string>
+    <string name="updateservice">تعديل خدمة</string>
+    <string name="checkInternet">لا يوجد اتصال بالانترنت</string>
+    <string name="loadregister">يتم الان التسجيل</string>
+    <string name="logintitle">تسجيل الدخول</string>
+    <string name="logouttitle">تسجيل الخروج</string>
+    <string name="loadexit">يتم الان تسجيل الخروج</string>
+    <string name="yes">نعم</string>
+    <string name="existsucess">تم تسجيل الخروج بنجاح</string>
+    <string name="profiledata">بيانات الحساب</string>
+    <string name="nodatachanged">لم يتم تحديث البيانات لعمل تحديث</string>
+    <string name="updatedataa">يتم الان تعديل البيانات</string>
+    <string name="updatepasswardtx">تحديث كلمة المرور</string>
+    <string name="oldpassword">كلمة المرور القديمة</string>
+    <string name="mOldpassword">كلمة المرور القديمة مطلوبة !</string>
+    <string name="updatepaaward">يتم الان تغير كلمة المرور</string>
+    <string name="forgetpasswardte">يتم الان استرجاع كلمةالمرور</string>
+    <string name="load_data_tittle">تحميل البيانات</string>
+
+</resources>

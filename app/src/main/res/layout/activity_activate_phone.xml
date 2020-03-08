@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layoutDirection="ltr"
+    android:layout_margin="16dp"
+    android:gravity="center"
+    tools:context=".Activity.RegisterActivity">
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#00000000">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activate"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/cairo_bold"
+                android:textColor="@color/darkgrey2"
+                android:layout_centerInParent="true"
+                />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/close"
+                android:background="#00000000"
+                android:src="@drawable/close"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+
+                />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:srcCompat="@drawable/forgetpassward" />
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="16dp"
+        android:layout_marginTop="16dp">
+
+        <TextView
+            android:id="@+id/sendsms"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="176dp"
+            android:layout_marginEnd="176dp"
+            android:gravity="center"
+            android:text="@string/sentnumber"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editText1"
+            android:layout_width="45dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:autofillHints=""
+            android:background="@drawable/rounded_edittext"
+            android:gravity="center"
+            android:inputType="number"
+            android:labelFor="@id/editText1"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/colorActivationText"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editText2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/sendsms"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/editText2"
+            android:layout_width="45dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:autofillHints=""
+            android:maxLength="1"
+            android:gravity="center"
+            android:background="@drawable/rounded_edittext"
+            android:textColor="@color/colorActivationText"
+            android:ems="10"
+            android:inputType="number"
+            android:labelFor="@id/editText2"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editText3"
+            app:layout_constraintStart_toEndOf="@+id/editText1"
+            app:layout_constraintTop_toBottomOf="@+id/sendsms"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/editText3"
+            android:layout_width="45dp"
+            android:layout_height="59dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="10dp"
+            android:autofillHints=""
+            android:maxLength="1"
+            android:background="@drawable/rounded_edittext"
+            android:textColor="@color/colorActivationText"
+            android:ems="10"
+            android:inputType="number"
+            android:labelFor="@id/editText3"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editText4"
+            app:layout_constraintStart_toEndOf="@+id/editText2"
+            app:layout_constraintTop_toBottomOf="@+id/sendsms"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="45dp"
+            android:layout_height="59dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="30dp"
+
+            android:autofillHints=""
+            android:maxLength="1"
+            android:background="@drawable/rounded_edittext"
+            android:textColor="@color/colorActivationText"
+            android:ems="10"
+            android:inputType="number"
+            android:labelFor="@id/editText4"
+            android:textAlignment="center"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/editText3"
+            app:layout_constraintTop_toBottomOf="@+id/sendsms"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/sentagain"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:drawableEnd="@drawable/resend"
+        android:drawablePadding="16dp"
+        android:gravity="center"
+        android:text="@string/sentagain" />
+    <Button
+        android:id="@+id/sent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_marginTop="16dp"
+        android:drawablePadding="16dp"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:background="@drawable/pink_style"
+        android:text="@string/sent" />
+
+
+
+</LinearLayout>
+
