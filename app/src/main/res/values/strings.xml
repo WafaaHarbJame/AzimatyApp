@@ -48,7 +48,7 @@
     <string name="addervice">إضافة خدمة</string>
     <string name="servivename">اسم الخدمة</string>
     <string name="servicetype">اختر نوع الخدمة</string>
-    <string name="serviceitem">ما هي الأصناف التي تقدمها ؟  (مندي-ذبايح-بخاري..الخ)</string>
+    <string name="serviceitem">ما هي الأصناف التي تقدمها ؟اضف - بين كل عنصر  (مندي-ذبايح-بخاري..الخ)</string>
     <string name="cityname">المدينة</string>
     <string name="add">اضافة</string>
     <string name="AddServiceFragment">AddServiceFragment</string>
@@ -99,8 +99,10 @@
     <string name="tv_rating_item">تقييم الصنف</string>
     <string name="addra">أضف تعليق (أختياري)</string>
     <string name="serviceava">الخدمة متاحة</string>
+    <string name="serviceavaoff">الخدم غير متاحة</string>
     <string name="add_item">اضافة صنف</string>
     <string name="itemname">اسم الصنف</string>
+    <string name="updateitemname"> تعديل صنف </string>
     <string name="contactwhats">رقم الواتس للتواصل</string>
     <string name="azimaty">عزيمتي النسخة الاولى</string>
     <string name="updateservice">تعديل خدمة</string>
@@ -120,5 +122,18 @@
     <string name="updatepaaward">يتم الان تغير كلمة المرور</string>
     <string name="forgetpasswardte">يتم الان استرجاع كلمةالمرور</string>
     <string name="load_data_tittle">تحميل البيانات</string>
-
+    <string name="serviceon">متاح </string>
+    <string name="serviceoff">غير متاح </string>
+    <string name="you_must_login">لكي تتمكن من التقييم قم بتسجيل الدخول</string>
+    <string name="you_must_login_toaddfav">لكي تتمكن من اضافة للمفضلة قم بتسجيل الدخول</string>
+    <string name="you_must_login_toadd">لكي تتمكن من اضافة خدمة عليك  ان تسجل الدخول</string>
+    <string name="ADDINGSERVICE">يتم الان اضافة خدمة</string>
+    <string name="additem_text">ضافة صنف </string>
+    <string name="additem_title">يتم الان اضافة صنف </string>
+    <string name="UPDATESERVICE">يتم الان تعديل خدمة</string>
+    <string name="UPDATESERVICETITILE"> تعديل خدمة</string>
+    <string name="ADDINGSERVICEtitle">اضافة خدمة</string>
+    <string name="DELETEITEM"> يتم الان تعديل صنف</string>
+    <string name="DELETEITEMTITLE">تعديل صنف </string>
+    <string name="result">نتيجة</string>
 </resources>

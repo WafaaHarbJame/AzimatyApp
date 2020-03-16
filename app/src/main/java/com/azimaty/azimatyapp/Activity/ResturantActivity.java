@@ -1,9 +1,5 @@
 package com.azimaty.azimatyapp.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +7,10 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -43,11 +43,21 @@ public class ResturantActivity extends BaseActivity {
     private ImageView mBack;
     private RecyclerView mRvCity;
     private RecyclerView mFamilyrecycler;
-    CityAdapter cityAdapter;
-    List<SubItem> subItemList = new ArrayList<>();
     LinearLayoutManager linearLayoutManager;
-    List<SubItem> buildcityList;
     boolean InternetConnect = false;
+
+    CityAdapter cityAdapter;
+    ItemAdapter itemAdapter;
+
+    List<SubItem> subItemListCity;
+    List<Item> itemList = new ArrayList<>();
+    List<SubItem> subItemList;
+    List<SubItem> buildcityList;
+
+    public int Catogory_id;
+    private SwipeRefreshLayout mAllswip;
+    boolean isrefersh=false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,12 +67,22 @@ public class ResturantActivity extends BaseActivity {
         mBack = findViewById(R.id.back);
         mRvCity = findViewById(R.id.rv_city);
         mFamilyrecycler = findViewById(R.id.familyrecycler);
+        mAllswip = findViewById(R.id.allswip);
+
+        buildcityList = new ArrayList<>();
+        subItemListCity = new ArrayList<>();
+        subItemList = new ArrayList<>();
+        Catogory_id = getIntent().getIntExtra(AppConstants.Catogory_id, 3);
+
+
         linearLayoutManager = new LinearLayoutManager(ResturantActivity.this);
-        cityAdapter = new CityAdapter(getActiviy(), subItemList, new DataCallback() {
+
+        cityAdapter = new CityAdapter(getActiviy(), subItemListCity, new DataCallback() {
             @Override
             public void dataResult(Object obj, String func, boolean IsSuccess) {
-                SubItem subItem= (SubItem) obj;
-                Toast(subItem.getSubItemTitle());
+                SubItem subItem = (SubItem) obj;
+                //Toast(subItem.getId()+"");
+                getServiceByCitAndCatogory(subItem.getId(), Catogory_id);
 
             }
         });
@@ -70,21 +90,38 @@ public class ResturantActivity extends BaseActivity {
         mRvCity.setLayoutManager(linearLayoutManager);
         mRvCity.setHasFixedSize(true);
 
-        buildcityList=new ArrayList<>();
-        InternetConnect=CheckInternet();
-        if (InternetConnect) {
+        InternetConnect = CheckInternet();
+        mAllswip.setRefreshing(false);
 
-            getCities();
+        mAllswip.setColorSchemeResources
+                (R.color.colorPrimary, android.R.color.holo_green_dark,
+                        android.R.color.holo_orange_dark,
+                        android.R.color.holo_blue_dark);
 
-        } else {
-            Toast(getString(R.string.checkInternet));
+        mAllswip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (InternetConnect) {
+                    isrefersh=true;
+                    getCities();
+                    getServiceByCitAndCatogory(0,Catogory_id);;
+
+                } else {
+                    Toast(getString(R.string.checkInternet));
 
 
-        }
+                }
+
+
+            }
+        });
+
+
         cityAdapter.notifyDataSetChanged();
         LinearLayoutManager layoutManager = new LinearLayoutManager(ResturantActivity.this);
-        ItemAdapter itemAdapter = new ItemAdapter(buildItemList(), ResturantActivity.this);
         mFamilyrecycler.setAdapter(itemAdapter);
+        itemAdapter = new ItemAdapter(itemList, getActiviy());
+
         mFamilyrecycler.setLayoutManager(layoutManager);
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,40 +132,67 @@ public class ResturantActivity extends BaseActivity {
             }
         });
 
+        if (InternetConnect) {
+
+            getCities();
+            getServiceByCitAndCatogory(0,Catogory_id);;
+
+        } else {
+            Toast(getString(R.string.checkInternet));
 
 
+        }
     }
-    public void getCities() {
 
-        showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.CITIES, new Response.Listener<String>() {
+    public void getServiceByCity(final int City_Id) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SERVICE_BY_CITY + City_Id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                itemList.clear();
+                subItemList.clear();
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
                     Log.e("WAFAA", response);
-
                     if (status == 1) {
-                       // Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
                         JSONObject data = register_response.getJSONObject("data");
-                        JSONArray jsonArray=data.getJSONArray("cities");
+                        JSONArray jsonArray = data.getJSONArray("Services");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
+
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             String name = jsonObject.getString("name");
-                            subItemList.add(new SubItem(name,id));
+                            String phone = jsonObject.getString("phone");
+                            String logo = jsonObject.getString("logo");
+                            String Services_status = jsonObject.getString("status");
+                            JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
+                            int city_id = city.getInt("id");
+                            int rating = jsonObject.getInt("rating");
+                            String city_name = city.getString("name");
+
+                            String tag = jsonObject.getString("tag");
+
+                            String[] items = tag.split("-");
+                            subItemList.clear();
+
+                            for (String item : items) {
+                                System.out.println("item = " + item);
+                                subItemList.add(new SubItem(item, 0));
+                            }
+
+                            itemList.add(new Item(id, name, logo, rating, city_name, subItemList));
+
+
                         }
+                        mFamilyrecycler.setAdapter(itemAdapter);
+                        itemAdapter.notifyDataSetChanged();
 
 
-                        mRvCity.setAdapter(cityAdapter);
-                        cityAdapter.notifyDataSetChanged();
-
-
+                        hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
 
                     } else {
@@ -179,33 +243,203 @@ public class ResturantActivity extends BaseActivity {
 
     }
 
+    public void getCities() {
+        subItemListCity.clear();
+
+        // showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.CITIES, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+
+                    if (status == 1) {
+
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONArray jsonArray = data.getJSONArray("cities");
+
+                        subItemListCity.add(new SubItem("الكل", 0));
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            subItemListCity.add(new SubItem(name, id));
+
+                        }
+
+                        mRvCity.setAdapter(cityAdapter);
+                        cityAdapter.notifyDataSetChanged();
 
 
+                    } else {
+                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
 
 
-    private List<Item> buildItemList() {
-        List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item(getString(R.string.item_title), "gg", 5, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 4, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 3, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "gg", 5, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 4, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 3, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
+                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
-        return itemList;
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
     }
 
+    public void getServiceByCitAndCatogory(final int City_Id, final int Catogory_id) {
+        if(isrefersh){
+
+            hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+        }
+
+        else {
+            showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+
+        }
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SERVICE_BY_CITY_catogory + Catogory_id + "/" + City_Id, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                itemList.clear();
+                subItemList.clear();
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONArray jsonArray = data.getJSONArray("Services");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            String phone = jsonObject.getString("phone");
+                            String logo = jsonObject.getString("logo");
+                            String Services_status = jsonObject.getString("status");
+                            JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
+                            int city_id = city.getInt("id");
+                            int rating = jsonObject.getInt("rating");
+                            String city_name = city.getString("name");
+                            String tag = jsonObject.getString("tag");
+
+                            String[] items = tag.split("-");
+                            List<SubItem> subItemList = new ArrayList<>();
+
+                            for (String item : items) {
+//                                System.out.println("item = " + item);
+                                subItemList.add(new SubItem(item, id));
+                            }
+
+                            itemList.add(new Item(id, name, logo, rating, city_name, subItemList));
+
+
+                        }
+                        mFamilyrecycler.setAdapter(itemAdapter);
+                        itemAdapter.notifyDataSetChanged();
+
+
+                        hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+
+                    } else {
+                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                    mAllswip.setRefreshing(false);
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                    mAllswip.setRefreshing(false);
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                mAllswip.setRefreshing(false);
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
 
     private List<SubItem> buildSubItemList() {
         List<SubItem> subItemList = new ArrayList<>();
-        subItemList.add(new SubItem("مندي",2));
-        subItemList.add(new SubItem("مندي",2));
+        subItemList.add(new SubItem("مندي", 2));
+        subItemList.add(new SubItem("مندي", 2));
 
 
         return subItemList;

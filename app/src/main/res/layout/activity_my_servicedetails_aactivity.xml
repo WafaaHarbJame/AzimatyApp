@@ -76,28 +76,32 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="210dp"
         android:layout_gravity="center"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
+
         android:gravity="center"
         android:src="@drawable/imagedetails">
 
-        <ImageView
+        <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/backfround"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:layout_alignParentStart="true"
+            app:siBorderWidth="1dp"
+            android:scaleType="centerCrop"
+            app:siRadius="10dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/imagedetails" />
+            android:layout_marginStart="8dp"
+            app:siBorderColor="@color/white"
+            android:src="@drawable/raidaa"
+            android:layout_marginEnd="8dp"
+       />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:orientation="vertical">
@@ -173,7 +177,7 @@
         android:drawableStart="@drawable/locationicon"
         android:drawablePadding="16dp"
         android:ems="10"
-        android:hint="@string/city" />
+        android:hint="" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -195,6 +199,7 @@
             android:text="@string/serviceava"
             android:layout_marginStart="16dp"
             android:textColor="@color/Black"
+            android:id="@+id/isserviceon"
             android:layout_height="wrap_content" />
 
     </LinearLayout>
@@ -209,14 +214,17 @@
         android:id="@+id/additem"
         android:drawableEnd="@drawable/additemss"
         android:textSize="18sp" />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Rvitems"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:background="@color/white" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/Rvitems"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/white" />
+
 
 
 </LinearLayout>

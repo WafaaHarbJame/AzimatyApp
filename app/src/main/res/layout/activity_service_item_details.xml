@@ -108,7 +108,7 @@
                     android:id="@+id/numberrating"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="12"
+                    android:text="0"
                     android:background="@drawable/conterstyle"
                     android:textColor="@color/white"
                     android:gravity="center"

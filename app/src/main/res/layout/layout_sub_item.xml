@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:orientation="horizontal"
+    android:layout_height="wrap_content"
     android:layout_marginEnd="8dp"
-    android:layout_height="wrap_content">
+    android:orientation="horizontal">
 
 
-        <TextView
-            android:id="@+id/tv_sub_item_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/darkgreystle"
-            android:paddingBottom="3dp"
-            android:paddingTop="3dp"
-            android:paddingEnd="8dp"
-            android:paddingStart="8dp"
-            android:textColor="#707070"
-            android:text="Sub item title"/>
+    <TextView
+        android:id="@+id/tv_sub_item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/darkgreystle"
+        android:paddingStart="8dp"
+        android:paddingTop="3dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="3dp"
+        android:text="Sub item title"
+        android:textColor="#707070" />
 
 </LinearLayout>

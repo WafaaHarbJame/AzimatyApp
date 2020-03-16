@@ -46,16 +46,29 @@
     </androidx.appcompat.widget.Toolbar>
 
 
+<!--<androidx.core.widget.NestedScrollView-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_marginTop="8dp"-->
+<!--    android:layout_marginEnd="16dp"-->
+<!--    android:layout_marginStart="16dp"-->
+<!--    android:layout_height="match_parent">-->
 
     <TextView
         android:id="@+id/conditiontext"
         android:layout_width="match_parent"
+        android:visibility="gone"
+        android:lineSpacingMultiplier="1.2"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp"
-        android:text="@string/conditiontext" />
-
+        android:text="" />
+    <WebView
+        android:id="@+id/tvtext"
+        android:layout_width="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:text="" />
+<!--</androidx.core.widget.NestedScrollView>-->
 
 
 

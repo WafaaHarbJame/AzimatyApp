@@ -3,6 +3,7 @@ package com.azimaty.azimatyapp.Model;
 import java.util.List;
 
 public class Item {
+    private int service_id;
     private String Family_name;
     private  String Family_image;
     private  int RatingNumber;
@@ -13,12 +14,21 @@ public class Item {
     public Item() {
     }
 
-    public Item(String family_name, String family_image, int ratingNumber, String location, List<SubItem> subItemList) {
+    public Item(int service_id, String family_name, String family_image, int ratingNumber, String location, List<SubItem> subItemList) {
+        this.service_id = service_id;
         Family_name = family_name;
         Family_image = family_image;
         RatingNumber = ratingNumber;
         this.location = location;
         this.subItemList = subItemList;
+    }
+
+    public int getService_id() {
+        return service_id;
+    }
+
+    public void setService_id(int service_id) {
+        this.service_id = service_id;
     }
 
     public String getFamily_name() {

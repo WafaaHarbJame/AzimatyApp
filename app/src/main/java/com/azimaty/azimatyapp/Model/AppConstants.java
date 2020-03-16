@@ -16,13 +16,22 @@ public class AppConstants {
     public static String update="update";
     public static String SelectedCountryCode="SelectedCountryCode";
     public static String SelectedCountryCodeplus="SelectedCountryCodeplus";
-
+    public static String service_id="service_id";
+    public static String item_id="item_id";
+    public static String Catogory_id="Catogory_id";
+    public static String list_id="list_id";
+    public static String my_service_id="service_id";
+    public static boolean InternetConnect = false;
     public static String KEY_MEMBER="KEY_MEMBER";
     public static final String KEY_TYPE ="KEY_TYPE" ;
     public  static  String KEY_FILE="KEY_FILE";
     public  static  String KEY_FIREBASE_TOKEN="KEY_FIREBASE_TOKEN";
     public  static  String KEY_MEMBER_LANGUAGE="KEY_MEMBER_LANGUAGE";
     public  static  String KEY_FIRST_RUN="KEY_FIRST_RUN";
+    public static String KEY_CITIES="KEY_CITIES";
+    public static boolean isrefersh=false;
+    public static boolean refershService=false;
+
 
     //Api
     public static String REGISTER_URL="http://mhmdstudio.com/azemty/api/v1/register";
@@ -38,6 +47,29 @@ public class AppConstants {
     // public Api
     public static final String CITIES ="http://mhmdstudio.com/azemty/api/v1/cities" ;
     public static final String ADVERTISTMENT ="http://mhmdstudio.com/azemty/api/v1/advertisements" ;
+    public static final String CATEGORIES ="http://mhmdstudio.com/azemty/api/v1/categories" ;
+    public static final String SERVICE_BY_CITY ="http://mhmdstudio.com/azemty/api/v1/services-city/" ;
+    public static final String SIGNAL_SERVICE ="http://mhmdstudio.com/azemty/api/v1/services/" ;
+    public static final String categories ="http://mhmdstudio.com/azemty/api/v1/categories" ;
+    public static final String categories_Details ="http://mhmdstudio.com/azemty/api/v1/categories/" ;
+    public static final String services_best_rating ="http://mhmdstudio.com/azemty/api/v1/services-best-rating" ;
+    public static final String SERVICE_BY_CITY_catogory ="http://mhmdstudio.com/azemty/api/v1/services-city/" ;
+    public static final String items_details ="http://mhmdstudio.com/azemty/api/v1/list/" ;
+    public static final String ADD_ITEM="http://mhmdstudio.com/azemty/api/v1/add-list" ;
 
+    public static final String items= "http://mhmdstudio.com/azemty/api/v1/list" ;
+    public static final String making_rating= "http://mhmdstudio.com/azemty/api/v1/comments/" ;
+    public static final String add_to_favorite= "http://mhmdstudio.com/azemty/api/v1/favorites/" ;
+    public static final String favorites= "http://mhmdstudio.com/azemty/api/v1/favorites" ;
+    public static final String delete_favorite= "http://mhmdstudio.com/azemty/api/v1/favorites/" ;
+    public static final String AddService= "http://mhmdstudio.com/azemty/api/v1/add-services";
+
+  public static final String My_services= "http://mhmdstudio.com/azemty/api/v1/my-services";
+    public static final String DELEET_services= "http://mhmdstudio.com/azemty/api/v1/services/";
+    public static final String DELEET_item= "http://mhmdstudio.com/azemty/api/v1/list/";
+    public static final String EDITService= "https://mhmdstudio.com/azemty/api/v1/services/";
+    public static final String EDITlist= "https://mhmdstudio.com/azemty/api/v1/list/";
+    public static final String setting= "https://mhmdstudio.com/azemty/api/v1/setting";
+    public static final String listsearch= "https://mhmdstudio.com/azemty/api/v1/list-search";
 
 }

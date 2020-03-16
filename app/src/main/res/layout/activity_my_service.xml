@@ -64,14 +64,22 @@
     </androidx.appcompat.widget.Toolbar>
 
 
-    <androidx.recyclerview.widget.RecyclerView
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
-        android:id="@+id/myservicerecycler"
-        android:background="@color/white"
+        android:id="@+id/allswip"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:id="@+id/myservicerecycler"
+            android:background="@color/white"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_height="wrap_content" />
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </LinearLayout>
 

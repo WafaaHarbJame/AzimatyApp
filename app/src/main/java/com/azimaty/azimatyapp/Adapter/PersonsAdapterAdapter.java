@@ -51,7 +51,7 @@ public class PersonsAdapterAdapter extends RecyclerView.Adapter<PersonsAdapterAd
         PsersonRating item = psersonRatingList.get(i);
         itemViewHolder.mTvUserName.setText(item.getUsername());
         itemViewHolder.mRatingdate.setText(item.getRating_date());
-        itemViewHolder.mRatingBar.setNumStars(item.getRatingnumber());
+        itemViewHolder.mRatingBar.setRating(item.getRatingnumber());
         Picasso.with(context)
                 .load(item.getUse_image())
                 .error(R.drawable.familyimage)

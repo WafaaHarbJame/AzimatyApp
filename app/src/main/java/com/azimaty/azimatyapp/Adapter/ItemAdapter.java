@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.azimaty.azimatyapp.Activity.ServicedetailsAactivity;
+import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.Item;
 import com.azimaty.azimatyapp.R;
 import com.squareup.picasso.Picasso;
@@ -30,17 +31,16 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
     private Context context;
 
 
-    public ItemAdapter(List<Item> itemList,Context context) {
+    public ItemAdapter(List<Item> itemList, Context context) {
         this.itemList = itemList;
-        this.context=context;
+        this.context = context;
 
     }
 
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.rating_item, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.rating_item, viewGroup, false);
         return new ItemViewHolder(view);
     }
 
@@ -49,30 +49,35 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         Item item = itemList.get(i);
         itemViewHolder.mTvFamilyName.setText(item.getFamily_name());
         itemViewHolder.mLocation.setText(item.getLocation());
-        itemViewHolder.mRatingBar.setNumStars(item.getRatingNumber());
-        Picasso.with(context)
-                .load(item.getFamily_image())
-                .error(R.drawable.familyimage)
+        itemViewHolder.mRatingBar.setRating(item.getRatingNumber());
+
+        //itemViewHolder.mRatingBar2.setNumStars(3);
+
+        Picasso.with(context).load(item.getFamily_image()).error(R.drawable.familyimage)
                 .into(itemViewHolder.mFamilyimage);
 
         // Create layout manager with initial prefetch item count
-        LinearLayoutManager layoutManager = new LinearLayoutManager(
-                itemViewHolder.rvSubItem.getContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-        );
-        layoutManager.setInitialPrefetchItemCount(item.getSubItemList().size());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(itemViewHolder.rvSubItem.getContext());
+        layoutManager.setOrientation(RecyclerView.HORIZONTAL);
+//        layoutManager.setInitialPrefetchItemCount(item.getSubItemList().size());
 
         // Create sub item view adapter
-        SubItemAdapter subItemAdapter = new SubItemAdapter(item.getSubItemList());
+        itemViewHolder.rvSubItem.setHasFixedSize(true);
         itemViewHolder.rvSubItem.setLayoutManager(layoutManager);
+        SubItemAdapter subItemAdapter = new SubItemAdapter(item.getSubItemList());
         itemViewHolder.rvSubItem.setAdapter(subItemAdapter);
-        itemViewHolder.rvSubItem.setRecycledViewPool(viewPool);
+        itemViewHolder.rvSubItem.scrollToPosition(0);
+       // itemViewHolder.rvSubItem.setRecycledViewPool(viewPool);
+//        itemViewHolder.rvSubItem.setHorizontalScrollBarEnabled(true);
+
+
     }
 
     @Override
     public int getItemCount() {
         return itemList.size();
+
+
     }
 
     class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -97,12 +102,13 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context, ServicedetailsAactivity.class) ;
+                    final  int position=getAdapterPosition();
+                    Intent intent = new Intent(context, ServicedetailsAactivity.class);
+                    intent.putExtra(AppConstants.service_id,itemList.get(position).getService_id());
                     context.startActivity(intent);
 
                 }
             });
-
 
 
         }

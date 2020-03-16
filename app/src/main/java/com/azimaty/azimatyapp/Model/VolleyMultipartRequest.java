@@ -142,7 +142,7 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
     private void textParse(DataOutputStream dataOutputStream, Map<String, String> params, String encoding) throws IOException {
         try {
             for (Map.Entry<String, String> entry : params.entrySet()) {
-                buildTextPart(dataOutputStream, entry.getKey(), entry.getValue());
+                buildTextPart(dataOutputStream, entry.getKey(), entry.getValue(),"UTF-8");
             }
         } catch (UnsupportedEncodingException uee) {
             throw new RuntimeException("Encoding not supported: " + encoding, uee);
@@ -170,13 +170,29 @@ public class VolleyMultipartRequest extends Request<NetworkResponse> {
      * @param parameterValue   value of input
      * @throws IOException
      */
-    private void buildTextPart(DataOutputStream dataOutputStream, String parameterName, String parameterValue) throws IOException {
+//    private void buildTextPart(DataOutputStream dataOutputStream, String parameterName, String parameterValue) throws IOException {
+//        dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
+//        dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" + parameterName + "\"" + lineEnd);
+//        //dataOutputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
+//        dataOutputStream.writeBytes(lineEnd);
+//        dataOutputStream.writeBytes(parameterValue + lineEnd);
+//    }
+
+
+    private void buildTextPart(DataOutputStream dataOutputStream, String parameterName, String parameterValue, String encoding) throws IOException {
         dataOutputStream.writeBytes(twoHyphens + boundary + lineEnd);
         dataOutputStream.writeBytes("Content-Disposition: form-data; name=\"" + parameterName + "\"" + lineEnd);
-        //dataOutputStream.writeBytes("Content-Type: text/plain; charset=UTF-8" + lineEnd);
+        dataOutputStream.writeBytes("Content-Type: application/octet-stream" + lineEnd);
         dataOutputStream.writeBytes(lineEnd);
-        dataOutputStream.writeBytes(parameterValue + lineEnd);
+        dataOutputStream.write(parameterValue.getBytes(encoding));
+        dataOutputStream.writeBytes(lineEnd);
     }
+
+
+
+
+
+
 
     /**
      * Write data file into header and data output stream.

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_margin="4dp"
     android:padding="8dp"
-
+    android:id="@+id/container"
     android:background="@drawable/gray_bacground"
     android:layout_height="wrap_content">
 
@@ -20,7 +20,6 @@
       android:numStars="5"
       android:isIndicator="true"
       android:clickable="true"
-      android:progressBackgroundTint="@color/yellow"
       app:layout_constraintTop_toTopOf="parent"
       android:focusable="true" />
 
@@ -62,14 +61,16 @@
 
   <TextView
       android:id="@+id/location"
-      android:layout_width="wrap_content"
+      android:layout_width="0dp"
       android:layout_height="wrap_content"
       android:drawablePadding="8dp"
-      android:drawableStart="@drawable/location"
+      android:ellipsize="end"
+      app:layout_constraintEnd_toEndOf="@id/container"
+
       android:textColor="@color/gray5"
       app:layout_constraintTop_toBottomOf="@id/rv_sub_item"
       app:layout_constraintStart_toStartOf="@id/ratingBar"
-      android:text="@string/city" />
+      android:text="@string/desc" />
 
   <ImageView
       android:layout_width="80dp"

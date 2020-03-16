@@ -10,6 +10,7 @@ import androidx.multidex.MultiDex;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.androidnetworking.AndroidNetworking;
 import com.azimaty.azimatyapp.Model.SharedPManger;
 import com.franmontiel.localechanger.LocaleChanger;
 
@@ -44,6 +45,7 @@ public class MyApplication extends Application {
         LocaleChanger.initialize(getApplicationContext(), locales);
 
         LocaleChanger.setLocale(new Locale("ar"));
+        AndroidNetworking.initialize(getApplicationContext());
 
 
     }

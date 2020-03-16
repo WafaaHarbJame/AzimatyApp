@@ -3,21 +3,40 @@ package com.azimaty.azimatyapp.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.azimaty.azimatyapp.Activity.EditItemActivity;
+import com.azimaty.azimatyapp.Activity.LoginActivity;
+import com.azimaty.azimatyapp.Activity.MyserviceItemDetailsActivity;
 import com.azimaty.azimatyapp.Activity.ServiceItemDetails;
+import com.azimaty.azimatyapp.Api.MyApplication;
+import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.Items_image_service;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceItemImagesAadapter.MyHolder>{
@@ -98,11 +117,49 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
             mEditblue = itemView.findViewById(R.id.editblue);
             mDelete = itemView.findViewById(R.id.delete);
 
+
+
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context, ServiceItemDetails.class);
+                    int position=getAdapterPosition();
+                    Intent intent=new Intent(context, MyserviceItemDetailsActivity.class);
+                    intent.putExtra(AppConstants.item_id,items_image_services.get(position).getId());
+                    intent.putExtra(AppConstants.list_id,items_image_services.get(position).getList_id());
                     context.startActivity(intent);
+                }
+            });
+
+
+            mEditblue.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    Intent intent=new Intent(context, EditItemActivity.class);
+                    intent.putExtra(AppConstants.item_id,items_image_services.get(position).getId());
+                    intent.putExtra(AppConstants.list_id,items_image_services.get(position).getList_id());
+                    context.startActivity(intent);
+                }
+            });
+
+            mDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    if (UtilityApp.isLogin()) {
+                        String token = UtilityApp.getUserToken();
+                        DeleteList(items_image_services.get(position).getId(),token,position);
+                        Toast.makeText(context, ""+items_image_services.get(position).getId(), Toast.LENGTH_SHORT).show();
+
+
+                    }
+//                    else {
+//
+//                        Toast.makeText(context, ""+context.getString(R.string.you_must_login), Toast.LENGTH_SHORT).show();
+//                        Intent intent=new Intent(context, LoginActivity.class);
+//                        context.startActivity(intent);
+//                    }
+
                 }
             });
 
@@ -110,10 +167,84 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
 
 
 
-
-
-
         }
+
+
+
+
+    }
+
+    public void DeleteList(int item_id, final String token,final int position) {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.DELEET_item+item_id+"/delete"
+                , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject DeleteService_response = new JSONObject(response);
+                    String message = DeleteService_response.getString("message");
+                    int status = DeleteService_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
+                        items_image_services.remove(position);
+                        notifyDataSetChanged();
+                        notifyItemRemoved(position);
+
+
+
+                    } else {
+                        Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap();
+                header.put("Authorization",  token);
+                return header;
+            }
+
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
 
     }
 }

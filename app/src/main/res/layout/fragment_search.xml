@@ -42,19 +42,47 @@
         </RelativeLayout>
 
     </androidx.appcompat.widget.Toolbar>
+    <androidx.appcompat.widget.SearchView
+        android:layout_width="match_parent"
+        android:queryHint="@string/searchhinit"
+        android:id="@+id/searchviewtext"
+        android:background="@drawable/searchstyle"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="wrap_content">
+
+    </androidx.appcompat.widget.SearchView>
 
 
     <EditText
         android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_margin="16dp"
         android:drawableStart="@drawable/ic_search"
         android:background="@drawable/grey_style"
+        android:visibility="gone"
         android:drawablePadding="16dp"
         android:inputType="text"
         android:hint="@string/searchhinit" />
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/result"
+        android:background="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="16dp"
+        android:drawablePadding="16dp"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/bestrating"
+        android:background="@color/white"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="match_parent" />
 
 
 

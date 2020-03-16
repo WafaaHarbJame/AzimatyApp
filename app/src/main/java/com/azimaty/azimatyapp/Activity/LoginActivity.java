@@ -153,45 +153,45 @@ public class LoginActivity extends BaseActivity {
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.LOGIN_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                MemberModel memberModel;
 
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
                     Log.e("WAFAA", response);
+                    JSONObject data = register_response.getJSONObject("data");
+                    JSONObject user = data.getJSONObject("user");
+                    int id = user.getInt("id");
+                    String name = user.getString("name");
+                    boolean userStatus = user.getBoolean("status");
+                    String phone = user.getString("phone");
+                    String token = data.getString("token");
+                    String photo = user.getString("photo");
 
                     if (status == 1) {
-                        Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_LONG).show();
-                        JSONObject data = register_response.getJSONObject("data");
-                        JSONObject user = data.getJSONObject("user");
-                        int id = user.getInt("id");
-                        String name = user.getString("name");
-                        boolean userStatus = user.getBoolean("status");
-                        String phone = user.getString("phone");
-                        String token = data.getString("token");
-                        String photo = user.getString("photo");
+                        Toast(message);
+
                         Log.e("id", id + "");
                         Log.e("name", name + "");
                         Log.e("phone", phone + "");
                         Log.e("token", token + "");
-                        MemberModel memberModel = new MemberModel(token, id, name, phone, photo, userStatus);
+                        memberModel = new MemberModel(token, id, name, phone, photo, userStatus);
                         UtilityApp.setUserData(memberModel);
-//                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
-//                        sharedPManger.SetData(AppConstants.TOKEN,token);
-//                        sharedPManger.SetData(AppConstants.PASSWORD,mPassword.getText().toString());
-//                        sharedPManger.SetData(AppConstants.ISLOGIN,true);
-//                        sharedPManger.SetData(AppConstants.SelectedCountryCodeplus,CountryCode);
-
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 
 
                     } else {
-                        Toast.makeText(LoginActivity.this, "" + message, Toast.LENGTH_LONG).show();
+                        memberModel = new MemberModel(token, id, name, phone, photo, userStatus);
+                        UtilityApp.setUserData(memberModel);
+                        Intent intent = new Intent(LoginActivity.this, ActivatePhoneActivity.class);
+                        startActivity(intent);
+                        finish();
+                        Toast(message);
 
                     }
-
 
                     hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
@@ -211,7 +211,7 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 mLoading.smoothToHide();
                 mLoading.hide();
-                Toast.makeText(LoginActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast( error.getMessage());
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 

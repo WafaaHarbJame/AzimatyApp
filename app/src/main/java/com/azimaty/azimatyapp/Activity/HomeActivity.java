@@ -15,6 +15,7 @@ import com.azimaty.azimatyapp.Fragments.MenuFragment;
 import com.azimaty.azimatyapp.Fragments.SearchFragment;
 import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 
 public class HomeActivity extends BaseActivity {
 
@@ -75,10 +76,18 @@ public class HomeActivity extends BaseActivity {
                 mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
                 mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
                 mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.home));
+                if(UtilityApp.isLogin()) {
+                    Intent intent = new Intent(HomeActivity.this, AddServiceActivity.class);
+                    intent.putExtra(AppConstants.KEY_TYPE, AppConstants.ADD_SERVICE_FOR_MENU);
+                    startActivity(intent);
+                }
 
-                Intent intent = new Intent(HomeActivity.this, AddServiceActivity.class);
-                intent.putExtra(AppConstants.KEY_TYPE, AppConstants.ADD_SERVICE_FOR_MENU);
-                startActivity(intent);
+                else {
+                    Toast(getString(R.string.you_must_login_toadd));
+                    Intent intent = new Intent(HomeActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
+                }
 
 
             }

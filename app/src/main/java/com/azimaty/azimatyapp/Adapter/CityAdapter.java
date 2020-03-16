@@ -73,7 +73,8 @@ public class CityAdapter extends RecyclerView.Adapter<CityAdapter.SubItemViewHol
             super(itemView);
             tvSubItemTitle = itemView.findViewById(R.id.tv_sub_item_title);
 
-            itemView.setOnClickListener(new View.OnClickListener() {
+            itemView.setOnClickListener(
+                    new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     SubItem subItem=subItemList.get(getAdapterPosition());

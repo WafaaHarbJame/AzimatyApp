@@ -1,10 +1,14 @@
 package com.azimaty.azimatyapp.Model;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,11 +16,33 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.awesomedialog.blennersilva.awesomedialoglibrary.AwesomeProgressDialog;
+import com.azimaty.azimatyapp.Activity.ActivatePhoneActivity;
+import com.azimaty.azimatyapp.Activity.LoginActivity;
+import com.azimaty.azimatyapp.Activity.RegisterActivity;
+import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class RateingBottomDialog extends BottomSheetDialogFragment {
 
@@ -46,6 +72,10 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
     private RatingBar mRtRating;
     private EditText mRatingText;
     private Button mButoonrate;
+    AwesomeProgressDialog awesomeProgressDialog;
+    String ratingdate;
+    String user_name,user_imag;
+
 
     public RateingBottomDialog(DataCallback callback) {
         this.dataCallback = callback;
@@ -70,14 +100,34 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
             @SuppressLint("WrongConstant")
             @Override
             public void onClick(View view) {
-                if (dataCallback != null) {
-                    PsersonRating psersonRating=new PsersonRating("",2,mRatingText.getText().toString(), (String) s,"ll",mRtRating.getNumStars());
-                    dataCallback.dataResult(psersonRating, "amerr", true);
+
+                if (UtilityApp.isLogin()) {
+                    token = UtilityApp.getUserToken();
+
+                    ratingdate = formatDate(Calendar.getInstance().getTime());
+                    user_name=UtilityApp.getUserData().name;
+                    user_imag=UtilityApp.getUserData().photo;
+
+
+
+                    if (dataCallback != null) {
+                        PsersonRating psersonRating = new PsersonRating(user_name, 1, mRatingText.getText().toString(),
+                                ratingdate, user_imag, (int) mRtRating.getRating());
+                        dataCallback.dataResult(psersonRating, "amerr", true);
+                    }
+
+                    dismiss();
                 }
 
-                dismiss();
-
+                else {
+                    Toast.makeText(getContext(), ""+getString(R.string.you_must_login), Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getContext(), LoginActivity.class);
+                    startActivity(intent);
+                }
             }
+
+
+
         });
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,6 +138,34 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
         });
 
 
+    }
+
+
+
+
+    public void showProgreesDilaog(Context context, String tittle, String message){
+
+        awesomeProgressDialog = new AwesomeProgressDialog(context);
+        awesomeProgressDialog.setTitle(tittle).setMessage(message).
+                setColoredCircle(R.color.darkpink).setDialogIconAndColor(R.drawable.ic_dialog_info,
+                R.color.white).setCancelable(false).show();
+    }
+
+    public void hideProgreesDilaog(Context context,String tittle,String message){
+
+        if(awesomeProgressDialog!=null){
+            awesomeProgressDialog.hide();
+
+        }
+    }
+
+    public String formatDate(Date date) {
+        // Locale locale = new Locale( "ar" , "SA" ) ;  // Arabic language. Saudi Arabia cultural norms.
+        SimpleDateFormat customFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+        customFormat.setLenient(false);
+        customFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+        return customFormat.format(date);
     }
 
 

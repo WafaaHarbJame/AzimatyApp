@@ -9,6 +9,11 @@ public class SubItem {
         this.id = id;
 
     }
+    public SubItem(String subItemTitle) {
+        this.subItemTitle = subItemTitle;
+        this.id = id;
+
+    }
 
     public SubItem() {
     }

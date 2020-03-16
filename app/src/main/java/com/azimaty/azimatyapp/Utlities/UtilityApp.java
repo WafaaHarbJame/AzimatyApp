@@ -7,6 +7,7 @@ import android.provider.Settings;
 import com.azimaty.azimatyapp.Api.MyApplication;
 
 import com.azimaty.azimatyapp.Model.AppConstants;
+import com.azimaty.azimatyapp.Model.CitiesModel;
 import com.azimaty.azimatyapp.Model.MemberModel;
 import com.google.gson.Gson;
 
@@ -119,6 +120,11 @@ public class UtilityApp {
         MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_MEMBER, userData);
     }
 
+
+    public static void setCitiesData(CitiesModel citiesModel) {
+        String cityData = new Gson().toJson(citiesModel);
+        MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_CITIES, cityData);
+    }
     public static MemberModel getUserData() {
         String userJsonData = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_MEMBER);
         MemberModel user = new Gson().fromJson(userJsonData, MemberModel.class);

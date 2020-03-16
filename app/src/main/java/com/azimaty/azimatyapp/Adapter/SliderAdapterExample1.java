@@ -20,8 +20,9 @@ import java.util.List;
 public class SliderAdapterExample1 extends SliderViewAdapter<SliderAdapterExample1.SliderAdapterVH1> {
     private Context context;
     private List<SliderItem> mSliderItems = new ArrayList<>();
-    public SliderAdapterExample1(Context context) {
+    public SliderAdapterExample1(Context context,List<SliderItem> mSliderItems) {
         this.context = context;
+        this.mSliderItems=mSliderItems;
     }
 
     public void renewItems(List<SliderItem> sliderItems) {
@@ -59,7 +60,7 @@ public class SliderAdapterExample1 extends SliderViewAdapter<SliderAdapterExampl
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }

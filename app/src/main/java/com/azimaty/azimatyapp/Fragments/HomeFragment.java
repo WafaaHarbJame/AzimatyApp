@@ -1,5 +1,6 @@
 package com.azimaty.azimatyapp.Fragments;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import com.azimaty.azimatyapp.Activity.HotllActivity;
 import com.azimaty.azimatyapp.Activity.ResturantActivity;
 import com.azimaty.azimatyapp.Activity.StartActivity;
 import com.azimaty.azimatyapp.Activity.ui.home.HomeViewModel;
+import com.azimaty.azimatyapp.Adapter.CityAdapter;
 import com.azimaty.azimatyapp.Adapter.ItemAdapter;
 import com.azimaty.azimatyapp.Adapter.SliderAdapterExample;
 import com.azimaty.azimatyapp.Api.MyApplication;
@@ -60,19 +62,25 @@ import java.util.Map;
 
 public class HomeFragment extends BaseFragment implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
+    SliderView sliderView;
+    SharedPManger sharedPManger;
+    boolean InternetConnect = false;
+    List<SliderItem> mSliderItems;
+    CityAdapter cityAdapter;
+    ItemAdapter itemAdapter;
+
+    List<SubItem> subItemListCity;
+    List<Item> itemList ;
+    List<SubItem> subItemList;
+    List<SubItem> buildcityList;
     private HomeViewModel homeViewModel;
     private RecyclerView mBestrating;
     private SliderLayout mDemoSlider;
     private SliderAdapterExample adapter;
-    SliderView sliderView;
     private ImageView mFamily;
     private ImageView mCofffe;
     private ImageView mHotle;
     private ImageView mResturant;
-    SharedPManger sharedPManger;
-    boolean InternetConnect = false;
-    List<SliderItem> mSliderItems;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
@@ -85,49 +93,50 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             }
         });
         mBestrating = root.findViewById(R.id.bestrating);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        ItemAdapter itemAdapter = new ItemAdapter(buildItemList(), getContext());
-        mBestrating.setAdapter(itemAdapter);
-        mBestrating.setLayoutManager(layoutManager);
-        InternetConnect=CheckInternet();
-        mSliderItems = new ArrayList<>();
 
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        mBestrating.setLayoutManager(layoutManager);
+
+        InternetConnect = CheckInternet();
+        mSliderItems = new ArrayList<>();
+        itemList = new ArrayList<>();
+        subItemList = new ArrayList<>();
 
         sliderView = root.findViewById(R.id.imageSlider);
         mFamily = root.findViewById(R.id.family);
         mCofffe = root.findViewById(R.id.cofffe);
         mHotle = root.findViewById(R.id.hotle);
         mResturant = root.findViewById(R.id.resturant);
-        adapter = new SliderAdapterExample(getActivity(),mSliderItems);
 
+        adapter = new SliderAdapterExample(getContext(), mSliderItems);
         sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         sliderView.setIndicatorSelectedColor(Color.WHITE);
         sliderView.setIndicatorUnselectedColor(Color.GRAY);
         sliderView.setAutoCycle(true);
-        // sliderView.setScrollTimeInSec(3);
+        sliderView.setScrollTimeInSec(3);
         sliderView.setAutoCycle(true);
+
 
         if (InternetConnect) {
 
             getAdvertisements();
+            GetBestServices();
 
         } else {
             Toast(getString(R.string.checkInternet));
 
 
         }
-       /* adapter.addItem(new SliderItem("https://i.ibb.co/7pZmMSp/slider.png",""));
-        adapter.addItem(new SliderItem("https://i.ibb.co/7pZmMSp/slider.png",""));
-        adapter.addItem(new SliderItem("https://i.ibb.co/7pZmMSp/slider.png",""));
-        adapter.addItem(new SliderItem("https://i.ibb.co/7pZmMSp/slider.png",""));
-*/
+
 
         mFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), FamilyActivity.class);
+                Intent intent = new Intent(getActivity(), FamilyActivity.class);
+                intent.putExtra(AppConstants.Catogory_id, 1);
                 startActivity(intent);
             }
         });
@@ -136,26 +145,33 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mCofffe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), CoffeActivity.class);
+                Intent intent = new Intent(getActivity(), CoffeActivity.class);
+                intent.putExtra(AppConstants.Catogory_id, 2);
+
                 startActivity(intent);
             }
-        });     mResturant.setOnClickListener(new View.OnClickListener() {
+        });
+        mResturant.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), ResturantActivity.class);
+                Intent intent = new Intent(getActivity(), ResturantActivity.class);
+                intent.putExtra(AppConstants.Catogory_id, 3);
+
                 startActivity(intent);
             }
-        });     mHotle.setOnClickListener(new View.OnClickListener() {
+        });
+        mHotle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getActivity(), HotllActivity.class);
+                Intent intent = new Intent(getActivity(), HotllActivity.class);
+                intent.putExtra(AppConstants.Catogory_id, 4);
+
                 startActivity(intent);
             }
         });
 
 
         return root;
-
 
 
     }
@@ -176,20 +192,18 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
                     if (status == 1) {
                         JSONObject data = register_response.getJSONObject("data");
-                        JSONArray jsonArray=data.getJSONArray("advertisements");
+                        JSONArray jsonArray = data.getJSONArray("advertisements");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             String photo = jsonObject.getString("photo");
-                            mSliderItems.add(new SliderItem(photo,""));
+                            mSliderItems.add(new SliderItem(photo, ""));
 
                         }
 
                         sliderView.setSliderAdapter(adapter);
                         adapter.notifyDataSetChanged();
-
-
 
 
                     } else {
@@ -241,37 +255,6 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     }
 
 
-
-
-    private List<Item> buildItemList() {
-        List<Item> itemList = new ArrayList<>();
-        itemList.add(new Item(getString(R.string.item_title), "gg", 5, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 4, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 3, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "gg", 5, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 4, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 3, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-        itemList.add(new Item(getString(R.string.item_title), "hh", 2, getString(R.string.city), buildSubItemList()));
-
-        return itemList;
-    }
-
-
-    private List<SubItem> buildSubItemList() {
-        List<SubItem> subItemList = new ArrayList<>();
-        subItemList.add(new SubItem("مندي",1));
-        subItemList.add(new SubItem("مندي",1));
-
-
-        return subItemList;
-    }
-
-
     @Override
     public void onStop() {
         // To prevent a memory leak on rotation, make sure to call stopAutoCycle() on the slider before activity or fragment is destroyed
@@ -298,4 +281,118 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     public void onPageScrollStateChanged(int state) {
     }
 
+
+    public void GetBestServices() {
+       // showProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.services_best_rating, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                itemList.clear();
+                subItemList.clear();
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONArray jsonArray = data.getJSONArray("Services");
+
+                        for (int i = 0; i < jsonArray.length(); i++) {
+
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            String phone = jsonObject.getString("phone");
+                            String logo = jsonObject.getString("logo");
+                            String Services_status = jsonObject.getString("status");
+                            JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
+                            int city_id = city.getInt("id");
+                            int rating = jsonObject.getInt("rating");
+                            String city_name = city.getString("name");
+
+                            String tag = jsonObject.getString("tag");
+
+                            String[] items = tag.split("-");
+                            List<SubItem> subItemList = new ArrayList<>();
+
+                            for (String item : items) {
+//                                System.out.println("item = " + item);
+                                subItemList.add(new SubItem(item, id));
+                            }
+
+                            itemList.add(new Item(id, name, logo, rating, city_name, subItemList));
+
+
+                        }
+                        itemAdapter = new ItemAdapter(itemList, getContext());
+                        mBestrating.setAdapter(itemAdapter);
+//                        itemAdapter.notifyDataSetChanged();
+
+
+//                       hideProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+
+                    } else {
+                        Toast.makeText(getActivity(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                //  hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+              //   hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                //Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
+              // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String>  params = new HashMap<String, String>();
+                params.put("Content-Type", "application/json");
+                params.put("Accept", "application/json");
+
+                return params;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+    }
 }

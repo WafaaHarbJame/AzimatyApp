@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_horizontal_margin_large"
         app:layout_constraintEnd_toEndOf="parent"
+        android:rating="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_rating_item" />
 

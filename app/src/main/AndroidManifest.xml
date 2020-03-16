@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- if you want to load images from a file OR from the internet -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:name=".Api.MyApplication"
@@ -18,9 +20,12 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning"
         tools:replace="android:icon">
+        <activity android:name=".Activity.EditItemActivity"></activity>
+        <activity android:name=".UploadActivity" />
+        <activity android:name=".Activity.MyserviceItemDetailsActivity" />
         <activity
             android:name=".Activity.AddServiceActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.MyServicedetailsAactivity"
             android:screenOrientation="portrait" />
@@ -106,6 +111,15 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/picker_provider_paths" />
+        </provider>
+        <provider
+            android:name=".helper.ImagePickerFileProvider"
+            android:authorities="${applicationId}.imagepicker.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/image_picker_provider_paths" />
         </provider>
     </application>
 

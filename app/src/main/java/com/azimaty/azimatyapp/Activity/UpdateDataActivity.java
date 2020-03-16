@@ -1,5 +1,6 @@
 package com.azimaty.azimatyapp.Activity;
 
+import android.app.VoiceInteractor;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
 import com.vansuita.pickimage.dialog.PickImageDialog;
+import com.vansuita.pickimage.enums.EPickType;
 import com.vansuita.pickimage.listeners.IPickCancel;
 import com.vansuita.pickimage.listeners.IPickResult;
 
@@ -135,9 +137,11 @@ public class UpdateDataActivity extends BaseActivity {
                 updateuserImage = true;
                 updateuserimage = true;
 
-                PickImageDialog.build(new PickSetup()).setOnPickResult(new IPickResult() {
+                PickImageDialog.build(new PickSetup().setTitle("اختر صورة")).setOnPickResult(new IPickResult() {
                     @Override
                     public void onPickResult(PickResult r) {
+
+
                         try {
                             COOKERIMAGEfile = new Compressor(UpdateDataActivity.this).compressToFile(new File(r.getPath()));
 
@@ -209,8 +213,12 @@ public class UpdateDataActivity extends BaseActivity {
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+
                 try {
-                    JSONObject register_response = new JSONObject(String.valueOf(response));
+
+                    JSONObject register_response = new JSONObject(resultResponse);
+
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
 
@@ -265,7 +273,9 @@ public class UpdateDataActivity extends BaseActivity {
                 Map<String, DataPart> params = new HashMap<>();
                 if (mImageView == null) {
                 }
-                params.put("image", new DataPart(uploaduserimageename, AppHelper.getFileDataFromDrawable(getActiviy(), mImageView.getDrawable()), "image/jpg"));
+                params.put("image", new DataPart(uploaduserimageename,
+                        AppHelper.getFileDataFromDrawable(getActiviy(), mImageView.getDrawable()),
+                        "image/jpg"));
                 return params;
             }
         };

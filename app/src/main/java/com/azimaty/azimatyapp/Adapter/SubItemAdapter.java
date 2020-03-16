@@ -37,8 +37,16 @@ public class SubItemAdapter extends RecyclerView.Adapter<SubItemAdapter.SubItemV
 
     @Override
     public int getItemCount() {
-        return subItemList.size();
+        if (subItemList.size() >= 4) {
+            return 4;
+
+        } else {
+            return subItemList.size();
+        }
+//        return subItemList.size();
+
     }
+
 
     class SubItemViewHolder extends RecyclerView.ViewHolder {
         TextView tvSubItemTitle;

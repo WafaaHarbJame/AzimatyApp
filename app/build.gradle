@@ -9,14 +9,26 @@ android {
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    packagingOptions {
+        exclude 'META-INF/rxjava.properties'
     }
 }
 
@@ -62,5 +74,11 @@ dependencies {
     implementation 'id.zelory:compressor:2.1.0'
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.7.0'
 
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.2.0'
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.2.0'
+    // If you have a problem with Glide, please use the same Glide version or simply open an issue
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+    implementation 'com.amitshekhar.android:android-networking:1.0.2'
 
 }

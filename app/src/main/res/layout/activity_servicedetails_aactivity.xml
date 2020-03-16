@@ -45,36 +45,43 @@
             android:orientation="vertical">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="210dp"
         android:layout_gravity="center"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:gravity="center"
         android:src="@drawable/imagedetails">
 
-        <ImageView
+        <com.github.siyamed.shapeimageview.RoundedImageView
             android:id="@+id/backfround"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:layout_alignParentStart="true"
+            app:siBorderWidth="1dp"
+            android:scaleType="centerCrop"
+            app:siRadius="10dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/imagedetails" />
+
+            app:siBorderColor="@color/white"
+            android:src="@drawable/raidaa" />
 
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="210dp"
             android:layout_centerVertical="true"
             android:gravity="center"
             android:orientation="vertical">
 
-            <ImageView
+            <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/profileserviceimage"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
+                app:siRadius="4dp"
+                app:siBorderColor="@color/grey"
+                app:siBorderWidth="1dp"
+                android:scaleType="centerCrop"
                 android:layout_marginTop="8dp"
                 android:src="@drawable/imageservice" />
 
@@ -118,6 +125,7 @@
                     android:gravity="center"
                     android:background="@drawable/greenstyle"
                     android:text="متاح"
+                    android:id="@+id/isServiceon"
                     android:textColor="@color/white"
                     android:textStyle="bold">
 

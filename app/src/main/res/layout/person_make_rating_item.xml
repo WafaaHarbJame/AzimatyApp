@@ -13,32 +13,28 @@
     android:background="@drawable/whitebackground"
     android:layout_height="wrap_content">
 
-            <RatingBar
-                android:id="@+id/ratingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Widget.AppCompat.RatingBar.Small"
-                android:layout_marginStart="10dp"
-                android:numStars="5"
-                android:rating="3"
-                android:isIndicator="false"
-                app:layout_constraintStart_toEndOf="@+id/tv_user_name"
-                android:clickable="false"
-                android:theme="@style/RatingBarStyle"
-                app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
-                app:layout_constraintTop_toTopOf="@id/tv_user_name"
-            />
+    <RatingBar
+        android:id="@+id/ratingBar"
+        style="@style/Widget.AppCompat.RatingBar.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:numStars="5"
+        android:rating="0"
+        app:layout_constraintStart_toEndOf="@+id/tv_user_name"
+        app:layout_constraintBottom_toBottomOf="@id/tv_user_name"
+        app:layout_constraintTop_toTopOf="@id/tv_user_name" />
 
-            <TextView
-                android:id="@+id/tv_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/rating_user"
-                android:layout_marginStart="10dp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@id/userimage"
-                />
+    <TextView
+        android:id="@+id/tv_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/rating_user"
+        android:layout_marginStart="10dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/userimage"
+        />
 
 
     <TextView
@@ -47,7 +43,6 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:textSize="12sp"
-
         app:layout_constraintEnd_toEndOf="@id/container"
         android:text="@string/descdetails"
         app:layout_constraintStart_toStartOf="@id/tv_user_name"
@@ -65,23 +60,17 @@
 
     </TextView>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="70dp"
-                android:layout_height="0dp"
-                android:id="@+id/userimage"
-                android:src="@drawable/profile_image"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:civ_border_color="@color/grey"
-                app:layout_constraintTop_toTopOf="@+id/ratingdate"
-               >
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="0dp"
+        android:id="@+id/userimage"
+        android:src="@drawable/profile_image"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:civ_border_color="@color/grey"
+        app:layout_constraintTop_toTopOf="@+id/ratingdate"
+        >
 
-            </de.hdodenhof.circleimageview.CircleImageView>
+    </de.hdodenhof.circleimageview.CircleImageView>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
-
-
+</androidx.constraintlayout.widget.ConstraintLayout>

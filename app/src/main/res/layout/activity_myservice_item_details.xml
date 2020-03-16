@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
+    android:orientation="vertical"
+    android:textDirection="rtl"
+
+    >
+
+    <androidx.appcompat.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/deleteservice"
+                android:background="#00000000"
+                android:src="@drawable/delete"
+                android:layout_alignParentStart="true"
+                android:layout_centerInParent="true"
+
+                />
+
+            <ImageButton
+                android:id="@+id/edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/deleteservice"
+                android:background="#00000000"
+                android:src="@drawable/editblue" />
+            <ImageButton
+                android:id="@+id/visble"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@+id/edit"
+                android:background="#00000000"
+                android:src="@drawable/visble" />
+            <ImageButton
+                android:id="@+id/close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="16dp"
+                android:background="#00000000"
+                android:src="@drawable/close"
+
+                />
+        </RelativeLayout>
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:fillViewport="true"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <com.smarteist.autoimageslider.SliderView
+                android:id="@+id/imageSlider"
+                android:layout_width="match_parent"
+                android:layout_height="283dp"
+                android:background="@drawable/wh_style"
+                android:layoutDirection="rtl"
+                app:sliderAnimationDuration="600"
+                app:sliderAutoCycleDirection="back_and_forth"
+                app:sliderIndicatorAnimationDuration="100"
+                app:sliderIndicatorGravity="center_horizontal|bottom"
+                app:sliderIndicatorMargin="15dp"
+                app:sliderIndicatorOrientation="horizontal"
+                app:sliderIndicatorPadding="3dp"
+                app:sliderIndicatorRadius="2dp"
+                app:sliderIndicatorSelectedColor="#5A5A5A"
+                app:sliderIndicatorUnselectedColor="#FFF"
+                app:sliderScrollTimeInSec="1" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:text="@string/desc"
+                android:layout_marginTop="8dp"
+
+                android:textStyle="bold">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/descdetails"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/descdetails">
+
+            </TextView>
+            <ImageView
+                android:id="@+id/more"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginBottom="8dp"
+                android:src="@drawable/more"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp">
+            </ImageView>
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/counstle">
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/numberrating"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="0"
+                    android:background="@drawable/conterstyle"
+                    android:textColor="@color/white"
+                    android:gravity="center"
+                    android:minWidth="25dp"
+                    android:minHeight="25dp"
+                    android:layout_centerVertical="true"
+                    android:textAllCaps="false"
+                    android:textSize="12sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:id="@+id/countrratingtv"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="10dp"
+                    android:text="@string/counterating"
+                    android:textSize="16sp"
+                    android:layout_centerVertical="true"
+
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_toEndOf="@id/numberrating"
+                    tools:ignore="RtlHardcoded" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/pink_style"
+                    android:text="@string/addrating"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    android:id="@+id/Butrating"
+                    android:layout_toEndOf="@id/countrratingtv"
+                    tools:ignore="RtlHardcoded" />
+            </RelativeLayout>
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:id="@+id/rating"
+                android:background="@color/white"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_height="wrap_content" />
+
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</LinearLayout>
+

@@ -51,12 +51,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="8dp"
         android:layout_gravity="center"
+        android:src="@drawable/addservicelogo3"
         app:srcCompat="@drawable/addservicelogo3" />
 
 
@@ -106,7 +107,7 @@
         android:drawablePadding="16dp"
         android:inputType="number"
         android:hint="@string/phonenumber" />
-    <EditText
+    <TextView
         android:id="@+id/city"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -116,6 +117,32 @@
         android:background="@drawable/grey_style"
         android:drawablePadding="16dp"
         android:hint="@string/cityname" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:id="@+id/Service_on_off"
+                android:visibility="gone"
+                android:orientation="horizontal">
+
+                <Switch
+                    android:id="@+id/servichecked"
+                    android:layout_width="wrap_content"
+                    android:theme="@style/greenswitchStyle"
+                    android:layout_marginStart="16dp"
+                    android:checked="true"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:text="@string/serviceava"
+                    android:layout_marginStart="16dp"
+                    android:textColor="@color/Black"
+                    android:id="@+id/isserviceon"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
     <Button
         android:id="@+id/sent"
         android:layout_width="wrap_content"
@@ -128,6 +155,19 @@
         android:textStyle="bold"
         android:background="@drawable/pink_style"
         android:text="@string/add" />
+            <Button
+                android:id="@+id/save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="16dp"
+                android:drawablePadding="16dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:visibility="gone"
+                android:background="@drawable/pink_style"
+                android:text="@string/save" />
 
         </LinearLayout>
 </androidx.core.widget.NestedScrollView>

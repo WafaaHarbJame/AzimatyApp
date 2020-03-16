@@ -39,6 +39,7 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
     private ImageView mSelectresturants;
 //    boolean selectfamily,selectcofee,selecthotls,selectresturant=false;
     String selectedType;
+    int type_id;
     DataCallback dataCallback;
 
     public ChooseServiceTypeBottomDialog(DataCallback callback) {
@@ -68,6 +69,7 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 selectedType=AppConstants.Family_service_type;
+                type_id=1;
                 mSelectedar.setVisibility(View.VISIBLE);
                 mSelectecofee.setVisibility(View.GONE);
                 mSelectehotles.setVisibility(View.GONE);
@@ -81,6 +83,7 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 selectedType=AppConstants.Cofee_service_type;
+                type_id=2;
                 mSelectecofee.setVisibility(View.VISIBLE);
                 mSelectedar.setVisibility(View.GONE);
                 mSelectehotles.setVisibility(View.GONE);
@@ -93,6 +96,7 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 selectedType=AppConstants.Hotles_service_type;
+                type_id=3;
                 mSelectehotles.setVisibility(View.VISIBLE);
                 mSelectedar.setVisibility(View.GONE);
                 mSelectresturants.setVisibility(View.GONE);
@@ -105,6 +109,7 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 selectedType=AppConstants.Resturan_service_type;
+                type_id=4;
                 mSelectresturants.setVisibility(View.VISIBLE);
                 mSelectedar.setVisibility(View.GONE);
                 mSelectehotles.setVisibility(View.GONE);
@@ -118,7 +123,8 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
             @Override
             public void onClick(View view) {
                 if(dataCallback!=null){
-                    dataCallback.dataResult(selectedType,"amerr",true);
+                    Catogories catogories=new Catogories(type_id,selectedType);
+                    dataCallback.dataResult(catogories,"amerr",true);
                 }
 
                 dismiss();
