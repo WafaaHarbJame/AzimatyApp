@@ -126,10 +126,10 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
         mEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(context, EditItemActivity.class);
+                Intent intent=new Intent(MyserviceItemDetailsActivity.this, EditItemActivity.class);
                 intent.putExtra(AppConstants.item_id,item_id);
                 intent.putExtra(AppConstants.list_id,list_id);
-                context.startActivity(intent);
+               startActivity(intent);
 
             }
         });

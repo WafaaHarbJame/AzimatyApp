@@ -314,11 +314,15 @@ public class EditItemActivity extends BaseActivity {
                                 favorite_int = 0;
 
                             }
-
+                            StringBuilder stringBuffer = new StringBuilder();
+                            items_image_services.clear();
                             for (int k = 0; k < item_images.length(); k++) {
                                 JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
                                 int image_id = jsonObjectitem_images.getInt("id");
                                 String image_url = jsonObjectitem_images.getString("name");
+                                String image_name = image_url.substring(image_url.lastIndexOf("/") + 1);
+                                stringBuffer.append(image_name).append("\n");
+                                mItemImage.setText(stringBuffer.toString());
                                 items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, list_id));
 
                             }
