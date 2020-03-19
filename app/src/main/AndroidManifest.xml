@@ -14,15 +14,21 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        tools:ignore="GoogleAppIndexingWarning"
+        tools:ignore="LockedOrientationActivity"
         tools:replace="android:icon">
-        <activity android:name=".Activity.EditItemActivity"></activity>
-        <activity android:name=".UploadActivity" />
-        <activity android:name=".Activity.MyserviceItemDetailsActivity" />
+
+        <activity
+            android:name=".Activity.EditItemActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".UploadActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activity.MyserviceItemDetailsActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.AddServiceActivity"
             android:screenOrientation="portrait" />
@@ -45,16 +51,7 @@
             android:name=".Activity.UpdateDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ResturantActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.HotllActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.CoffeActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".Activity.FamilyActivity"
+            android:name=".Activity.CatogoryActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".Activity.ContactUsActivity"

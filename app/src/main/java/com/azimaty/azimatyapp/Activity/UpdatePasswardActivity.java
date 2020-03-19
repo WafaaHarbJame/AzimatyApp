@@ -139,7 +139,7 @@ public class UpdatePasswardActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast(error.getMessage());
+               // Toast(error.getMessage());
 
                 hideProgreesDilaog(getActiviy() ,getString(R.string.updatepasswardtx), getString(R.string.updatepaaward));
 

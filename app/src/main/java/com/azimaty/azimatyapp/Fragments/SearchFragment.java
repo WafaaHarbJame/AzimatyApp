@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -28,6 +29,7 @@ import com.azimaty.azimatyapp.Model.Item;
 import com.azimaty.azimatyapp.Model.Items_image_service;
 import com.azimaty.azimatyapp.Model.SubItem;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +53,8 @@ public class SearchFragment extends BaseFragment {
     int favorite_int;
     private SearchView mSearchviewtext;
     private TextView mResult;
-
+    View lyt_failed;
+    private Button mFailedRetry;
 
 
     @Override
@@ -70,6 +73,8 @@ public class SearchFragment extends BaseFragment {
         items_image_services = new ArrayList<>();
         mSearchviewtext.setQueryHint(getString(R.string.searchhinit));
         mResult.setVisibility(View.GONE);
+        lyt_failed = view.findViewById(R.id.failed_home);
+        mFailedRetry = lyt_failed.findViewById(R.id.failed_retry);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         itemAdapter = new SearchAdapter(itemList, getContext());
@@ -99,7 +104,8 @@ public class SearchFragment extends BaseFragment {
                     getListByserach(newText);
 
                 } else {
-                    Toast(getString(R.string.checkInternet));
+                    //Toast(getString(R.string.checkInternet));
+                    lyt_failed.setVisibility(View.VISIBLE);
 
 
                 }
@@ -107,7 +113,15 @@ public class SearchFragment extends BaseFragment {
             }
         });
 
+        mFailedRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lyt_failed.setVisibility(View.GONE);
+                getListByserach(String.valueOf(mSearchviewtext.getQuery()));
 
+
+            }
+        });
 //        mSearch.addTextChangedListener(new TextWatcher() {
 //            @Override
 //            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -160,6 +174,7 @@ public class SearchFragment extends BaseFragment {
                         JSONArray list = data.getJSONArray("list");
                         for (int j = 0; j < list.length(); j++) {
                             JSONObject jsonObjectlist = list.getJSONObject(j);
+                            int list_id=jsonObjectlist.getInt("id");
                             String name = jsonObjectlist.getString("name");
                             JSONArray item_images = jsonObjectlist.getJSONArray("image");
                             JSONArray item_comments = jsonObjectlist.getJSONArray("comment");
@@ -186,18 +201,18 @@ public class SearchFragment extends BaseFragment {
                                 String image_url = jsonObjectitem_images.getString("name");
 
 
-                                items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, item_id));
+                                items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, item_id,image_id));
 
                             }
 
 
                             if (items_image_services.isEmpty()) {
 
-                                itemList.add(new Item(item_id, name, "http://empty", rating, description, subItemList));
+                                itemList.add(new Item(item_id,item_id,list_id, name, "http://empty", rating, description, subItemList));
 
                             } else {
 
-                                itemList.add(new Item(item_id, name, items_image_services.get(0).getImage(), rating, description, subItemList));
+                                itemList.add(new Item(item_id,item_id,list_id, name, items_image_services.get(0).getImage(), rating, description, subItemList));
 
                             }
 
@@ -235,7 +250,8 @@ public class SearchFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+              //  lyt_failed.setVisibility(View.VISIBLE);
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 

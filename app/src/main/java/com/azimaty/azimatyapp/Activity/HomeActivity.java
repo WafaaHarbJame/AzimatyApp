@@ -40,7 +40,8 @@ public class HomeActivity extends BaseActivity {
         mNavigationMenu = findViewById(R.id.navigation_menu);
         mNavView = findViewById(R.id.nav_view);
         mContainer = findViewById(R.id.container);
-  getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "HomeFragment").commit();
+  getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(),
+          "HomeFragment").commit();
 
 
         mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.homeclick));
@@ -53,7 +54,8 @@ public class HomeActivity extends BaseActivity {
                 mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
                 mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
 
-                getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "HomeFragment").commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer,
+                        new HomeFragment(), "HomeFragment").commit();
 
             }
         });

@@ -61,9 +61,19 @@ import id.zelory.compressor.Compressor;
 
 public class EditItemActivity extends BaseActivity {
 
+    private static final int RC_CAMERA = 3000;
+    public List<File> list = new ArrayList<>();
+    LinearLayoutManager linearLayoutManager;
+    String token;
+    int Service_id;
+    MyServiceIEdittemImagesAadapter myServiceIEdittemImagesAadapter;
+    List<Items_image_service> items_image_services;
+    int favorite_int;
+    int item_id, list_id;
     private ImageButton mButtonCancel;
     private TextView mTvRatingItem;
     private TextView mHintimage;
+    ;
     private TextView mItemImage;
     private EditText mItemName;
     private EditText mItemDesc;
@@ -72,17 +82,7 @@ public class EditItemActivity extends BaseActivity {
     private CircleImageView mImageView;
     private ArrayList<Image> UplodedImages = new ArrayList<>();
     private ArrayList<Image> images = new ArrayList<>();
-    public   List<File> list = new ArrayList<>();;
-    private static final int RC_CAMERA = 3000;
-    LinearLayoutManager linearLayoutManager;
-    String token;
-    int Service_id;
-    MyServiceIEdittemImagesAadapter myServiceIEdittemImagesAadapter;
-    List<Items_image_service> items_image_services;
-    int favorite_int;
-    int item_id,list_id;
-
-
+    boolean update_image=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,12 +110,12 @@ public class EditItemActivity extends BaseActivity {
         mRvSubItem.setNestedScrollingEnabled(false);
         items_image_services = new ArrayList<>();
 
-        myServiceIEdittemImagesAadapter = new MyServiceIEdittemImagesAadapter
-                (getActiviy(), items_image_services);
+        myServiceIEdittemImagesAadapter = new MyServiceIEdittemImagesAadapter(getActiviy(), items_image_services);
         getSingleItem(item_id);
         mItemImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 getImagePicker().start();
             }
         });
@@ -124,15 +124,19 @@ public class EditItemActivity extends BaseActivity {
         mUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                UpdateListItems(list,token,item_id, mItemName.getText().toString(), mItemDesc.getText().toString(),
-                        list_id);
+                if(update_image){
+                    UpdateListItems(list, token, item_id, mItemName.getText().toString(), mItemDesc.getText().toString(), list_id);
+
+                }
+                else {
+
+                    UpdateDataWithoutImage(token, item_id, mItemName.getText().toString(), mItemDesc.getText().toString(), list_id);
+
+                }
 
 
             }
         });
-
-
-
 
 
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
@@ -162,8 +166,7 @@ public class EditItemActivity extends BaseActivity {
 
         imagePicker.origin(UplodedImages); // original selected images, used in multi mode
 
-        return imagePicker.limit(4)
-                .language("ar")
+        return imagePicker.limit(4).language("ar")
                 // max images can be selected (99 by default)
                 .showCamera(true) // show camera or not (true by default)
                 .imageDirectory("Camera")
@@ -185,11 +188,12 @@ public class EditItemActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, final int resultCode, Intent data) {
         if (ImagePicker.shouldHandle(requestCode, resultCode, data)) {
+            update_image=true;
             images = (ArrayList<Image>) ImagePicker.getImages(data);
 
             for (Image image : images) {
                 try {
-                    File f =  new Compressor(getActiviy()).compressToFile(new File(image.getPath()));
+                    File f = new Compressor(getActiviy()).compressToFile(new File(image.getPath()));
                     list.add(f);
 
 
@@ -224,25 +228,18 @@ public class EditItemActivity extends BaseActivity {
         }
 
         mItemImage.setText(stringBuffer.toString());
-        Toast.makeText(this, "" + stringBuffer.toString(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "" + stringBuffer.toString(), Toast.LENGTH_SHORT).show();
     }
-    private void UpdateListItems(final  List<File> fileList,final String token,final int item_id, final String name,
-                              final String description, final int service_id) {
-        showProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
-        AndroidNetworking.upload(AppConstants.EDITlist+item_id+"/edit")
-                .addMultipartParameter("service_id", String.valueOf(service_id))
-                .addMultipartParameter("name", name)
-                .addMultipartParameter("description", description)
-                .addMultipartFileList("image[]", fileList)
-                .addHeaders("Authorization", token)
-                .setTag("uploadTest").setPriority(Priority.HIGH).build()
-                .setUploadProgressListener(new UploadProgressListener() {
-                    @Override
-                    public void onProgress(long bytesUploaded, long totalBytes) {
-                        // do anything with progress
 
-                    }
-                }).getAsJSONObject(new JSONObjectRequestListener() {
+    private void UpdateListItems(final List<File> fileList, final String token, final int item_id, final String name, final String description, final int service_id) {
+        showProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+        AndroidNetworking.upload(AppConstants.EDITlist + item_id + "/edit").addMultipartParameter("service_id", String.valueOf(service_id)).addMultipartParameter("name", name).addMultipartParameter("description", description).addMultipartFileList("image[]", fileList).addHeaders("Authorization", token).setTag("uploadTest").setPriority(Priority.HIGH).build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
+
+            }
+        }).getAsJSONObject(new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
@@ -254,7 +251,61 @@ public class EditItemActivity extends BaseActivity {
 
                     if (status == 1) {
                         Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_SHORT).show();
-                       // myServiceItemImagesAadapter.notifyDataSetChanged();
+
+                        Intent intent=new Intent(EditItemActivity.this, MyserviceItemDetailsActivity.class);
+                        intent.putExtra(AppConstants.item_id,item_id);
+                        intent.putExtra(AppConstants.list_id,list_id);
+                        startActivity(intent);
+                        // myServiceItemImagesAadapter.notifyDataSetChanged();
+
+                    } else {
+                        Toast.makeText(getActiviy(), " "+getString(R.string.notupdated), Toast.LENGTH_SHORT).show();
+
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                Toast.makeText(getActiviy(), " "+getString(R.string.notupdated), Toast.LENGTH_SHORT).show();
+
+                hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+                Log.e("UPLODAING ", response.toString());
+
+            }
+
+            @Override
+            public void onError(ANError error) {
+                Log.e("error", error.getErrorDetail() + "");
+                hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+
+                // handle error
+            }
+        });
+
+
+    }
+
+
+    public void UpdateDataWithoutImage(final String token, final int item_id, final String name, final String description, final int service_id) {
+        showProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+
+        AndroidNetworking.post(AppConstants.EDITlist + item_id + "/edit").addBodyParameter("service_id", String.valueOf(service_id)).addBodyParameter("name", name).addBodyParameter("description", description).addHeaders("Authorization", token).setTag("test").setPriority(Priority.MEDIUM).build().getAsJSONObject(new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+
+                try {
+
+                    String message = response.getString("message");
+                    int status = response.getInt("status");
+
+                    if (status == 1) {
+                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(EditItemActivity.this, MyserviceItemDetailsActivity.class);
+                        intent.putExtra(AppConstants.item_id,item_id);
+                        intent.putExtra(AppConstants.list_id,list_id);
+                        startActivity(intent);
 
                     } else {
                         Toast.makeText(getActiviy(), " " + message, Toast.LENGTH_SHORT).show();
@@ -265,26 +316,24 @@ public class EditItemActivity extends BaseActivity {
                 }
 
 
-
                 hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
                 Log.e("UPLODAING ", response.toString());
-
             }
 
             @Override
             public void onError(ANError error) {
-                Log.e("error", error.getErrorDetail()+"");
+                Log.e("error", error.getErrorDetail() + "");
                 hideProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
-                // handle error
             }
         });
-
-
     }
+
+    ;
+
     public void getSingleItem(int list_id) {
-        StringRequest stringRequest = new StringRequest(Request.Method.POST,
-                AppConstants.items_details + list_id, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.items_details + list_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -297,13 +346,13 @@ public class EditItemActivity extends BaseActivity {
                         JSONArray list = data.getJSONArray("list");
                         for (int j = 0; j < list.length(); j++) {
                             JSONObject jsonObjectlist = list.getJSONObject(j);
-                            String name= jsonObjectlist.getString("name");
+                            String name = jsonObjectlist.getString("name");
                             JSONArray item_images = jsonObjectlist.getJSONArray("image");
                             JSONArray item_comments = jsonObjectlist.getJSONArray("comment");
                             int countRating = jsonObjectlist.getInt("countRating");
                             boolean favorite = jsonObjectlist.getBoolean("favorite");
                             int item_id = jsonObjectlist.getInt("id");
-                           String item_name = jsonObjectlist.getString("name");
+                            String item_name = jsonObjectlist.getString("name");
                             String item_descriptione = jsonObjectlist.getString("description");
                             mItemDesc.setText(item_descriptione);
                             mItemName.setText(name);
@@ -323,7 +372,7 @@ public class EditItemActivity extends BaseActivity {
                                 String image_name = image_url.substring(image_url.lastIndexOf("/") + 1);
                                 stringBuffer.append(image_name).append("\n");
                                 mItemImage.setText(stringBuffer.toString());
-                                items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, list_id));
+                                items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, list_id,image_id));
 
                             }
                             hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
@@ -354,7 +403,7 @@ public class EditItemActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 

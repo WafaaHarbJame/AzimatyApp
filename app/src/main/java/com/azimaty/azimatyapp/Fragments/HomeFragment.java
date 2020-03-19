@@ -1,6 +1,5 @@
 package com.azimaty.azimatyapp.Fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -10,11 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,13 +23,7 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.azimaty.azimatyapp.Activity.BaseActivity;
-import com.azimaty.azimatyapp.Activity.CoffeActivity;
-import com.azimaty.azimatyapp.Activity.FamilyActivity;
-import com.azimaty.azimatyapp.Activity.HomeActivity;
-import com.azimaty.azimatyapp.Activity.HotllActivity;
-import com.azimaty.azimatyapp.Activity.ResturantActivity;
-import com.azimaty.azimatyapp.Activity.StartActivity;
+import com.azimaty.azimatyapp.Activity.CatogoryActivity;
 import com.azimaty.azimatyapp.Activity.ui.home.HomeViewModel;
 import com.azimaty.azimatyapp.Adapter.CityAdapter;
 import com.azimaty.azimatyapp.Adapter.ItemAdapter;
@@ -50,6 +41,7 @@ import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -70,7 +62,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     ItemAdapter itemAdapter;
 
     List<SubItem> subItemListCity;
-    List<Item> itemList ;
+    List<Item> itemList;
     List<SubItem> subItemList;
     List<SubItem> buildcityList;
     private HomeViewModel homeViewModel;
@@ -81,11 +73,14 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     private ImageView mCofffe;
     private ImageView mHotle;
     private ImageView mResturant;
+    private AVLoadingIndicatorView mProgressBar;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
+        mProgressBar = root.findViewById(R.id.progress_bar);
+
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
@@ -127,7 +122,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
         } else {
             Toast(getString(R.string.checkInternet));
-
+            mProgressBar.setVisibility(View.GONE);
 
         }
 
@@ -135,8 +130,10 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mFamily.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), FamilyActivity.class);
+                Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 1);
+                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.family));
+
                 startActivity(intent);
             }
         });
@@ -145,26 +142,31 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mCofffe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), CoffeActivity.class);
+                Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 2);
+                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.cofeee));
 
                 startActivity(intent);
             }
         });
-        mResturant.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ResturantActivity.class);
-                intent.putExtra(AppConstants.Catogory_id, 3);
 
-                startActivity(intent);
-            }
-        });
         mHotle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), HotllActivity.class);
+                Intent intent = new Intent(getActivity(), CatogoryActivity.class);
+                intent.putExtra(AppConstants.Catogory_id, 3);
+                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.hotles));
+
+                startActivity(intent);
+            }
+        });
+
+        mResturant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 4);
+                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.resturants));
 
                 startActivity(intent);
             }
@@ -178,7 +180,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
     public void getAdvertisements() {
 
-        showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+        // showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.ADVERTISTMENT, new Response.Listener<String>() {
             @Override
@@ -207,18 +209,18 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
 
                     } else {
-                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
                     }
 
 
-                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                    // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                    // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
                 }
 
@@ -228,8 +230,8 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                //  Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
             }
@@ -283,13 +285,18 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
 
     public void GetBestServices() {
-       // showProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+        mBestrating.setVisibility(View.GONE);
+        mProgressBar.setVisibility(View.VISIBLE);
+//   showProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.services_best_rating, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 itemList.clear();
                 subItemList.clear();
+                mBestrating.setVisibility(View.VISIBLE);
+
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
@@ -322,31 +329,35 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
                                 subItemList.add(new SubItem(item, id));
                             }
 
-                            itemList.add(new Item(id, name, logo, rating, city_name, subItemList));
+                            itemList.add(new Item(id,0, 0,name, logo, rating, city_name, subItemList));
 
 
                         }
                         itemAdapter = new ItemAdapter(itemList, getContext());
                         mBestrating.setAdapter(itemAdapter);
 //                        itemAdapter.notifyDataSetChanged();
+                        mProgressBar.setVisibility(View.GONE);
 
 
 //                       hideProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
 
                     } else {
-                        Toast.makeText(getActivity(), "" + message, Toast.LENGTH_LONG).show();
+                        //   Toast.makeText(getActivity(), "" + message, Toast.LENGTH_LONG).show();
+                        mProgressBar.setVisibility(View.GONE);
 
                     }
 
 
-                //  hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
+//                  hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                    mProgressBar.setVisibility(View.GONE);
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    mProgressBar.setVisibility(View.GONE);
 
-              //   hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
+//                 hideProgreesDilaog(getActivity(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
                 }
 
@@ -355,9 +366,10 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mProgressBar.setVisibility(View.GONE);
 
                 //Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_SHORT).show();
-              // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+//               hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
             }
@@ -373,7 +385,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String>  params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<String, String>();
                 params.put("Content-Type", "application/json");
                 params.put("Accept", "application/json");
 
@@ -391,8 +403,5 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
     }
 
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-    }
+
 }

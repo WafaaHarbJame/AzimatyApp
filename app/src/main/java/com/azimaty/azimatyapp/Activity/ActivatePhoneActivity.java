@@ -46,7 +46,7 @@ public class ActivatePhoneActivity extends BaseActivity {
     private TextView mSentagain;
     private Button mSent;
     String validationCode = "";
-//    public SharedPManger sharedPManger;
+   public SharedPManger sharedPManger;
     String phone;
     boolean InternetConnect=false;
     MemberModel user;
@@ -71,10 +71,9 @@ public class ActivatePhoneActivity extends BaseActivity {
                 finish();
             }
         });
-//        sharedPManger = new SharedPManger(getActiviy());
+    sharedPManger = new SharedPManger(getActiviy());
 
-        user= UtilityApp.getUserData();
-        phone =user.phone;
+       phone=sharedPManger.getDataString(AppConstants.USERPHONE);
 
 
         mSendsms.setText(getString(R.string.sentnumber)+""+phone);
@@ -277,7 +276,7 @@ public class ActivatePhoneActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(),getString(R.string.activate),getString(R.string.activateaccount));
 
 

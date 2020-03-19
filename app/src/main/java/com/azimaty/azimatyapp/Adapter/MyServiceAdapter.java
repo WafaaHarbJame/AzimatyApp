@@ -187,7 +187,7 @@ public class MyServiceAdapter extends RecyclerSwipeAdapter<MyServiceAdapter.Item
                     if (UtilityApp.isLogin()) {
                         String token = UtilityApp.getUserToken();
                    DeleteService(itemList.get(position).getService_id(),token,position);
-                       Toast.makeText(context, ""+itemList.get(position).getService_id(), Toast.LENGTH_SHORT).show();
+                     //  Toast.makeText(context, ""+itemList.get(position).getService_id(), Toast.LENGTH_SHORT).show();
 
 
                     }
@@ -207,8 +207,8 @@ public class MyServiceAdapter extends RecyclerSwipeAdapter<MyServiceAdapter.Item
                     Intent intent = new Intent(context, AddServiceActivity.class);
                     intent.putExtra(AppConstants.KEY_TYPE, AppConstants.UPDATE_SERVICE_FOR_MENU);
                     intent.putExtra(AppConstants.my_service_id,itemList.get(position).getService_id());
-                    Toast.makeText(context, "wafaaa  "+itemList.get(position).getService_id(),
-                            Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "wafaaa  "+itemList.get(position).getService_id(),
+                       //     Toast.LENGTH_SHORT).show();
                     Log.e("WAFAA", ""+itemList.get(position).getService_id());
                     context.startActivity(intent);
 
@@ -265,7 +265,7 @@ public class MyServiceAdapter extends RecyclerSwipeAdapter<MyServiceAdapter.Item
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }

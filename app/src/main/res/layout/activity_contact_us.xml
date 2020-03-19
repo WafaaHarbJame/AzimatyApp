@@ -70,7 +70,8 @@
         android:id="@+id/phonenumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
+        android:textDirection="ltr"
+        android:gravity="end"
         android:layout_marginTop="8dp"
         android:drawableStart="@drawable/mobilenumber"
         android:background="@drawable/contactstyle"
@@ -78,7 +79,7 @@
         android:drawablePadding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:text="" />
+        android:text="+966555555555" />
     <TextView
         android:id="@+id/email"
         android:layout_width="match_parent"
@@ -145,7 +146,6 @@
         android:id="@+id/advertisawahats"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:layout_marginTop="8dp"
         android:drawableEnd="@drawable/whatsupicon"
         android:background="@drawable/contactstyle"
@@ -153,7 +153,9 @@
         android:drawablePadding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="" />
+        android:textDirection="ltr"
+        android:gravity="end"
+        android:text="+966555555555" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

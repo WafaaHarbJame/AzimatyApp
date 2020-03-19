@@ -21,8 +21,10 @@ import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Fragments.MenuFragment;
 import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.Items_image_service;
+import com.azimaty.azimatyapp.Model.Setting;
 import com.azimaty.azimatyapp.Model.SubItem;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -34,6 +36,8 @@ import java.util.Map;
 
 public class ContactUsActivity extends BaseActivity {
 
+    boolean InternetConnect = false;
+    Setting setting;
     private ImageButton mMBack;
     private TextView mPhonenumber;
     private TextView mEmail;
@@ -42,8 +46,6 @@ public class ContactUsActivity extends BaseActivity {
     private TextView mInstagram;
     private TextView mTvadvertisawahats;
     private TextView mAdvertisawahats;
-    boolean InternetConnect = false;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +70,29 @@ public class ContactUsActivity extends BaseActivity {
 
             }
         });
-
-        if (InternetConnect) {
-           getSetting();
+        setting = UtilityApp.getSettingData();
+        if (setting != null) {
+            mPhonenumber.setText(setting.getPhone());
+            mEmail.setText(setting.getEmail());
+            mFacebook.setText(setting.getFacebook());
+            mAdvertisawahats.setText(setting.getWatsapp());
+            mInstagram.setText(setting.getInstagram());
+            mTwitter.setText(setting.getTweeter());
 
         } else {
-            Toast(getString(R.string.checkInternet));
+
+            getSetting();
 
 
         }
+//        if (InternetConnect) {
+//           getSetting();
+//
+//        } else {
+//           // Toast(getString(R.string.checkInternet));
+//
+//
+//        }
 
         mPhonenumber.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,7 +111,7 @@ public class ContactUsActivity extends BaseActivity {
 
     public void getSetting() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.setting , new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.setting, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
@@ -123,7 +139,7 @@ public class ContactUsActivity extends BaseActivity {
 
 
                     } else {
-                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+                        // Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -144,8 +160,8 @@ public class ContactUsActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
-               // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
             }

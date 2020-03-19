@@ -98,7 +98,7 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
 
         personsAdapterAdapter = new PersonsAdapterAdapter(psersonRatingList, getActiviy());
 
-        adapter = new SliderAdapterExample1(getApplicationContext(), mSliderItems);
+        adapter = new SliderAdapterExample1(MyserviceItemDetailsActivity.this, mSliderItems);
 
 
         sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -140,7 +140,7 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
             public void onClick(View view) {
                 if (UtilityApp.isLogin()) {
                     String token = UtilityApp.getUserToken();
-                    DeleteList(list_id,token);
+                    DeleteList(item_id,token);
 
 
                 }
@@ -166,7 +166,7 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
                             token = UtilityApp.getUserToken();
                             String comment = psersonRating.getRating_text();
                             int Rating = psersonRating.getRatingnumber();
-                            Toast(psersonRating.getRating_text());
+                           /// Toast(psersonRating.getRating_text());
                             Make_Rateing_item(token, Rating + "", comment, item_id+ "");
 
 
@@ -281,7 +281,7 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
@@ -346,7 +346,7 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.load_data), getString(R.string.load_data_tittle));
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -393,12 +393,12 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
                     int status = DeleteService_response.getInt("status");
                     Log.e("WAFAA", response);
                     if (status == 1) {
-                        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MyserviceItemDetailsActivity.this, ""+message, Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getActiviy(), MyServicedetailsAactivity.class);
                         startActivity(intent);
 
                     } else {
-                        Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
+                        Toast.makeText(MyserviceItemDetailsActivity.this, "" + message, Toast.LENGTH_LONG).show();
 
                     }
 

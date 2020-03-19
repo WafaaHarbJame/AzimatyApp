@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +21,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Model.AppConstants;
+import com.azimaty.azimatyapp.Model.Setting;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -34,6 +37,10 @@ public class TermsAndconditionActivity extends BaseActivity {
     private TextView mConditiontext;
     boolean InternetConnect = false;
     WebView webView;
+    View lyt_failed;
+    private Button mFailedRetry;
+    Setting setting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +52,32 @@ public class TermsAndconditionActivity extends BaseActivity {
         WebSettings webSettings = webView.getSettings();
         webSettings.setDefaultTextEncodingName("utf-8");
         webSettings.setJavaScriptEnabled(true);
+        lyt_failed = findViewById(R.id.failed_home);
+        mFailedRetry = lyt_failed.findViewById(R.id.failed_retry);
+
+
+        setting = UtilityApp.getSettingData();
+        if (setting != null) {
+            String dataa = "<html><head></head><body>" + setting.getPrivacy_app() + "</body></html>";
+            Log.e("Wafaa", dataa);
+            webView.loadData(dataa, "text/html", null);
+
+
+        } else {
+
+            if (InternetConnect) {
+                lyt_failed.setVisibility(View.GONE);
+
+                getSetting();
+
+            } else {
+                lyt_failed.setVisibility(View.VISIBLE);
+
+
+            }
+        }
+
+
 
         mBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,17 +88,21 @@ public class TermsAndconditionActivity extends BaseActivity {
             }
         });
 
-        if (InternetConnect) {
-            getSetting();
+        mFailedRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lyt_failed.setVisibility(View.GONE);
 
-        } else {
-            Toast(getString(R.string.checkInternet));
+                getSetting();
+
+            }
+        });
 
 
-        }
     }
 
     public void getSetting() {
+        showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.setting , new Response.Listener<String>() {
             @Override
@@ -88,22 +125,22 @@ public class TermsAndconditionActivity extends BaseActivity {
                         webView.loadData(dataa, "text/html", null);
 
 
-                        //hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+                      hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
 
                     } else {
-                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+                    //    Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
                     }
 
 
-                    //hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    //hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+               hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
                 }
 
@@ -113,8 +150,8 @@ public class TermsAndconditionActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+               // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+             hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
             }

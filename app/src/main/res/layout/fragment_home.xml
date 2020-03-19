@@ -23,6 +23,7 @@
         android:textStyle="bold" />
 
 
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -111,7 +112,16 @@
                 android:paddingEnd="16dp"
                 android:text="@string/bestrating"
                 android:textSize="20sp" />
-
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/AVLoadingIndicatorView"
+            android:visibility="visible"
+            app:indicatorName="LineSpinFadeLoaderIndicator"
+                android:layout_gravity="center"
+            app:indicatorColor="#007AFF"
+            />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bestrating"
                 android:layout_width="match_parent"

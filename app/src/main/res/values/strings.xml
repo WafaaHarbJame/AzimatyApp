@@ -136,4 +136,21 @@
     <string name="DELETEITEM"> يتم الان تعديل صنف</string>
     <string name="DELETEITEMTITLE">تعديل صنف </string>
     <string name="result">نتيجة</string>
+    <string name="again">إعادة المحاولة</string>
+    <string name="you_must_uploadlogo">يجب أن تختار صورة للخدمة</string>
+    <string name="item_namrequired">اسم الصنف مطلوب</string>
+    <string name="mItemDescrEQUIRED">الوصف مطلوب</string>
+    <string name="addingphoto">صور الصنف مطلوبة</string>
+    <string name="choose_city">"اختر المدينة "</string>
+    <string name="all">الكل</string>
+    <string name="adding">فشلت عملية الاضافة </string>
+    <string name="clicktoadd_photo">اضغط على الشعار لاضافة صورة</string>
+    <string name="favorite_empty">لا يوجد أصناف مفضلة </string>
+    <string name="noadding">فشلت عملية اضافة صنف</string>
+    <string name="notupdated">فشلت عملية تحديث البيانات </string>
+    <string name="error">خطأ بالسيرفر </string>
+    <string name="rateingtv">نص التقييم مطلوب</string>
+    <string name="ratingRequired">اضغط على النجوم لتقيم</string>
+
+
 </resources>

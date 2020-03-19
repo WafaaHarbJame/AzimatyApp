@@ -36,7 +36,8 @@ public class AddServiceActivity extends BaseActivity {
 
                 addServiceFragment.setArguments(addBundle);
                 // Put anything what you want
-                getSupportFragmentManager().beginTransaction().replace(R.id.addserviceContainer, addServiceFragment, "AddServiceFragment").commitAllowingStateLoss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.addserviceContainer,
+                        addServiceFragment, "AddServiceFragment").commit();
 
             }
 

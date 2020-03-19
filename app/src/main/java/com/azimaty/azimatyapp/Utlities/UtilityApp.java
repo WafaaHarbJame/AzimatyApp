@@ -5,11 +5,14 @@ import android.content.pm.PackageManager;
 import android.provider.Settings;
 
 import com.azimaty.azimatyapp.Api.MyApplication;
-
 import com.azimaty.azimatyapp.Model.AppConstants;
-import com.azimaty.azimatyapp.Model.CitiesModel;
 import com.azimaty.azimatyapp.Model.MemberModel;
+import com.azimaty.azimatyapp.Model.Setting;
+import com.azimaty.azimatyapp.Model.SubItem;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 
 public class UtilityApp {
@@ -120,11 +123,12 @@ public class UtilityApp {
         MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_MEMBER, userData);
     }
 
-
-    public static void setCitiesData(CitiesModel citiesModel) {
-        String cityData = new Gson().toJson(citiesModel);
-        MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_CITIES, cityData);
+    public static void setSettingData(Setting setting) {
+        String userData = new Gson().toJson(setting);
+        MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_SETTING, userData);
     }
+
+
     public static MemberModel getUserData() {
         String userJsonData = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_MEMBER);
         MemberModel user = new Gson().fromJson(userJsonData, MemberModel.class);
@@ -132,7 +136,25 @@ public class UtilityApp {
     }
 
 
+    public static void setCitiesData(List<SubItem> citiesList) {
+        String cityData = new Gson().toJson(citiesList);
+        MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_CITIES, cityData);
+    }
 
+    public static List<SubItem> getCitiesData() {
+        String citiesData = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_CITIES);
+
+        return new Gson().fromJson(citiesData, new TypeToken<List<SubItem>>() {
+        }.getType());
+
+    }
+
+
+    public static Setting getSettingData() {
+        String settingdata = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_SETTING);
+        Setting setting = new Gson().fromJson(settingdata, Setting.class);
+        return setting;
+    }
 
 
     public static String getUserToken() {
@@ -145,7 +167,6 @@ public class UtilityApp {
 
         return null;
     }
-
 
 
 }

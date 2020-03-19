@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,6 +55,8 @@ public class MyServiceActivity extends BaseActivity {
     String tag;
     String token;
 
+    View lyt_failed;
+    private Button mFailedRetry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,39 +71,22 @@ public class MyServiceActivity extends BaseActivity {
         mAllswip = findViewById(R.id.allswip);
         mAllswip.setRefreshing(false);
 
+        lyt_failed = findViewById(R.id.failed_home);
+        mFailedRetry = lyt_failed.findViewById(R.id.failed_retry);
+
         itemList = new ArrayList<>();
         subItemList = new ArrayList<>();
 
-        mAllswip.setColorSchemeResources(R.color.colorPrimary, android.R.color.holo_green_dark, android.R.color.holo_orange_dark, android.R.color.holo_blue_dark);
+        mAllswip.setColorSchemeResources
+                (R.color.darkpink, android.R.color.holo_green_dark,
+                        android.R.color.holo_orange_dark,
+                        android.R.color.holo_blue_dark);
           mAllswip.setRefreshing(false);
-
-        mAllswip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                if (AppConstants.InternetConnect) {
-                    AppConstants.isrefersh = true;
-                    if (UtilityApp.isLogin()) {
-                        String token = UtilityApp.getUserToken();
-                        getMyService(token);
-                        ;
-
-
-                    }
-
-                } else {
-                    Toast(getString(R.string.checkInternet));
-
-
-                }
-
-
-            }
-        });
 
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(MyServiceActivity.this);
-        myServiceAdapter = new MyServiceAdapter(itemList, MyServiceActivity.this);
         mMyservicerecycler.setLayoutManager(layoutManager);
+        myServiceAdapter = new MyServiceAdapter(itemList, MyServiceActivity.this);
 
         mAddservice.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +109,9 @@ public class MyServiceActivity extends BaseActivity {
             }
 
         } else {
-            Toast(getString(R.string.checkInternet));
+
+            lyt_failed.setVisibility(View.VISIBLE);
+
 
 
         }
@@ -133,6 +121,40 @@ public class MyServiceActivity extends BaseActivity {
             public void onClick(View view) {
 
                 finish();
+            }
+        });
+        mAllswip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                if (AppConstants.InternetConnect) {
+                    AppConstants.isrefersh = true;
+                    lyt_failed.setVisibility(View.GONE);
+                    String token = UtilityApp.getUserToken();
+                    getMyService(token);
+
+
+                } else {
+                    lyt_failed.setVisibility(View.VISIBLE);
+
+
+
+                }
+
+
+            }
+        });
+
+        mFailedRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lyt_failed.setVisibility(View.GONE);
+                if (UtilityApp.isLogin()) {
+                    String token = UtilityApp.getUserToken();
+                    getMyService(token);
+
+
+                }
+
             }
         });
 
@@ -183,7 +205,7 @@ public class MyServiceActivity extends BaseActivity {
                                 subItemList.add(new SubItem(item, id));
                             }
 
-                                itemList.add(new Item(id, name, logo, rating, city_name, subItemList));
+                                itemList.add(new Item(id,0,0, name, logo, rating, city_name, subItemList));
 
                         }
                         mMyservicerecycler.setAdapter(myServiceAdapter);
@@ -194,7 +216,7 @@ public class MyServiceActivity extends BaseActivity {
 
 
                     } else {
-                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+//                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
                     }
 
@@ -217,7 +239,7 @@ public class MyServiceActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
                 mAllswip.setRefreshing(false);
 

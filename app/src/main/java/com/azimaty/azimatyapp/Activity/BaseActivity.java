@@ -187,7 +187,6 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public void ContatWhats(String phone) {
-
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
         sendIntent.putExtra(Intent.EXTRA_TEXT, getString(R.string.contactwhats) + phone);

@@ -1,10 +1,8 @@
 package com.azimaty.azimatyapp.Fragments;
 
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -41,17 +39,15 @@ import com.azimaty.azimatyapp.Activity.AfterAddingServiceActivity;
 import com.azimaty.azimatyapp.Activity.HomeActivity;
 import com.azimaty.azimatyapp.Activity.LoginActivity;
 import com.azimaty.azimatyapp.Activity.MyServiceActivity;
-import com.azimaty.azimatyapp.Activity.MyServicedetailsAactivity;
 import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.AppHelper;
 import com.azimaty.azimatyapp.Model.Catogories;
 import com.azimaty.azimatyapp.Model.ChooseServiceTypeBottomDialog;
-import com.azimaty.azimatyapp.Model.Cities;
 import com.azimaty.azimatyapp.Model.DataCallback;
+import com.azimaty.azimatyapp.Model.SubItem;
 import com.azimaty.azimatyapp.Model.VolleyMultipartRequest;
 import com.azimaty.azimatyapp.R;
-import com.azimaty.azimatyapp.UploadActivity;
 import com.azimaty.azimatyapp.Utlities.UtilityApp;
 import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
@@ -85,22 +81,23 @@ public class AddServiceFragment extends BaseFragment {
     boolean mServicetypeclick = false;
     String Servicetype;
     String type;
-    int catogory_id=1;
+    int catogory_id = 1;
     String catogory_nam;
     boolean updateuserImage, updateuserimage, updateName = false;
     File COOKERIMAGEfile;
     File UdateServiceLogo;
 
     //    public SharedPManger sharedPManger;
-    String uploaduserimageename ;
+    String uploaduserimageename;
     String token;
     Dialog CityDialag;
+
     List<String> citylist = new ArrayList<String>();
-    ArrayList<Cities> city = new ArrayList<>();
-    ArrayList<Cities.DataBean.CitiesBean> citiesBeanArrayList = new ArrayList<>();
+    List<SubItem> citiesModelList = new ArrayList<>();
+
     String logo;
 
-    int city_id=1;
+    int selectedCityId = 0;
     boolean InternetConnect = false;
     int service_on_off = 0;
     private ImageButton mClose;
@@ -109,16 +106,18 @@ public class AddServiceFragment extends BaseFragment {
     private TextView mServicetype;
     private EditText mServiceitem;
     private EditText mPhonenumber;
-    private TextView mCity;
+    private Spinner citySpinner;
     private Button mSent;
     private TextView mAddervicetv;
     private Switch mServichecked;
     private LinearLayout mServiceOnOff;
     private Button mSave;
     int my_service_id;
-
+    int uploadimage=0;
 
     boolean IsUdateServicelogo;
+    private TextView mIsserviceon;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_add, container, false);
@@ -129,41 +128,55 @@ public class AddServiceFragment extends BaseFragment {
         mServicetype = root.findViewById(R.id.servicetype);
         mServiceitem = root.findViewById(R.id.serviceitem);
         mPhonenumber = root.findViewById(R.id.phonenumber);
-        mCity = root.findViewById(R.id.city);
         mSent = root.findViewById(R.id.sent);
         mAddervicetv = root.findViewById(R.id.addervicetv);
         mServichecked = root.findViewById(R.id.servichecked);
         mServiceOnOff = root.findViewById(R.id.Service_on_off);
+        citySpinner = root.findViewById(R.id.citySpinner);
         InternetConnect = CheckInternet();
         token = UtilityApp.getUserToken();
         mSave = root.findViewById(R.id.save);
+        mIsserviceon = root.findViewById(R.id.isserviceon);
 
 
         if (InternetConnect) {
 
-            getCities();
+            getCacheCities();
 
         } else {
             Toast(getString(R.string.checkInternet));
 
-
         }
 
 
+        citySpinner.setOnItemSelectedListener(new AdapterView.
+                OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position > 0) {
+                    selectedCityId = citiesModelList.get(position - 1).getId();
+//                    Toast("city id " + selectedCityId);
+                } else {
+                    selectedCityId = 0;
+                }
 
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         mServichecked.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(mServichecked.isChecked()){
+                if (mServichecked.isChecked()) {
                     service_on_off = 1;
-                    Log.e("service_on_offisChecked",String.valueOf(service_on_off)+"");
+                    Log.e("service_on_offisChecked", String.valueOf(service_on_off) + "");
 
-                }
-
-                else {
+                } else {
                     service_on_off = 0;
-                    Log.e("service_on_offnot",String.valueOf(service_on_off)+"");
+                    Log.e("service_on_offnot", String.valueOf(service_on_off) + "");
 
                 }
             }
@@ -171,15 +184,12 @@ public class AddServiceFragment extends BaseFragment {
         });
 
 
-
-
-
         Bundle bundle = getArguments();
         if (bundle != null) {
-             type = bundle.getString(AppConstants.KEY_TYPE);
+            type = bundle.getString(AppConstants.KEY_TYPE);
 
             if (type.equals(AppConstants.UPDATE_SERVICE_FOR_MENU)) {
-                 my_service_id = bundle.getInt(AppConstants.my_service_id);
+                my_service_id = bundle.getInt(AppConstants.my_service_id);
 
                 getSingleService(my_service_id, token);
                 mServiceOnOff.setVisibility(View.VISIBLE);
@@ -188,36 +198,45 @@ public class AddServiceFragment extends BaseFragment {
                 mSave.setVisibility(View.VISIBLE);
 
 
-
                 mSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
-                        if(IsUdateServicelogo){
-                            Log.e("token",token);
-                            Log.e("my_service_id",my_service_id+"");
-                            Log.e("mServicetype",mServicetype+"");
-                            Log.e("token",mServicetype+"");
-                            Log.e("catogory_id",catogory_id+"");
-                            Log.e("city_id",city_id+"");
-                            Log.e("service_on_off",String.valueOf(service_on_off)+"");
-                            Log.e("UdateServiceLogo",UdateServiceLogo.getName());
+                        if (IsUdateServicelogo) {
+                            Log.e("token", token);
+                            Log.e("my_service_id", my_service_id + "");
+                            Log.e("mServicetype", mServicetype + "");
+                            Log.e("token", mServicetype + "");
+                            Log.e("catogory_id", catogory_id + "");
+                            Log.e("city_id", selectedCityId + "");
+                            Log.e("service_on_off", String.valueOf(service_on_off) + "");
+                            Log.e("UdateServiceLogo", UdateServiceLogo.getName());
 
-                            EditService(token,my_service_id, mServivename.getText().toString(),
-                                    catogory_id + "",
-                                    mServiceitem.getText().toString(),
-                                    city_id + "", String.valueOf(service_on_off),UdateServiceLogo);
+                            if (InternetConnect) {
+
+                                EditService(token, my_service_id, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), selectedCityId + "", String.valueOf(service_on_off), UdateServiceLogo);
+
+                            } else {
+                                Toast(getString(R.string.checkInternet));
+
+
+                            }
+
+
+                        } else {
+
+
+                            if (InternetConnect) {
+
+                                EditServicewithoutlogo(token, my_service_id, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), selectedCityId + "", String.valueOf(service_on_off));
+
+                            } else {
+                                Toast(getString(R.string.checkInternet));
+
+
+                            }
+
                         }
-                        else {
-                            EditServicewithoutlogo(token,my_service_id, mServivename.getText().toString(),
-                                    catogory_id + "",
-                                    mServiceitem.getText().toString(),
-                                    city_id + "", String.valueOf(service_on_off));
-
-                        }
-
-
-
 
 
                     }
@@ -228,38 +247,38 @@ public class AddServiceFragment extends BaseFragment {
         }
 
 
-        mCity.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("WrongConstant")
-            @Override
-            public void onClick(View v) {
-
-                CityDialag = new Dialog(getActivity());
-                CityDialag.setContentView(R.layout.city_dialag);
-                CityDialag.setCancelable(true);
-
-                Spinner city_spinner = CityDialag.findViewById(R.id.CityDialag);
-                ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, citylist);
-                city_spinner.setAdapter(cityadapter);
-                cityadapter.notifyDataSetChanged();
-                city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                    @Override
-                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                        city_id = citiesBeanArrayList.get(i).getId();
-                        mCity.setText(citiesBeanArrayList.get(i).getName().toString());
-
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> adapterView) {
-
-                    }
-                });
-
-                CityDialag.show();
-
-
-            }
-        });
+//        mCity.setOnClickListener(new View.OnClickListener() {
+//            @SuppressLint("WrongConstant")
+//            @Override
+//            public void onClick(View v) {
+//
+//                CityDialag = new Dialog(getActivity());
+//                CityDialag.setContentView(R.layout.city_dialag);
+//                CityDialag.setCancelable(true);
+//
+//                Spinner city_spinner = CityDialag.findViewById(R.id.CityDialag);
+//                ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, citylist);
+//                city_spinner.setAdapter(cityadapter);
+//                cityadapter.notifyDataSetChanged();
+//                city_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                    @Override
+//                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+//                        city_id = citiesBeanArrayList.get(i).getId();
+//                        mCity.setText(citiesBeanArrayList.get(i).getName().toString());
+//
+//                    }
+//
+//                    @Override
+//                    public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//                    }
+//                });
+//
+//                CityDialag.show();
+//
+//
+//            }
+//        });
 
 
         mImageView.setOnClickListener(new View.OnClickListener() {
@@ -269,17 +288,12 @@ public class AddServiceFragment extends BaseFragment {
                 if (type.equals(AppConstants.UPDATE_SERVICE_FOR_MENU)) {
                     UploadingfromgallaeryUpdate();
 
-                }
-
-                else {
+                } else {
                     Uploadingfromgallaeryadd();
                 }
 
             }
         });
-
-
-
 
 
         mServicetype.setOnClickListener(new View.OnClickListener() {
@@ -307,47 +321,77 @@ public class AddServiceFragment extends BaseFragment {
         mSent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mServivename.getText().toString().equals(null) ||
-                        mServivename.getText().toString().equals("")) {
+                String serviceNameStr = mServivename.getText().toString();
+                String serviceItemStr = mServiceitem.getText().toString();
+                String serviceTypeStr = mServicetype.getText().toString();
+                String phoneNumberStr = mPhonenumber.getText().toString();
 
+                if (serviceNameStr.isEmpty()) {
                     mServivename.setError(getString(R.string.mServivename));
                     mServivename.requestFocus();
+                    return;
+                }
 
-                } else if (mServicetypeclick == false) {
+                if (serviceTypeStr.isEmpty()) {
                     mServicetype.setError(getString(R.string.mServicetype));
                     mServicetype.requestFocus();
+                    return;
+                }
 
-
-                } else if (mServiceitem.getText().toString().equals(null) ||
-                        mServiceitem.getText().toString().equals("")) {
+                if (serviceItemStr.isEmpty()) {
                     mServiceitem.setError(getString(R.string.mServiceitem));
                     mServiceitem.requestFocus();
+                    return;
                 }
-                else if (mPhonenumber.getText().toString().equals(null) || mPhonenumber.getText().toString().equals("")) {
+
+                if (phoneNumberStr.isEmpty()) {
                     mPhonenumber.setError(getString(R.string.mPhonenumber));
                     mPhonenumber.requestFocus();
-                } else if (mCity.getText().toString().equals(null) || mCity.getText().toString().equals("")) {
-                    mCity.setError(getString(R.string.mCity));
-                    mCity.requestFocus();
-                } else {
-                    if (UtilityApp.isLogin()) {
-                        //  String token = UtilityApp.getUserToken();
+                    return;
+                }
 
-                        AddServiceandlogo(token, uploaduserimageename, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), city_id + "");
 
-                        // AddingService(token, mServicetype.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), city_id + "");
 
+
+                if (selectedCityId == 0) {
+                    Toast(getString(R.string.mCity));
+                    return;
+                }
+
+
+                if (uploadimage == 0) {
+                    Toast(getString(R.string.clicktoadd_photo));
+                    return;
+                }
+                if (UtilityApp.isLogin()) {
+
+                    //  String token = UtilityApp.getUserToken();
+
+
+                    if (InternetConnect) {
+
+                        AddServiceandlogo(token, uploaduserimageename, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), selectedCityId + "");
 
                     } else {
-                        Toast.makeText(getActiviy(), "" + getString(R.string.you_must_login_toadd), Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getActiviy(), LoginActivity.class);
-                        startActivity(intent);
+                        Toast(getString(R.string.checkInternet));
+
 
                     }
 
 
+                    // AddingService(token, mServicetype.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), city_id + "");
+
+
+                } else {
+                    Toast.makeText(getActiviy(), "" + getString(R.string.you_must_login_toadd), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getActiviy(), LoginActivity.class);
+                    startActivity(intent);
+
                 }
+
+
             }
+
         });
         mClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -381,14 +425,15 @@ public class AddServiceFragment extends BaseFragment {
 
     }
 
-    public void getCities() {
+    private void getCities() {
 
-        //  showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+        citiesModelList = new ArrayList<>();
+        citiesModelList.clear();
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.CITIES, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-
+                citylist.clear();
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
@@ -400,18 +445,20 @@ public class AddServiceFragment extends BaseFragment {
                         JSONObject data = register_response.getJSONObject("data");
                         JSONArray jsonArray = data.getJSONArray("cities");
 
+                        citylist.add(getString(R.string.choose_city));
+
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             String name = jsonObject.getString("name");
-                            Cities.DataBean.CitiesBean citiesBean = new Cities.DataBean.CitiesBean();
-                            citiesBean.setName(name);
-                            citiesBean.setId(id);
-                            citiesBeanArrayList.add(citiesBean);
+                            SubItem subItem = new SubItem(name, id);
+                            citiesModelList.add(subItem);
                             citylist.add(name);
-
                         }
 
+                        UtilityApp.setCitiesData(citiesModelList);
+
+                        initCitySpinner(0);
 
                     } else {
                         Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
@@ -434,8 +481,9 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -460,6 +508,31 @@ public class AddServiceFragment extends BaseFragment {
 
     }
 
+    private void getCacheCities() {
+
+        citiesModelList = UtilityApp.getCitiesData();
+        if (citiesModelList == null) {
+            getCities();
+        } else {
+
+            citylist.add(getString(R.string.choose_city));
+            for (SubItem subItem : citiesModelList) {
+                citylist.add(subItem.getSubItemTitle());
+            }
+            initCitySpinner(0);
+
+        }
+    }
+
+    private void initCitySpinner(int pos) {
+
+        ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,
+                android.R.id.text1, citylist);
+        citySpinner.setAdapter(cityadapter);
+        citySpinner.setSelection(pos);
+
+    }
+
     public void getSingleService(final int service_id, final String token) {
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SIGNAL_SERVICE + service_id, new Response.Listener<String>() {
@@ -478,37 +551,56 @@ public class AddServiceFragment extends BaseFragment {
                             int service_id = jsonObject.getInt("id");
                             JSONArray list = jsonObject.getJSONArray("list");
                             JSONObject category_id_json = jsonObject.getJSONObject("category_id");
-                           catogory_id=category_id_json.getInt("id");
-                           String Servicetype=category_id_json.getString("name");
-                           //Toast(+catogory_id+Servicetype);
-                            if(catogory_id==1){
+                            catogory_id = category_id_json.getInt("id");
+                            String Servicetype = category_id_json.getString("name");
+                            //Toast(+catogory_id+Servicetype);
+                            if (catogory_id == 1) {
                                 mServicetype.setText(getString(R.string.family));
                             }
-                            if(catogory_id==2){
+                            if (catogory_id == 2) {
                                 mServicetype.setText(getString(R.string.cofeee));
-                            }if(catogory_id==3){
+                            }
+                            if (catogory_id == 3) {
                                 mServicetype.setText(getString(R.string.hotles));
-                            }if(catogory_id==4){
+                            }
+                            if (catogory_id == 4) {
                                 mServicetype.setText(getString(R.string.resturants));
                             }
                             String name = jsonObject.getString("name");
                             String phone = jsonObject.getString("phone");
                             logo = jsonObject.getString("logo");
                             JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
-                            int city_id = city.getInt("id");
+                            selectedCityId = city.getInt("id");
                             int rating = jsonObject.getInt("rating");
                             String city_name = city.getString("name");
                             String tag = jsonObject.getString("tag");
                             boolean Services_status = jsonObject.getBoolean("status");
+                            if (Services_status) {
+                                mServichecked.setChecked(true);
+                                mIsserviceon.setText(getString(R.string.serviceava));
+                            } else {
+                                mServichecked.setChecked(false);
+                                mIsserviceon.setText(getString(R.string.serviceavaoff));
+
+                            }
                             mPhonenumber.setText(phone);
                             mServivename.setText(name);
-                            mCity.setText(city_name);
+                            // mCity.setText(city_name);
                             mServiceitem.setText(tag);
+
                             Picasso.with(getActiviy()).load(logo).error(R.drawable.imagedetails).into(mImageView);
 
 
                         }
 
+                        if (citiesModelList != null) {
+                            int pos = 0;
+                            for (int i1 = 0; i1 < citiesModelList.size(); i1++) {
+                                if (selectedCityId == citiesModelList.get(i1).getId())
+                                    pos = i1 + 1;
+                            }
+                            initCitySpinner(pos);
+                        }
 
                         hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
@@ -535,8 +627,9 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //   Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -598,7 +691,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideProgreesDilaog(getActiviy(), getString(R.string.addervice), getString(R.string.ADDINGSERVICE));
 
                 }
@@ -609,8 +702,9 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.addervice), getString(R.string.ADDINGSERVICE));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -651,15 +745,13 @@ public class AddServiceFragment extends BaseFragment {
     }
 
 
-    private void UpdateServices(final String token,final int service_id, final String name,
-                                final String category_id, final String tag,
-                                final String city_id, final String status, final String logo) {
+    private void UpdateServices(final String token, final int service_id, final String name, final String category_id, final String tag, final String city_id, final String status, final String logo) {
         ;
 
 
         showProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
         final String id = "1";
-        String url = AppConstants.EDITService+service_id+"/edit";
+        String url = AppConstants.EDITService + service_id + "/edit";
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, url, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
@@ -694,6 +786,7 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -732,15 +825,12 @@ public class AddServiceFragment extends BaseFragment {
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
 
-                params.put("logo", new DataPart(uploaduserimageename,
-                        AppHelper.getFileDataFromDrawable(getContext(), mImageView.getDrawable()),
-                        "image/*"));
+                params.put("logo", new DataPart(uploaduserimageename, AppHelper.getFileDataFromDrawable(getContext(), mImageView.getDrawable()), "image/*"));
                 return params;
             }
         };
 
-        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyApplication.getInstance().addToRequestQueue(multipartRequest);
 
@@ -774,7 +864,7 @@ public class AddServiceFragment extends BaseFragment {
                         startActivity(intent);
 
                     } else {
-                        Toast.makeText(getActivity(), " " + message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), ""+getString(R.string.adding) , Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -783,8 +873,8 @@ public class AddServiceFragment extends BaseFragment {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    hideProgreesDilaog(getActiviy(), getString(R.string.ADDINGSERVICEtitle),
-                            getString(R.string.ADDINGSERVICE));
+                    hideProgreesDilaog(getActiviy(), getString(R.string.ADDINGSERVICEtitle), getString(R.string.ADDINGSERVICE));
+                    Toast.makeText(getActivity(), ""+getString(R.string.adding) , Toast.LENGTH_SHORT).show();
 
                     //showUploadSnackBar();
                 }
@@ -793,6 +883,7 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.ADDINGSERVICEtitle), getString(R.string.ADDINGSERVICE));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -829,15 +920,12 @@ public class AddServiceFragment extends BaseFragment {
             protected Map<String, DataPart> getByteData() {
                 Map<String, DataPart> params = new HashMap<>();
 
-                params.put("logo", new DataPart(uploaduserimageename,
-                        AppHelper.getFileDataFromDrawable(getContext(), mImageView.getDrawable()),
-                        "image/*"));
+                params.put("logo", new DataPart(uploaduserimageename, AppHelper.getFileDataFromDrawable(getContext(), mImageView.getDrawable()), "image/*"));
                 return params;
             }
         };
 
-        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(5000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        multipartRequest.setRetryPolicy(new DefaultRetryPolicy(5000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         MyApplication.getInstance().addToRequestQueue(multipartRequest);
 
@@ -845,10 +933,10 @@ public class AddServiceFragment extends BaseFragment {
     }
 
 
-
-    public void Uploadingfromgallaeryadd(){
+    public void Uploadingfromgallaeryadd() {
         updateuserImage = true;
         updateuserimage = true;
+        uploadimage=1;
 
         PickImageDialog.build(new PickSetup()).setOnPickResult(new IPickResult() {
             @Override
@@ -866,7 +954,7 @@ public class AddServiceFragment extends BaseFragment {
                     } else {
                         //Handle possible errors
                         //TODO: do what you have to do with r.getError();
-                        Toast.makeText(getActivity(), r.getError().getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -919,9 +1007,9 @@ public class AddServiceFragment extends BaseFragment {
 
     }
 
-    public void UploadingfromgallaeryUpdate(){
+    public void UploadingfromgallaeryUpdate() {
 
-        IsUdateServicelogo=true;
+        IsUdateServicelogo = true;
 
 
         PickImageDialog.build(new PickSetup()).setOnPickResult(new IPickResult() {
@@ -945,8 +1033,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Picasso.with(getActivity()).load(r.getUri()).error(R.drawable.profile_image)
-                            .into(mImageView);
+                    Picasso.with(getActivity()).load(r.getUri()).error(R.drawable.profile_image).into(mImageView);
 
                 }
                 new Handler().postDelayed(new Runnable() {
@@ -978,22 +1065,11 @@ public class AddServiceFragment extends BaseFragment {
     }
 
 
-    public void EditService( String token, int service_id,  String name,
-                             String category_id,  String tag,
-                             String city_id,  String status,  File ImageLogo){
+    public void EditService(String token, int service_id, String name, String category_id, String tag, String city_id, String status, File ImageLogo) {
 
-        Log.e("wafaa",ImageLogo.getName());
+        Log.e("wafaa", ImageLogo.getName());
         showProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
-        AndroidNetworking.upload(AppConstants.EDITService+service_id+"/edit")
-                .addMultipartFile("logo",ImageLogo)
-                .addMultipartParameter("name", name)
-                .addMultipartParameter("category_id", category_id)
-                .addMultipartParameter("tag", tag)
-                .addMultipartParameter("city_id", city_id)
-                .addMultipartParameter("status", status)
-                .addHeaders("Authorization", token)
-                .setTag("uploadTest").setPriority(Priority.HIGH)
-                .build().setUploadProgressListener(new UploadProgressListener() {
+        AndroidNetworking.upload(AppConstants.EDITService + service_id + "/edit").addMultipartFile("logo", ImageLogo).addMultipartParameter("name", name).addMultipartParameter("category_id", category_id).addMultipartParameter("tag", tag).addMultipartParameter("city_id", city_id).addMultipartParameter("status", status).addHeaders("Authorization", token).setTag("uploadTest").setPriority(Priority.HIGH).build().setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
                 // do anything with progress
@@ -1001,8 +1077,7 @@ public class AddServiceFragment extends BaseFragment {
         }).getAsJSONObject(new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {
-                hideProgreesDilaog(getActiviy(),
-                        getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
+                hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
 
 
                 try {
@@ -1022,7 +1097,6 @@ public class AddServiceFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
 
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
@@ -1031,7 +1105,7 @@ public class AddServiceFragment extends BaseFragment {
 
             @Override
             public void onError(ANError error) {
-                Log.e("error wafaa", error.getErrorDetail()+"wafaaaa");
+                Log.e("error wafaa", error.getErrorDetail() + "wafaaaa");
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
                 Toast.makeText(getActiviy(), "" + error.getErrorDetail(), Toast.LENGTH_SHORT).show();
 
@@ -1040,32 +1114,19 @@ public class AddServiceFragment extends BaseFragment {
         });
 
 
-
     }
 
 
+    public void EditServicewithoutlogo(final String token, final int service_id, final String name, final String category_id, final String tag, final String city_id, final String status) {
+        showProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
 
-    public void EditServicewithoutlogo(final String token,final int service_id, final String name,
-                            final String category_id, final String tag,
-                            final String city_id, final String status){
-        showProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE),
-                getString(R.string.UPDATESERVICE));
+        AndroidNetworking.post(AppConstants.EDITService + service_id + "/edit").addBodyParameter("name", name).addBodyParameter("category_id", category_id).addBodyParameter("tag", tag).addBodyParameter("city_id", city_id).addBodyParameter("status", status).addHeaders("Authorization", token).setTag("uploadTest").setPriority(Priority.HIGH).build().setUploadProgressListener(new UploadProgressListener() {
+            @Override
+            public void onProgress(long bytesUploaded, long totalBytes) {
+                // do anything with progress
 
-        AndroidNetworking.post(AppConstants.EDITService+service_id+"/edit")
-                .addBodyParameter("name", name)
-                .addBodyParameter("category_id", category_id)
-                .addBodyParameter("tag", tag)
-                .addBodyParameter("city_id", city_id)
-                .addBodyParameter("status", status)
-                .addHeaders("Authorization", token)
-                .setTag("uploadTest").setPriority(Priority.HIGH).build()
-                .setUploadProgressListener(new UploadProgressListener() {
-                    @Override
-                    public void onProgress(long bytesUploaded, long totalBytes) {
-                        // do anything with progress
-
-                    }
-                }).getAsJSONObject(new JSONObjectRequestListener() {
+            }
+        }).getAsJSONObject(new JSONObjectRequestListener() {
             @Override
             public void onResponse(JSONObject response) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
@@ -1087,7 +1148,6 @@ public class AddServiceFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
 
 
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
@@ -1097,13 +1157,12 @@ public class AddServiceFragment extends BaseFragment {
 
             @Override
             public void onError(ANError error) {
-                Log.e("error", error.getErrorDetail()+"");
+                Log.e("error", error.getErrorDetail() + "");
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
 
                 // handle error
             }
         });
-
 
 
     }

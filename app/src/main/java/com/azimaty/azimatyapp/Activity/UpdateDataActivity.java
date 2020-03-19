@@ -154,7 +154,7 @@ public class UpdateDataActivity extends BaseActivity {
                             } else {
                                 //Handle possible errors
                                 //TODO: do what you have to do with r.getError();
-                                Toast.makeText(UpdateDataActivity.this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
+                               // Toast.makeText(UpdateDataActivity.this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
                             }
 
 
@@ -186,7 +186,7 @@ public class UpdateDataActivity extends BaseActivity {
                         } else {
                             //Handle possible errors
                             //TODO: do what you have to do with r.getError();
-                            Toast.makeText(UpdateDataActivity.this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
+                          //  Toast.makeText(UpdateDataActivity.this, r.getError().getMessage(), Toast.LENGTH_LONG).show();
                         }
                         //TODO: do what you have to...
                     }
@@ -223,11 +223,11 @@ public class UpdateDataActivity extends BaseActivity {
                     int status = register_response.getInt("status");
 
                     if (status == 1) {
-                        Toast(message);
+                    //    Toast(message);
                         JSONObject data = register_response.getJSONObject("data");
                         JSONObject userJson = data.getJSONObject("user");
                         String photo = userJson.getString("photo");
-                        Toast("Log photo "+photo);
+                       // Toast("Log photo "+photo);
                         user.photo=photo;
                         UtilityApp.setUserData(user);
 
@@ -407,7 +407,7 @@ public class UpdateDataActivity extends BaseActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
                 }
 
@@ -417,7 +417,7 @@ public class UpdateDataActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
-                Toast(error.getMessage());
+              //  Toast(error.getMessage());
 
 
             }

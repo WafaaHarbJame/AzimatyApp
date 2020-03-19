@@ -189,13 +189,14 @@ public class RegisterActivity extends BaseActivity {
                         Log.e("id", id+"");
                         Log.e("name", name+"");
                         Log.e("phone", phone+"");
-//                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
+                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
 //                        sharedPManger.SetData(AppConstants.PASSWORD,mPassword.getText().toString());
 //                        sharedPManger.SetData(AppConstants.SelectedCountryCodeplus,CountryCode);
 
-                        MemberModel memberModel = new MemberModel("", id, name, phone, photo, userStatus);
-                        UtilityApp.setUserData(memberModel);
+//                        MemberModel memberModel = new MemberModel("", id, name, phone, photo, userStatus);
+//                        UtilityApp.setUserData(memberModel);
                         Intent intent = new Intent(RegisterActivity.this, ActivatePhoneActivity.class);
+                        intent.putExtra(AppConstants.USERPHONE,userphone);
                         startActivity(intent);
                         finish();
 
@@ -210,7 +211,7 @@ public class RegisterActivity extends BaseActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideProgreesDilaog(getActiviy(),getString(R.string.register2),getString(R.string.loadregister));
                 }
 
@@ -221,7 +222,7 @@ public class RegisterActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(),getString(R.string.register2),getString(R.string.loadregister));
 
-                Toast.makeText(RegisterActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(RegisterActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -276,13 +277,13 @@ public class RegisterActivity extends BaseActivity {
                         Log.e("name", name+"");
                         Log.e("phone", phone+"");
                         Log.e("type", type+"");
-                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
-                        sharedPManger.SetData(AppConstants.TOKEN,token);
-                        sharedPManger.SetData(AppConstants.USERPHONE,mPhonenumber.getText().toString());
-                        sharedPManger.SetData(AppConstants.PASSWORD,mPassword.getText().toString());
-                        sharedPManger.SetData(AppConstants.ISLOGIN,true);
-                        /*  sharedPManger.SetData(AppConstants.SelectedCountryCode,mCcp.getSelectedCountryCode());*/
-                        sharedPManger.SetData(AppConstants.SelectedCountryCodeplus,CountryCode);
+//                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
+//                        sharedPManger.SetData(AppConstants.TOKEN,token);
+//                        sharedPManger.SetData(AppConstants.USERPHONE,mPhonenumber.getText().toString());
+//                        sharedPManger.SetData(AppConstants.PASSWORD,mPassword.getText().toString());
+//                        sharedPManger.SetData(AppConstants.ISLOGIN,true);
+//                        /*  sharedPManger.SetData(AppConstants.SelectedCountryCode,mCcp.getSelectedCountryCode());*/
+//                        sharedPManger.SetData(AppConstants.SelectedCountryCodeplus,CountryCode);
                         Intent intent = new Intent(RegisterActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();

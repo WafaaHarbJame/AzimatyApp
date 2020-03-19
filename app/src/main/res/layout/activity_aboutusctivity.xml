@@ -82,6 +82,15 @@
 
 
 <!--</androidx.core.widget.NestedScrollView>-->
+
+
+    <include
+        android:id="@+id/failed_home"
+        layout="@layout/lyt_failed_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:visibility="gone" />
     <WebView
         android:id="@+id/tvtext"
         android:layout_width="match_parent"

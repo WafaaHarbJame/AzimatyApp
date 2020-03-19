@@ -75,6 +75,7 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
     AwesomeProgressDialog awesomeProgressDialog;
     String ratingdate;
     String user_name,user_imag;
+    int Rating_value;
 
 
     public RateingBottomDialog(DataCallback callback) {
@@ -103,20 +104,48 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
 
                 if (UtilityApp.isLogin()) {
                     token = UtilityApp.getUserToken();
-
                     ratingdate = formatDate(Calendar.getInstance().getTime());
                     user_name=UtilityApp.getUserData().name;
                     user_imag=UtilityApp.getUserData().photo;
+                    mRtRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                        @Override
+                        public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                            if(b){
+                                Rating_value=1;
+                            }
+                            else {
+                                Rating_value=0;
 
 
+                            }
+                        }
+                    });
+                    if(mRatingText.getText().toString().isEmpty())
+                    {
+                        mRatingText.setError(getString(R.string.rateingtv));
+                        mRatingText.requestFocus();
 
-                    if (dataCallback != null) {
-                        PsersonRating psersonRating = new PsersonRating(user_name, 1, mRatingText.getText().toString(),
-                                ratingdate, user_imag, (int) mRtRating.getRating());
-                        dataCallback.dataResult(psersonRating, "amerr", true);
                     }
 
-                    dismiss();
+                    else if(Rating_value==0)
+                    {
+                        Toast.makeText(getActivity(), ""+getString(R.string.ratingRequired), Toast.LENGTH_SHORT).show();
+
+                    }
+                    else {
+
+                        if (dataCallback != null) {
+                            PsersonRating psersonRating = new PsersonRating(user_name, 1, mRatingText.getText().toString(),
+                                    ratingdate, user_imag, (int) mRtRating.getRating());
+                            dataCallback.dataResult(psersonRating, "amerr", true);
+                        }
+
+                        dismiss();
+                    }
+
+
+
+
                 }
 
                 else {

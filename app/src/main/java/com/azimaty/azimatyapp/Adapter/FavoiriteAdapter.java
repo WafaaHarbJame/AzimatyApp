@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.azimaty.azimatyapp.Activity.LoginActivity;
+import com.azimaty.azimatyapp.Activity.ServiceItemDetails;
 import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.Item;
@@ -126,6 +127,16 @@ public class FavoiriteAdapter extends RecyclerView.Adapter<FavoiriteAdapter.Item
             mFavoirite = itemView.findViewById(R.id.favoirite);
             mLocation = itemView.findViewById(R.id.location);
             mFamilyimage = itemView.findViewById(R.id.familyimage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                   int position=getAdapterPosition();
+                    Intent intent=new Intent(context, ServiceItemDetails.class);
+                    intent.putExtra(AppConstants.item_id,itemList.get(position).getItem_id());
+                    intent.putExtra(AppConstants.list_id,itemList.get(position).getList_id());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
@@ -169,7 +180,7 @@ public class FavoiriteAdapter extends RecyclerView.Adapter<FavoiriteAdapter.Item
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }

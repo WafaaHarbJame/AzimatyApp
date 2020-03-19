@@ -3,8 +3,10 @@ package com.azimaty.azimatyapp.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -56,6 +58,9 @@ public class LoginActivity extends BaseActivity {
     private TextView mRegister;
     private AVLoadingIndicatorView mLoading;
     private CountryCodePicker mCcp;
+    private boolean is_Remember_Passward;
+    private  String phone_without_code;
+    int code=966;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class LoginActivity extends BaseActivity {
         mloginButton = findViewById(R.id.loginButton);
         mRegister = findViewById(R.id.register);
         mLoading = findViewById(R.id.loading);
+        mCcp = findViewById(R.id.ccp);
 
 
         sharedPManger = new SharedPManger(LoginActivity.this);
@@ -82,6 +88,64 @@ public class LoginActivity extends BaseActivity {
                 finish();
             }
         });
+
+
+mRememberpass.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+    @Override
+    public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+
+        if(mRememberpass.isChecked()){
+            sharedPManger.SetData(AppConstants.mRememberpass,true);
+
+        }
+        else {
+            sharedPManger.SetData(AppConstants.mRememberpass,false);
+
+
+        }
+    }
+});
+
+
+        mCcp.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                select_country = true;
+                return false;
+            }
+        });
+        mCcp.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                select_country = true;
+                CountryCode = mCcp.getSelectedCountryCodeWithPlus();
+                 code=mCcp.getSelectedCountryCodeAsInt();
+                 sharedPManger.SetData(AppConstants.code,code);
+
+            }
+        });
+
+
+        is_Remember_Passward=sharedPManger.getDataBool(AppConstants.mRememberpass);
+        if(is_Remember_Passward){
+            String phone=sharedPManger.getDataString(AppConstants.phone_without_code);
+                    String passward= sharedPManger.getDataString(AppConstants.PASSWORD);
+                    int code=sharedPManger.getDataInt(AppConstants.code);
+
+          //  Toast.makeText(this, ""+code, Toast.LENGTH_SHORT).show();
+            mPhonenumber.setText(phone);
+            mPassword.setText(passward);
+            mRememberpass.setChecked(true);
+            mCcp.setCountryForPhoneCode(code);
+
+        }
+
+        else {
+            mRememberpass.setChecked(false);
+
+
+        }
 
         mloginButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +166,10 @@ public class LoginActivity extends BaseActivity {
                         phonewithoutzero = mPhonenumber.getText().toString().replaceFirst("0", "");
                         mPhonenumber.setText(phonewithoutzero);
                     }
+
+                    phone_without_code=mPhonenumber.getText().toString();
+                    sharedPManger.SetData(AppConstants.phone_without_code,phone_without_code);
+                    sharedPManger.SetData(AppConstants.code,code);
 
                     userphone = CountryCode + mPhonenumber.getText().toString();
 
@@ -160,39 +228,60 @@ public class LoginActivity extends BaseActivity {
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
                     Log.e("WAFAA", response);
-                    JSONObject data = register_response.getJSONObject("data");
-                    JSONObject user = data.getJSONObject("user");
-                    int id = user.getInt("id");
-                    String name = user.getString("name");
-                    boolean userStatus = user.getBoolean("status");
-                    String phone = user.getString("phone");
-                    String token = data.getString("token");
-                    String photo = user.getString("photo");
-
                     if (status == 1) {
-                        Toast(message);
+                        //Toast(message);
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONObject user = data.getJSONObject("user");
+                        int id = user.getInt("id");
+                        String name = user.getString("name");
+                        boolean userStatus = user.getBoolean("status");
+                        String phone = user.getString("phone");
+                        String photo = user.getString("photo");
+                        String token = data.getString("token");
+                        sharedPManger.SetData(AppConstants.USERPHONE,userphone);
+                        sharedPManger.SetData(AppConstants.PASSWORD,mPassword.getText().toString());
+                        sharedPManger.SetData(AppConstants.SelectedCountryCodeplus,CountryCode);
+
 
                         Log.e("id", id + "");
                         Log.e("name", name + "");
                         Log.e("phone", phone + "");
                         Log.e("token", token + "");
                         memberModel = new MemberModel(token, id, name, phone, photo, userStatus);
+
+
                         UtilityApp.setUserData(memberModel);
                         Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                         startActivity(intent);
                         finish();
 
 
-                    } else {
-                        memberModel = new MemberModel(token, id, name, phone, photo, userStatus);
-                        UtilityApp.setUserData(memberModel);
-                        Intent intent = new Intent(LoginActivity.this, ActivatePhoneActivity.class);
-                        startActivity(intent);
-                        finish();
-                        Toast(message);
+                    }
+                    else if(status==0)  {
+                         if(register_response.has("data")){
+
+                             JSONObject data = register_response.getJSONObject("data");
+                             JSONObject user = data.getJSONObject("user");
+                             int id = user.getInt("id");
+                             String name = user.getString("name");
+                             boolean userStatus = user.getBoolean("status");
+                             if(!userStatus){
+                                 Intent intent = new Intent(LoginActivity.this, ActivatePhoneActivity.class);
+                                 sharedPManger.SetData(AppConstants.USERPHONE,userphone);
+                                 intent.putExtra(AppConstants.USERPHONE,userphone);
+                                 startActivity(intent);
+                                 finish();
+
+                             }
+                         }
+
+                         else {
+                             Toast(message);
+                         }
+
+
 
                     }
-
                     hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
@@ -211,7 +300,7 @@ public class LoginActivity extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 mLoading.smoothToHide();
                 mLoading.hide();
-                Toast( error.getMessage());
+               // Toast( error.getMessage());
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 

@@ -124,6 +124,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
     private ArrayList<Image> UplodedImages = new ArrayList<>();
     private ArrayList<Image> images = new ArrayList<>();
     public   List<File> list = new ArrayList<>();;
+    boolean Item_image_uploded=false;
 
 
     @Override
@@ -171,7 +172,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
 
         if (getIntent().getExtras() != null) {
             Service_id = getIntent().getIntExtra(AppConstants.service_id, 0);
-            Toast(Service_id + "");
+           // Toast(Service_id + "");
             getMyServiceDetails(token, Service_id);
 
         }
@@ -202,6 +203,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
                 mItemImage.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Item_image_uploded=true;
                         getImagePicker().start();
                     }
                 });
@@ -210,8 +212,27 @@ public class MyServicedetailsAactivity extends BaseActivity {
                 mAddbutton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        AddListItems(list,token, mItemName.getText().toString(), mItemDesc.getText().toString(),
-                                Service_id);
+
+
+                        if(!Item_image_uploded){
+                            Toast(getString(R.string.addingphoto));
+                        }
+                       else if(mItemName.getText().toString().equals(null)||mItemName.getText().toString().equals("")){
+                            mItemName.setError(getString(R.string.item_namrequired));
+                            mItemName.requestFocus();
+                        }
+                       else if(mItemDesc.getText().toString().equals(null)||mItemDesc.getText().toString().equals("")){
+                            mItemDesc.setError(getString(R.string.mItemDescrEQUIRED));
+                            mItemDesc.requestFocus();
+                        }
+
+
+                        else {
+                            AddListItems(list,token, mItemName.getText().toString(), mItemDesc.getText().toString(),
+                                    Service_id);
+
+
+                        }
 
 
                     }
@@ -294,6 +315,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
                             int city_id = city.getInt("id");
                             int rating = jsonObject.getInt("rating");
                             String city_name = city.getString("name");
+                            mRatingBar.setRating(rating);
                             String tag = jsonObject.getString("tag");
                             String[] items = tag.split("-");
                             for (String item : items) {
@@ -333,7 +355,8 @@ public class MyServicedetailsAactivity extends BaseActivity {
                                         JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
                                         int image_id = jsonObjectitem_images.getInt("id");
                                         String image_url = jsonObjectitem_images.getString("name");
-                                        items_image_services.add(new Items_image_service(item_id, favorite_int, image_url, list_id));
+                                        items_image_services.add(
+                                                new Items_image_service(item_id, favorite_int, image_url, list_id,image_id));
 
                                     }
 
@@ -404,7 +427,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
@@ -471,7 +494,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -538,11 +561,14 @@ public class MyServicedetailsAactivity extends BaseActivity {
                         getMyServiceDetails(token, Service_id);
 
                     } else {
-                        Toast.makeText(MyServicedetailsAactivity.this, " " + message, Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(MyServicedetailsAactivity.this, " "+getString(R.string.noadding), Toast.LENGTH_SHORT).show();
 
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+
                 }
 
 
@@ -556,6 +582,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
             public void onError(ANError error) {
                 Log.e("error", error.getErrorDetail()+"");
                 hideProgreesDilaog(getActiviy(), getString(R.string.additem_title), getString(R.string.add_item));
+                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
 
                 // handle error
             }
@@ -642,7 +669,7 @@ public class MyServicedetailsAactivity extends BaseActivity {
         }
 
         mItemImage.setText(stringBuffer.toString());
-        Toast.makeText(this, "" + stringBuffer.toString(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(this, "" + stringBuffer.toString(), Toast.LENGTH_SHORT).show();
     }
 
 

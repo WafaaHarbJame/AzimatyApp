@@ -216,7 +216,7 @@ public class MenuFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logouttitle), getString(R.string.loadexit));
 
 
@@ -297,7 +297,7 @@ public class MenuFragment extends BaseFragment {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast(error.getMessage());
+            //    Toast(error.getMessage());
 
                 hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
 

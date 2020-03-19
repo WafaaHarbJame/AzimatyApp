@@ -96,21 +96,7 @@ public class ServicedetailsAactivity extends BaseActivity {
             }
         });
         mRvitems.setNestedScrollingEnabled(false);
-//        items_image_services.add(new Items_image_service(1, 1, "image"));
-//        items_image_services.add(new Items_image_service(2, 1, "image"));
-//        items_image_services.add(new Items_image_service(3, 1, "image"));
-//        items_image_services.add(new Items_image_service(4, 1, "image"));
-//        items_image_services.add(new Items_image_service(5, 1, "image"));
-//        items_image_services.add(new Items_image_service(1, 1, "image"));
-//        items_image_services.add(new Items_image_service(2, 1, "image"));
-//        items_image_services.add(new Items_image_service(3, 1, "image"));
-//        items_image_services.add(new Items_image_service(4, 1, "image"));
-//        items_image_services.add(new Items_image_service(5, 1, "image"));
-//        items_image_services.add(new Items_image_service(1, 1, "image"));
-//        items_image_services.add(new Items_image_service(2, 1, "image"));
-//        items_image_services.add(new Items_image_service(3, 1, "image"));
-//        items_image_services.add(new Items_image_service(4, 1, "image"));
-//        items_image_services.add(new Items_image_service(5, 1, "image"));
+
 
         itemImagesAadapter = new ItemImagesAadapter(getActiviy(), items_image_services);
 
@@ -156,11 +142,13 @@ public class ServicedetailsAactivity extends BaseActivity {
                             JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
 //                            boolean favorite=jsonObject.getBoolean("favorite");
 
+
                             int city_id = city.getInt("id");
                             int rating = jsonObject.getInt("rating");
                             String city_name = city.getString("name");
                             String tag = jsonObject.getString("tag");
                             String[] items = tag.split("-");
+                            mRatingBar.setRating(rating);
 
                             for (String item : items) {
 //                                System.out.println("item = " + item);
@@ -174,6 +162,7 @@ public class ServicedetailsAactivity extends BaseActivity {
                                 mIsServiceon.setText(getString(R.string.serviceon));
                             } else {
                                 mIsServiceon.setText(getString(R.string.serviceoff));
+                                mIsServiceon.setBackground(getResources().getDrawable(R.drawable.redstyle));
 
 
                             }
@@ -199,7 +188,7 @@ public class ServicedetailsAactivity extends BaseActivity {
                                         JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
                                         int image_id = jsonObjectitem_images.getInt("id");
                                         String image_url = jsonObjectitem_images.getString("name");
-                                        items_image_services.add(new Items_image_service(item_id, favorite_int, image_url,list_id));
+                                        items_image_services.add(new Items_image_service(item_id, favorite_int, image_url,list_id,image_id));
 
                                     }
 
@@ -279,7 +268,7 @@ public class ServicedetailsAactivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 

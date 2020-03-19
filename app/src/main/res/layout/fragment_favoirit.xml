@@ -43,16 +43,35 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <include
+        android:id="@+id/failed_home"
+        layout="@layout/lyt_failed_home"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/favorite_empty"
+        android:gravity="center"
+        android:id="@+id/favoritEmptyTv"
+        android:visibility="gone"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:id="@+id/allswip"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_height="match_parent">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:id="@+id/bestrating"
         android:background="@color/white"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_height="match_parent" />
 
-
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 </LinearLayout>
 

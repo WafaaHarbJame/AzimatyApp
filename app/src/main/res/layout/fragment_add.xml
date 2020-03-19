@@ -107,21 +107,44 @@
         android:drawablePadding="16dp"
         android:inputType="number"
         android:hint="@string/phonenumber" />
-    <TextView
-        android:id="@+id/city"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:layout_marginTop="8dp"
+<!--    <TextView-->
+<!--        android:id="@+id/city"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:layout_marginTop="8dp"-->
+<!--        android:background="@drawable/grey_style"-->
+<!--        android:drawablePadding="16dp"-->
+<!--        android:hint="@string/cityname" />-->
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:background="@drawable/spinner_style"
+    android:gravity="center_vertical"
+    android:padding="@dimen/text_size"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="20dp"
+        android:src="@drawable/location"
+        android:layout_height="20dp"/>
+
+    <Spinner
+        android:id="@+id/citySpinner"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         android:drawableStart="@drawable/locationicon"
-        android:background="@drawable/grey_style"
-        android:drawablePadding="16dp"
-        android:hint="@string/cityname" />
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
                 android:id="@+id/Service_on_off"
                 android:visibility="gone"
                 android:orientation="horizontal">
@@ -130,14 +153,12 @@
                     android:id="@+id/servichecked"
                     android:layout_width="wrap_content"
                     android:theme="@style/greenswitchStyle"
-                    android:layout_marginStart="16dp"
-                    android:checked="true"
+                    android:checked="false"
                     android:layout_height="wrap_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:text="@string/serviceava"
-                    android:layout_marginStart="16dp"
                     android:textColor="@color/Black"
                     android:id="@+id/isserviceon"
                     android:layout_height="wrap_content" />

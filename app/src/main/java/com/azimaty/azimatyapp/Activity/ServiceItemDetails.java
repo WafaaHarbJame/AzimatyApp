@@ -128,7 +128,7 @@ public class ServiceItemDetails extends BaseActivity {
                             token = UtilityApp.getUserToken();
                             String comment=psersonRating.getRating_text();
                             int Rating=psersonRating.getRatingnumber();
-                            Toast(psersonRating.getRating_text());
+                           // Toast(psersonRating.getRating_text());
                             Make_Rateing_item(token,Rating+"",comment,item_id+"");
 
 
@@ -246,7 +246,7 @@ public class ServiceItemDetails extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
@@ -304,7 +304,7 @@ public class ServiceItemDetails extends BaseActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     hideProgreesDilaog(getActiviy(),getString(R.string.load_data),getString(R.string.load_data_tittle));
                 }
 
@@ -315,7 +315,7 @@ public class ServiceItemDetails extends BaseActivity {
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(),getString(R.string.load_data),getString(R.string.load_data_tittle));
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+              //  Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }

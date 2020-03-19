@@ -214,7 +214,7 @@ public class ItemImagesAadapter extends RecyclerView.Adapter<ItemImagesAadapter.
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }

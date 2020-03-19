@@ -23,6 +23,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.azimaty.azimatyapp.Activity.LoginActivity;
+import com.azimaty.azimatyapp.Activity.ServiceItemDetails;
 import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Model.AppConstants;
 import com.azimaty.azimatyapp.Model.Item;
@@ -108,81 +109,19 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
             mFavoirite = itemView.findViewById(R.id.favoirite);
             mLocation = itemView.findViewById(R.id.location);
             mFamilyimage = itemView.findViewById(R.id.familyimage);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int position=getAdapterPosition();
+                    Intent intent=new Intent(context, ServiceItemDetails.class);
+                    intent.putExtra(AppConstants.item_id,itemList.get(position).getItem_id());
+                    intent.putExtra(AppConstants.list_id,itemList.get(position).getList_id());
+                    context.startActivity(intent);
+                }
+            });
         }
     }
 
-    public void DeleteFromFavorite(int item_id, final String token,final int position) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.delete_favorite+item_id+"/delete"
-                , new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject register_response = new JSONObject(response);
-                    JSONObject meta=register_response.getJSONObject("meta");
-                    String message = meta.getString("message");
-                    int status = meta.getInt("status");
-                    Log.e("WAFAA", response);
-                    if (status == 1) {
-                        Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
-                        notifyDataSetChanged();
-                        itemList.remove(position);
-                        notifyDataSetChanged();
-                        notifyItemRemoved(position);
-
-
-                    } else {
-                        Toast.makeText(context, "" + message, Toast.LENGTH_LONG).show();
-
-                    }
-
-
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-
-
-                }
-
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
-
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap();
-
-
-                return map;
-
-            }
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String, String> header = new HashMap();
-                header.put("Authorization",  token);
-                return header;
-            }
-
-
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                return super.parseNetworkResponse(response);
-            }
-        };
-
-        MyApplication.getInstance().addToRequestQueue(stringRequest);
-
-
-    }
 
 }

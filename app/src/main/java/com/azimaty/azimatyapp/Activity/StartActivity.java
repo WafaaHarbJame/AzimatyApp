@@ -17,17 +17,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.azimaty.azimatyapp.Api.MyApplication;
 import com.azimaty.azimatyapp.Model.AppConstants;
-import com.azimaty.azimatyapp.Model.CitiesModel;
 import com.azimaty.azimatyapp.Model.MemberModel;
+import com.azimaty.azimatyapp.Model.Setting;
 import com.azimaty.azimatyapp.Model.SubItem;
-import com.azimaty.azimatyapp.UploadActivity;
-import com.azimaty.azimatyapp.Utlities.UtilityApp;
 import com.azimaty.azimatyapp.R;
+import com.azimaty.azimatyapp.Utlities.UtilityApp;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,26 +46,31 @@ public class StartActivity extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_start);
         mBustart = findViewById(R.id.bustart);
+        subItemListCity = new ArrayList<>();
 
         InternetConnect = CheckInternet();
+        if (InternetConnect) {
+            getSetting();
+            getCities();
+        }
 
         if (UtilityApp.isLogin()) {
             String token = UtilityApp.getUserToken();
             System.out.println("Log token " + token);
             if (InternetConnect) {
                 getProfile(token);
-            } else {
-                Toast(getString(R.string.checkInternet));
-
 
             }
+
         }
         mBustart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 Intent intent = new Intent(StartActivity.this, HomeActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
+                finish();
 
             }
         });
@@ -104,15 +109,15 @@ public class StartActivity extends BaseActivity {
 
 
                     } else {
-                        Toast(message);
+                        // Toast(message);
 
                     }
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
+                    //  Toast.makeText(getActiviy(), e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
                 }
 
 
@@ -120,8 +125,8 @@ public class StartActivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
-                Toast(error.getMessage());
+//                hideProgreesDilaog(getActiviy(), getString(R.string.profiledata), getString(R.string.load_data));
+                // Toast(error.getMessage());
 
 
             }
@@ -153,10 +158,92 @@ public class StartActivity extends BaseActivity {
 
     }
 
+    public void getSetting() {
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.setting, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        String phone = data.getString("phone");
+                        String email = data.getString("email");
+                        String facebook = data.getString("facebook");
+                        String tweeter = data.getString("tweeter");
+                        String instagram = data.getString("instagram");
+                        String watsapp = data.getString("watsapp");
+                        String about_app = data.getString("about_app");
+                        String privacy_app = data.getString("privacy_app");
+
+                        Setting setting = new Setting(phone, email, facebook, tweeter, instagram, watsapp, about_app, privacy_app);
+                        UtilityApp.setSettingData(setting);
+
+
+                        //hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+
+
+                    } else {
+                        // Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+                    //hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+                    //hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                // hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap();
+                return header;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
 
     public void getCities() {
+        subItemListCity.clear();
 
-        showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
+        // showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.CITIES, new Response.Listener<String>() {
             @Override
@@ -172,7 +259,8 @@ public class StartActivity extends BaseActivity {
 
                         JSONObject data = register_response.getJSONObject("data");
                         JSONArray jsonArray = data.getJSONArray("cities");
-                        subItemListCity.add(new SubItem("الكل", 0));
+
+//                        subItemListCity.add(new SubItem("الكل", 0));
 
                         for (int i = 0; i < jsonArray.length(); i++) {
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
@@ -182,11 +270,7 @@ public class StartActivity extends BaseActivity {
 
                         }
 
-
-
-                        CitiesModel citiesModel = new CitiesModel(subItemListCity);
-                        UtilityApp.setCitiesData(citiesModel);
-
+                        UtilityApp.setCitiesData(subItemListCity);
 
 
                     } else {
@@ -195,13 +279,13 @@ public class StartActivity extends BaseActivity {
                     }
 
 
-                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+//                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
                 } catch (JSONException e) {
                     e.printStackTrace();
 
-                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+//                    hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
                 }
 
@@ -211,8 +295,8 @@ public class StartActivity extends BaseActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
+                //Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
 
             }

@@ -148,8 +148,8 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
                     int position=getAdapterPosition();
                     if (UtilityApp.isLogin()) {
                         String token = UtilityApp.getUserToken();
-                        DeleteList(items_image_services.get(position).getId(),token,position);
-                        Toast.makeText(context, ""+items_image_services.get(position).getId(), Toast.LENGTH_SHORT).show();
+                        DeleteImage(items_image_services.get(position).getImage_id(),token,position);
+
 
 
                     }
@@ -174,9 +174,9 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
 
     }
 
-    public void DeleteList(int item_id, final String token,final int position) {
+    public void DeleteImage(int item_id, final String token,final int position) {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.DELEET_item+item_id+"/delete"
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.DELEET_IMAGE+item_id+"/delete"
                 , new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
@@ -214,7 +214,7 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
             @Override
             public void onErrorResponse(VolleyError error) {
 
-                Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
+               // Toast.makeText(context, error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
             }
