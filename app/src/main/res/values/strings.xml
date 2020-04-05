@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">عزيمتي</string>
+    <string name="app_name">جمعتنا</string>
     <string name="load_data">
         الرجاءالانتظار ... يتم تحميل البيانات</string>
     <string name="loadlogin">
@@ -104,7 +104,7 @@
     <string name="itemname">اسم الصنف</string>
     <string name="updateitemname"> تعديل صنف </string>
     <string name="contactwhats">رقم الواتس للتواصل</string>
-    <string name="azimaty">عزيمتي النسخة الاولى</string>
+    <string name="azimaty">جمعتنا النسخة الاولى</string>
     <string name="updateservice">تعديل خدمة</string>
     <string name="checkInternet">لا يوجد اتصال بالانترنت</string>
     <string name="loadregister">يتم الان التسجيل</string>

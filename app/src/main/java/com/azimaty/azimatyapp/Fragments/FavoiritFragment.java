@@ -182,9 +182,9 @@ public class FavoiritFragment extends BaseFragment {
                 subItemList.clear();
                 try {
                     JSONObject register_response = new JSONObject(response);
-                    JSONObject meta = register_response.getJSONObject("meta");
-                    String message = meta.getString("message");
-                    int status = meta.getInt("status");
+//                    JSONObject meta = register_response.getJSONObject("meta");
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
                     Log.e("WAFAA", response);
                     if (status == 1) {
                         JSONObject data = register_response.getJSONObject("data");
