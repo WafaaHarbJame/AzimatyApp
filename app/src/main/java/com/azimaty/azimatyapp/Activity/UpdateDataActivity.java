@@ -137,7 +137,13 @@ public class UpdateDataActivity extends BaseActivity {
                 updateuserImage = true;
                 updateuserimage = true;
 
-                PickImageDialog.build(new PickSetup().setTitle("اختر صورة")).setOnPickResult(new IPickResult() {
+                PickImageDialog.build(new PickSetup().setTitle(getString(R.string.CHOOSE_PHOTO))
+                        .setCancelText(getString(R.string.cancelTXT))
+                        .setCameraButtonText(getString(R.string.cameratext))
+                        .setGalleryButtonText(getString(R.string.gallaytext))
+                        .setSystemDialog(false)
+
+                ).setOnPickResult(new IPickResult() {
                     @Override
                     public void onPickResult(PickResult r) {
 

@@ -151,6 +151,13 @@
     <string name="error">خطأ بالسيرفر </string>
     <string name="rateingtv">نص التقييم مطلوب</string>
     <string name="ratingRequired">اضغط على النجوم لتقيم</string>
-
+    <string name="CHOOSE_PHOTO">اختر صورة </string>
+    <string name="cameratext">الكاميرا</string>
+    <string name="cancelTXT">الغاء</string>
+    <string name="gallaytext">المعرض</string>
+    <string name="Agree1">اتعهد بذلك</string>
+    <string name="termTxt">"بسم الله الرحمن الرحيم قال الله تعالي:" وَأَوْفُوا بِعَهْدِ اللَّهِ إِذَا عَاهَدتُّمْ وَلَا تَنقُضُوا الْأَيْمَانَ بَعْدَ تَوْكِيدِهَا وَقَدْ جَعَلْتُمُ اللَّهَ عَلَيْكُمْ كَفِيلًا ۚ إِنَّ اللَّهَ يَعْلَمُ مَا تَفْعَلُونَ صدق الله العظيم \n \n - اتعهد واقسم بالله أنا المعلن أن ادفع عمولة الموقع وهي 5% من قيمة البيع سواء تم البيع عن طريق الموقع او بسببه. \n \n - كما اتعهد بدفع العمولة خلال 10 ايام من استلام مبلغ المبايعة</string>
+    <string name="reject">غير موافق</string>
+    <string name="termscondition_adding">معاهدة جمعتنا</string>
 
 </resources>

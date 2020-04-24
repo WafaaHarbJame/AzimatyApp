@@ -88,7 +88,7 @@ public class FavoiriteAdapter extends RecyclerView.Adapter<FavoiriteAdapter.Item
             public void onClick(View view) {
                 if (UtilityApp.isLogin()) {
                     String token = UtilityApp.getUserToken();
-                   DeleteFromFavorite(item.getService_id(),token,i);
+                   DeleteFromFavorite(item.getItem_id(),token,i);
 
 
                 }

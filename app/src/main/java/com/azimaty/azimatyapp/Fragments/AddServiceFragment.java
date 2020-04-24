@@ -3,12 +3,18 @@ package com.azimaty.azimatyapp.Fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -94,6 +100,7 @@ public class AddServiceFragment extends BaseFragment {
 
     List<String> citylist = new ArrayList<String>();
     List<SubItem> citiesModelList = new ArrayList<>();
+    Dialog dialog;
 
     String logo;
 
@@ -369,8 +376,8 @@ public class AddServiceFragment extends BaseFragment {
 
 
                     if (InternetConnect) {
+                        ShowTermsAndCondition();
 
-                        AddServiceandlogo(token, uploaduserimageename, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), selectedCityId + "");
 
                     } else {
                         Toast(getString(R.string.checkInternet));
@@ -938,7 +945,13 @@ public class AddServiceFragment extends BaseFragment {
         updateuserimage = true;
         uploadimage=1;
 
-        PickImageDialog.build(new PickSetup()).setOnPickResult(new IPickResult() {
+        PickImageDialog.build(new PickSetup().setTitle(getString(R.string.CHOOSE_PHOTO))
+                .setCancelText(getString(R.string.cancelTXT))
+                .setCameraButtonText(getString(R.string.cameratext))
+                .setGalleryButtonText(getString(R.string.gallaytext))
+                .setSystemDialog(false)
+
+        ).setOnPickResult(new IPickResult() {
             @Override
             public void onPickResult(PickResult r) {
 
@@ -1163,6 +1176,49 @@ public class AddServiceFragment extends BaseFragment {
                 // handle error
             }
         });
+
+
+    }
+
+    public void ShowTermsAndCondition(){
+        dialog = new Dialog(getActiviy());
+        dialog.setContentView(R.layout.terms_condition_foradding_service);
+        Button agree = dialog.findViewById(R.id.agree);
+        Button reject = dialog.findViewById(R.id.reject);
+        dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
+        WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
+        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        p.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
+        WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        layoutParams.x = 0; // right margin
+        layoutParams.y = 50; // top margin
+        dialog.getWindow().setAttributes(layoutParams);
+        dialog.setCancelable(true);
+                   /*String dataa = "<html><head></head><body>" + text + "</body></html>";
+                   Log.e("Wafaa", dataa);*/
+
+        agree.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                AddServiceandlogo(token, uploaduserimageename, mServivename.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), selectedCityId + "");
+
+
+            }
+        });
+
+
+        reject.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
+
 
 
     }
