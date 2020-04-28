@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.azimaty.azimatyapp">
+    package="com.jamaatna.jamaatnaapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" /> <!-- if you want to load images from a file OR from the internet -->
@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:name=".Api.MyApplication"
+        android:name="com.jamaatna.jamaatnaapp.Api.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,74 +21,74 @@
         tools:replace="android:icon">
 
         <activity
-            android:name=".Activity.EditItemActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.EditItemActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".UploadActivity"
+            android:name="com.jamaatna.jamaatnaapp.UploadActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.MyserviceItemDetailsActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.MyserviceItemDetailsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.AddServiceActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.AddServiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.MyServicedetailsAactivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.MyServicedetailsAactivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.MyServiceActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.MyServiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ServiceItemDetails"
+            android:name="com.jamaatna.jamaatnaapp.Activity.ServiceItemDetails"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ServicedetailsAactivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.ServicedetailsAactivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.AfterAddingServiceActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.AfterAddingServiceActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.UpdateDataActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.UpdateDataActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.CatogoryActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.CatogoryActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ContactUsActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.ContactUsActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.Aboutusctivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.Aboutusctivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.TermsAndconditionActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.TermsAndconditionActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.Slider1Activity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.Slider1Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.SliderActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.SliderActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ActivatePhoneActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.ActivatePhoneActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.UpdatePasswardActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.UpdatePasswardActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.ForgetPasswordActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.ForgetPasswordActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.LoginActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.LoginActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.RegisterActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.RegisterActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.HomeActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.HomeActivity"
             android:label="@string/title_activity_home"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activity.StartActivity"
+            android:name="com.jamaatna.jamaatnaapp.Activity.StartActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.NoActionBar">
             <intent-filter>
@@ -110,7 +110,7 @@
                 android:resource="@xml/picker_provider_paths" />
         </provider>
         <provider
-            android:name=".helper.ImagePickerFileProvider"
+            android:name="com.jamaatna.jamaatnaapp.helper.ImagePickerFileProvider"
             android:authorities="${applicationId}.imagepicker.provider"
             android:exported="false"
             android:grantUriPermissions="true">
