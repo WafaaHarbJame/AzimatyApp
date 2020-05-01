@@ -53,7 +53,6 @@ public class UploadActivity extends AppCompatActivity {
             public void onClick(View view) {
                 getImagePicker().start(); // start image picker activity with request code
 
-
             }
         });
         mTextView2 = findViewById(R.id.textView2);
