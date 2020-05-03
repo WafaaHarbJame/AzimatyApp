@@ -313,7 +313,6 @@ public class MyserviceItemDetailsActivity extends BaseActivity {
 
     public void Make_Rateing_item(final String token, final String rating, final String comment, final String item_id) {
         showProgreesDilaog(getActiviy(), getString(R.string.load_data), getString(R.string.load_data_tittle));
-
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.making_rating + item_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {

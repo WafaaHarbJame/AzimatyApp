@@ -91,19 +91,20 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
                     ratingdate = formatDate(Calendar.getInstance().getTime());
                     user_name=UtilityApp.getUserData().name;
                     user_imag=UtilityApp.getUserData().photo;
-                    mRtRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-                        @Override
-                        public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
-                            if(b){
-                                Rating_value=1;
-                            }
-                            else {
-                                Rating_value=0;
 
-
-                            }
-                        }
-                    });
+//                    mRtRating.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//                        @Override
+//                        public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+//                            if(b){
+//                                Rating_value=1;
+//                            }
+//                            else {
+//                                Rating_value=0;
+//
+//
+//                            }
+//                        }
+//                    });
                     if(mRatingText.getText().toString().isEmpty())
                     {
                         mRatingText.setError(getString(R.string.rateingtv));
@@ -111,7 +112,7 @@ public class RateingBottomDialog extends BottomSheetDialogFragment {
 
                     }
 
-                    else if(Rating_value==0)
+                    else if(mRtRating.getRating()==0)
                     {
                         Toast.makeText(getActivity(), ""+getString(R.string.ratingRequired), Toast.LENGTH_SHORT).show();
 

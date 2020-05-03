@@ -551,9 +551,13 @@ public class MyServicedetailsAactivity extends BaseActivity {
                         Toast.makeText(MyServicedetailsAactivity.this, " "+getString(R.string.noadding), Toast.LENGTH_SHORT).show();
 
                     }
+                    hideProgreesDilaog(getActiviy(), getString(R.string.additem_title), getString(R.string.add_item));
+
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    hideProgreesDilaog(getActiviy(), getString(R.string.additem_title), getString(R.string.add_item));
                     Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+
 
                 }
 
