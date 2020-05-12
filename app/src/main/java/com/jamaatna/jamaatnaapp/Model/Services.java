@@ -7,7 +7,7 @@ public class Services {
     /**
      * message : تمت العملية بنجاح
      * status : 1
-     * data : {"Services":[{"id":2,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://mhmdstudio.com/azemty/public/admin/img/setting","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":16,"name":"وفاء حرب جامع","phone":"966789789789","photo":"http://mhmdstudio.com/azemty/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg","status":true}},{"id":4,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://mhmdstudio.com/azemty/public/admin/img/setting","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":18,"name":"xcc","phone":"972595595238","photo":"http://mhmdstudio.com/azemty/public/admin/img/setting/35163665790_d182d84f5e_k.jpg","status":true}},{"id":5,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://mhmdstudio.com/azemty/public/img/service/587.PNG","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":18,"name":"xcc","phone":"972595595238","photo":"http://mhmdstudio.com/azemty/public/admin/img/setting/35163665790_d182d84f5e_k.jpg","status":true}}]}
+     * data : {"Services":[{"id":2,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://jamaatna.sa/public/admin/img/setting","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":16,"name":"وفاء حرب جامع","phone":"966789789789","photo":"http://jamaatna.sa/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg","status":true}},{"id":4,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://jamaatna.sa/public/admin/img/setting","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":18,"name":"xcc","phone":"972595595238","photo":"http://jamaatna.sa/public/admin/img/setting/35163665790_d182d84f5e_k.jpg","status":true}},{"id":5,"name":"mahm","phone":"972595595238","tag":"مندي-ذبايح-بخاري-مضبي-فتة","logo":"http://jamaatna.sa/public/img/service/587.PNG","status":true,"city":{"id":1,"name":"الرياض"},"user":{"id":18,"name":"xcc","phone":"972595595238","photo":"http://jamaatna.sa/public/admin/img/setting/35163665790_d182d84f5e_k.jpg","status":true}}]}
      */
 
     private String message;
@@ -55,10 +55,10 @@ public class Services {
              * name : mahm
              * phone : 972595595238
              * tag : مندي-ذبايح-بخاري-مضبي-فتة
-             * logo : http://mhmdstudio.com/azemty/public/admin/img/setting
+             * logo : http://jamaatna.sa/public/admin/img/setting
              * status : true
              * city : {"id":1,"name":"الرياض"}
-             * user : {"id":16,"name":"وفاء حرب جامع","phone":"966789789789","photo":"http://mhmdstudio.com/azemty/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg","status":true}
+             * user : {"id":16,"name":"وفاء حرب جامع","phone":"966789789789","photo":"http://jamaatna.sa/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg","status":true}
              */
 
             private int id;
@@ -165,7 +165,7 @@ public class Services {
                  * id : 16
                  * name : وفاء حرب جامع
                  * phone : 966789789789
-                 * photo : http://mhmdstudio.com/azemty/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg
+                 * photo : http://jamaatna.sa/public/img/user/Screenshot_2020-03-05-17-57-33-870_com.heartoftheworldapp.heartoftheworld.jpg
                  * status : true
                  */
 
