@@ -6,6 +6,7 @@ import android.provider.Settings;
 
 import com.jamaatna.jamaatnaapp.Api.MyApplication;
 import com.jamaatna.jamaatnaapp.Model.AppConstants;
+import com.jamaatna.jamaatnaapp.Model.Catogoriies;
 import com.jamaatna.jamaatnaapp.Model.MemberModel;
 import com.jamaatna.jamaatnaapp.Model.Setting;
 import com.jamaatna.jamaatnaapp.Model.SubItem;
@@ -140,6 +141,17 @@ public class UtilityApp {
         String cityData = new Gson().toJson(citiesList);
         MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_CITIES, cityData);
     }
+    public static void setCatogoriesData(List<Catogoriies> catogorieslist) {
+        String catogoryData = new Gson().toJson(catogorieslist);
+        MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_CATOGORIES, catogoryData);
+    }
+
+    public static List<Catogoriies> getCatogoriesData() {
+        String citiesData = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_CATOGORIES);
+        return new Gson().fromJson(citiesData, new TypeToken<List<Catogoriies>>() {
+        }.getType());
+
+    }
 
     public static List<SubItem> getCitiesData() {
         String citiesData = MyApplication.getInstance().getSharedPManger().getDataString(AppConstants.KEY_CITIES);
@@ -148,6 +160,7 @@ public class UtilityApp {
         }.getType());
 
     }
+
 
 
     public static Setting getSettingData() {

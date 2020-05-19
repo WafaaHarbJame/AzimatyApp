@@ -66,6 +66,8 @@ public class AppConstants {
     public static String KEY_MEMBER_LANGUAGE = "KEY_MEMBER_LANGUAGE";
     public static String KEY_FIRST_RUN = "KEY_FIRST_RUN";
     public static String KEY_CITIES = "KEY_CITIES";
+    public static String KEY_CATOGORIES = "KEY_CATOGORIES";
+
     public static boolean isrefersh = false;
     public static boolean refershService = false;
     //Api

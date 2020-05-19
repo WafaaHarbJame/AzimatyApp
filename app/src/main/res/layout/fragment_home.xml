@@ -67,9 +67,7 @@
                 android:paddingStart="8dp"
                 android:paddingTop="16dp"
                 android:paddingEnd="8dp"
-
-
-                android:paddingBottom="16dp">
+             >
 
                 <ImageView
                     android:id="@+id/family"
@@ -110,6 +108,7 @@
                 android:background="@color/white"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
+                android:textStyle="bold"
                 android:text="@string/bestrating"
                 android:textSize="20sp" />
             <com.wang.avi.AVLoadingIndicatorView

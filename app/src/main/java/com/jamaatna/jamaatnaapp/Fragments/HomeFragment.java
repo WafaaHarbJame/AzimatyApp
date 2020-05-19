@@ -30,6 +30,7 @@ import com.jamaatna.jamaatnaapp.Adapter.ItemAdapter;
 import com.jamaatna.jamaatnaapp.Adapter.SliderAdapterExample;
 import com.jamaatna.jamaatnaapp.Api.MyApplication;
 import com.jamaatna.jamaatnaapp.Model.AppConstants;
+import com.jamaatna.jamaatnaapp.Model.Catogoriies;
 import com.jamaatna.jamaatnaapp.Model.Item;
 import com.jamaatna.jamaatnaapp.Model.SharedPManger;
 import com.jamaatna.jamaatnaapp.Model.SliderItem;
@@ -38,9 +39,11 @@ import com.jamaatna.jamaatnaapp.R;
 import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
+import com.jamaatna.jamaatnaapp.Utlities.UtilityApp;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -74,12 +77,16 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     private ImageView mHotle;
     private ImageView mResturant;
     private AVLoadingIndicatorView mProgressBar;
+    List<Catogoriies> Catogories;
+    String family_name,coffee_name,resturant_name,hotel_name;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         final TextView textView = root.findViewById(R.id.text_home);
         mProgressBar = root.findViewById(R.id.progress_bar);
+        Catogories=new ArrayList<>();
 
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -103,7 +110,6 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mCofffe = root.findViewById(R.id.cofffe);
         mHotle = root.findViewById(R.id.hotle);
         mResturant = root.findViewById(R.id.resturant);
-
         adapter = new SliderAdapterExample(getContext(), mSliderItems);
         sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
@@ -114,11 +120,11 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         sliderView.setScrollTimeInSec(3);
         sliderView.setAutoCycle(true);
 
-
         if (InternetConnect) {
-
+            getCacheCatogories();
             getAdvertisements();
             GetBestServices();
+
 
         } else {
             Toast(getString(R.string.checkInternet));
@@ -132,7 +138,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 1);
-                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.family));
+                intent.putExtra(AppConstants.Catogory_Name, family_name);
 
                 startActivity(intent);
             }
@@ -144,7 +150,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 2);
-                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.cofeee));
+                intent.putExtra(AppConstants.Catogory_Name, coffee_name);
 
                 startActivity(intent);
             }
@@ -155,7 +161,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 3);
-                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.hotles));
+                intent.putExtra(AppConstants.Catogory_Name, hotel_name);
 
                 startActivity(intent);
             }
@@ -166,7 +172,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), CatogoryActivity.class);
                 intent.putExtra(AppConstants.Catogory_id, 4);
-                intent.putExtra(AppConstants.Catogory_Name, getString(R.string.resturants));
+                intent.putExtra(AppConstants.Catogory_Name, resturant_name);
 
                 startActivity(intent);
             }
@@ -403,5 +409,108 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
     }
 
+    public void getCatogories() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.categories, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONArray jsonArray = data.getJSONArray("category");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            String image = jsonObject.getString("image");
+                            String icon = jsonObject.getString("icon");
+                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(0).getString("image")).error(R.drawable.familyimage).into(mFamily);
+                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(1).getString("image")).error(R.drawable.cofffe).into(mCofffe);
+                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(2).getString("image")).error(R.drawable.hotle).into(mHotle);
+                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(3).getString("image")).error(R.drawable.resturant).into(mResturant);
+                            coffee_name=jsonArray.getJSONObject(1).getString("name");
+                            hotel_name=jsonArray.getJSONObject(2).getString("name");
+                            family_name=jsonArray.getJSONObject(0).getString("name");
+                            resturant_name=jsonArray.getJSONObject(3).getString("name");
+
+                        }
+
+                    } else {
+//                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                return headers;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
+    private void getCacheCatogories() {
+
+        Catogories = UtilityApp.getCatogoriesData();
+        if (Catogories == null) {
+            getCatogories();
+        } else {
+            Log.e("WAFAAatogoriesnotnull", Catogories.size()+"");
+            initCatogory();
+
+        }
+    }
+
+    public void   initCatogory(){
+        Picasso.with(getActivity()).load(Catogories.get(0).getCat_photo()).error(R.drawable.familyimage).into(mFamily);
+        Picasso.with(getActivity()).load(Catogories.get(1).getCat_photo()).error(R.drawable.cofffe).into(mCofffe);
+        Picasso.with(getActivity()).load( Catogories.get(2).getCat_photo()).error(R.drawable.hotle).into(mHotle);
+        Picasso.with(getActivity()).load( Catogories.get(3).getCat_photo()).error(R.drawable.resturant).into(mResturant);
+        family_name=Catogories.get(0).getCat_name();
+        coffee_name=Catogories.get(1).getCat_name();
+        hotel_name=Catogories.get(2).getCat_name();
+        resturant_name=Catogories.get(3).getCat_name();
+
+    }
 
 }

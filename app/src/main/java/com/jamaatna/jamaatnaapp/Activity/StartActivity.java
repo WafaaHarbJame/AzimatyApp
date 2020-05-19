@@ -17,11 +17,13 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.jamaatna.jamaatnaapp.Api.MyApplication;
 import com.jamaatna.jamaatnaapp.Model.AppConstants;
+import com.jamaatna.jamaatnaapp.Model.Catogoriies;
 import com.jamaatna.jamaatnaapp.Model.MemberModel;
 import com.jamaatna.jamaatnaapp.Model.Setting;
 import com.jamaatna.jamaatnaapp.Model.SubItem;
 import com.jamaatna.jamaatnaapp.R;
 import com.jamaatna.jamaatnaapp.Utlities.UtilityApp;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -37,6 +39,7 @@ public class StartActivity extends BaseActivity {
     boolean InternetConnect = false;
     List<SubItem> subItemListCity;
     private Button mBustart;
+    List<Catogoriies> Catogories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +50,14 @@ public class StartActivity extends BaseActivity {
         setContentView(R.layout.activity_start);
         mBustart = findViewById(R.id.bustart);
         subItemListCity = new ArrayList<>();
+        Catogories=new ArrayList<>();
 
         InternetConnect = CheckInternet();
         if (InternetConnect) {
             getSetting();
+            getCatogories();
             getCities();
+
         }
 
         if (UtilityApp.isLogin()) {
@@ -308,6 +314,83 @@ public class StartActivity extends BaseActivity {
 
                 return map;
 
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
+
+    public void getCatogories() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.categories, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAAatogories", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        JSONArray jsonArray = data.getJSONArray("category");
+                        for (int i = 0; i < jsonArray.length(); i++) {
+                            JSONObject jsonObject = jsonArray.getJSONObject(i);
+                            int id = jsonObject.getInt("id");
+                            String name = jsonObject.getString("name");
+                            String image = jsonObject.getString("image");
+                            String icon = jsonObject.getString("icon");
+                            Catogories.add(new Catogoriies(name,image));
+                        }
+                        UtilityApp.setCatogoriesData(Catogories);
+
+
+                        Log.e("WAFAAatogories", Catogories.size()+"");
+
+                    } else {
+//                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                HashMap<String, String> headers = new HashMap<>();
+                return headers;
             }
 
             @Override
