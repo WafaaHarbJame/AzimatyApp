@@ -1,6 +1,7 @@
 package com.jamaatna.jamaatnaapp.Fragments;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -79,9 +80,63 @@ public class SearchFragment extends BaseFragment {
         itemAdapter = new SearchAdapter(itemList, getContext());
         mBestrating.setLayoutManager(layoutManager);
         InternetConnect = CheckInternet();
+
+        View closeButton = mSearchviewtext.findViewById(R.id.search_close_btn);
+        closeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //handle click
+                mSearchviewtext.setQuery("", false);
+                mSearchviewtext.clearFocus();
+                items_image_services.clear();
+                itemList.clear();
+                mSearchviewtext.setIconified(true);
+                mResult.setText(getString(R.string.result)+" " +itemList.size());
+            }
+        });
+
+
+//        SearchView.OnQueryTextListener textChangeListener = new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextChange(String cs) {
+//                if (TextUtils.isEmpty(cs)){
+//                    //Text is cleared, do your thing
+//                    items_image_services.clear();
+//                    itemList.clear();
+//                }
+//                else {
+//                    getListByserach(cs);
+//                }
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                //text query submitted
+//
+//                return false;
+//            }
+//        };
+//        mSearchviewtext.setOnQueryTextListener(textChangeListener);
         mSearchviewtext.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                if (InternetConnect) {
+                    items_image_services.clear();
+                    itemList.clear();
+                    if(!query.isEmpty()) {
+                        getListByserach(query);
+                    }
+
+
+                } else {
+                    //Toast(getString(R.string.checkInternet));
+                    lyt_failed.setVisibility(View.VISIBLE);
+
+
+                }
+                return true;
 //                if (InternetConnect) {
 //                    items_image_services.clear();
 //                    itemList.clear();
@@ -92,22 +147,25 @@ public class SearchFragment extends BaseFragment {
 //
 //
 //                }
-                return false;
+               // return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (InternetConnect) {
-                    items_image_services.clear();
-                    itemList.clear();
-                    getListByserach(newText);
+//                if (InternetConnect) {
+//                    items_image_services.clear();
+//                    itemList.clear();
+//                    getListByserach(newText);
+//
+//                } else {
+//                    //Toast(getString(R.string.checkInternet));
+//                    lyt_failed.setVisibility(View.VISIBLE);
+//
+//
+//                }
 
-                } else {
-                    //Toast(getString(R.string.checkInternet));
-                    lyt_failed.setVisibility(View.VISIBLE);
 
 
-                }
                 return true;
             }
         });
@@ -214,7 +272,6 @@ public class SearchFragment extends BaseFragment {
                                 itemList.add(new Item(item_id,item_id,list_id, name, items_image_services.get(0).getImage(), rating, description, subItemList));
 
                             }
-
 
 
                             hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
