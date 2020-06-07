@@ -55,7 +55,7 @@ public class StartActivity extends BaseActivity {
         InternetConnect = CheckInternet();
         if (InternetConnect) {
             getSetting();
-            getCatogories();
+//            getCatogories();
             getCities();
 
         }

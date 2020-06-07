@@ -23,7 +23,6 @@
         android:textStyle="bold" />
 
 
-
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -57,30 +56,44 @@
                 app:sliderScrollTimeInSec="1" />
 
 
+            <com.wang.avi.AVLoadingIndicatorView
+                android:id="@+id/categoriesLoading"
+                style="@style/AVLoadingIndicatorView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"
+                app:indicatorColor="#007AFF"
+                app:indicatorName="LineSpinFadeLoaderIndicator" />
+
             <LinearLayout
+                android:id="@+id/categoriesLY"
                 android:layout_width="match_parent"
-                android:layout_height="140dp"
+                android:layout_height="125dp"
                 android:layout_gravity="center"
                 android:background="@drawable/border"
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingStart="8dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="8dp"
-             >
+                android:paddingTop="15dp"
+                android:paddingEnd="8dp">
 
                 <ImageView
                     android:id="@+id/family"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
+                    android:scaleType="fitXY"
                     android:src="@drawable/family" />
 
                 <ImageView
                     android:id="@+id/cofffe"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
+                    android:scaleType="fitXY"
                     android:src="@drawable/cofffe"
 
                     />
@@ -88,16 +101,18 @@
                 <ImageView
                     android:id="@+id/hotle"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="5dp"
                     android:layout_weight="1"
-
+                    android:scaleType="fitXY"
                     android:src="@drawable/hotle" />
 
                 <ImageView
                     android:id="@+id/resturant"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:scaleType="fitXY"
                     android:src="@drawable/resturant" />
             </LinearLayout>
 
@@ -107,19 +122,20 @@
                 android:background="@color/white"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:textStyle="bold"
                 android:text="@string/bestrating"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
             <com.wang.avi.AVLoadingIndicatorView
                 android:id="@+id/progress_bar"
+                style="@style/AVLoadingIndicatorView"
                 android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/AVLoadingIndicatorView"
-            android:visibility="visible"
-            app:indicatorName="LineSpinFadeLoaderIndicator"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-            app:indicatorColor="#007AFF"
-            />
+                android:visibility="visible"
+                app:indicatorColor="#007AFF"
+                app:indicatorName="LineSpinFadeLoaderIndicator" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/bestrating"
                 android:layout_width="match_parent"

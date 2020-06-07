@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,6 +24,8 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.jamaatna.jamaatnaapp.Activity.CatogoryActivity;
 import com.jamaatna.jamaatnaapp.Activity.ui.home.HomeViewModel;
 import com.jamaatna.jamaatnaapp.Adapter.CityAdapter;
@@ -43,6 +46,7 @@ import com.jamaatna.jamaatnaapp.Utlities.UtilityApp;
 import com.smarteist.autoimageslider.IndicatorAnimations;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
 
@@ -68,25 +72,29 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     List<Item> itemList;
     List<SubItem> subItemList;
     List<SubItem> buildcityList;
+    List<Catogoriies> Catogories;
+    String family_name, coffee_name, resturant_name, hotel_name;
     private HomeViewModel homeViewModel;
     private RecyclerView mBestrating;
     private SliderLayout mDemoSlider;
     private SliderAdapterExample adapter;
+    private AVLoadingIndicatorView categoriesLoading;
+    private LinearLayout categoriesLY;
     private ImageView mFamily;
     private ImageView mCofffe;
     private ImageView mHotle;
     private ImageView mResturant;
     private AVLoadingIndicatorView mProgressBar;
-    List<Catogoriies> Catogories;
-    String family_name,coffee_name,resturant_name,hotel_name;
-
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
+
         final TextView textView = root.findViewById(R.id.text_home);
+        categoriesLoading = root.findViewById(R.id.categoriesLoading);
+        categoriesLY = root.findViewById(R.id.categoriesLY);
         mProgressBar = root.findViewById(R.id.progress_bar);
-        Catogories=new ArrayList<>();
+        Catogories = new ArrayList<>();
 
         homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
@@ -335,7 +343,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
                                 subItemList.add(new SubItem(item, id));
                             }
 
-                            itemList.add(new Item(id,0, 0,name, logo, rating, city_name, subItemList));
+                            itemList.add(new Item(id, 0, 0, name, logo, rating, city_name, subItemList));
 
 
                         }
@@ -410,9 +418,13 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
     }
 
     public void getCatogories() {
+        categoriesLoading.setVisibility(View.VISIBLE);
+        categoriesLY.setVisibility(View.GONE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.categories, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
+                categoriesLoading.setVisibility(View.GONE);
+
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
@@ -427,23 +439,15 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
                             String name = jsonObject.getString("name");
                             String image = jsonObject.getString("image");
                             String icon = jsonObject.getString("icon");
-                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(0).getString("image")).error(R.drawable.familyimage).into(mFamily);
-                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(1).getString("image")).error(R.drawable.cofffe).into(mCofffe);
-                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(2).getString("image")).error(R.drawable.hotle).into(mHotle);
-                            Picasso.with(getActivity()).load( jsonArray.getJSONObject(3).getString("image")).error(R.drawable.resturant).into(mResturant);
-                            coffee_name=jsonArray.getJSONObject(1).getString("name");
-                            hotel_name=jsonArray.getJSONObject(2).getString("name");
-                            family_name=jsonArray.getJSONObject(0).getString("name");
-                            resturant_name=jsonArray.getJSONObject(3).getString("name");
+                            Catogories.add(new Catogoriies(name, image));
 
                         }
-
+                        categoriesLY.setVisibility(View.VISIBLE);
+                        initCatogory();
                     } else {
 //                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
                     }
-
-
 
 
                 } catch (JSONException e) {
@@ -489,27 +493,43 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
 
     }
+
     private void getCacheCatogories() {
 
-        Catogories = UtilityApp.getCatogoriesData();
-        if (Catogories == null) {
-            getCatogories();
-        } else {
-            Log.e("WAFAAatogoriesnotnull", Catogories.size()+"");
-            initCatogory();
-
-        }
+//        Catogories = UtilityApp.getCatogoriesData();
+//        if (Catogories == null) {
+        getCatogories();
+//        } else {
+//            Log.e("WAFAAatogoriesnotnull", Catogories.size() + "");
+//            initCatogory();
+//
+//        }
     }
 
-    public void   initCatogory(){
-        Picasso.with(getActivity()).load(Catogories.get(0).getCat_photo()).error(R.drawable.familyimage).into(mFamily);
-        Picasso.with(getActivity()).load(Catogories.get(1).getCat_photo()).error(R.drawable.cofffe).into(mCofffe);
-        Picasso.with(getActivity()).load( Catogories.get(2).getCat_photo()).error(R.drawable.hotle).into(mHotle);
-        Picasso.with(getActivity()).load( Catogories.get(3).getCat_photo()).error(R.drawable.resturant).into(mResturant);
-        family_name=Catogories.get(0).getCat_name();
-        coffee_name=Catogories.get(1).getCat_name();
-        hotel_name=Catogories.get(2).getCat_name();
-        resturant_name=Catogories.get(3).getCat_name();
+    public void initCatogory() {
+        String image1Url = Catogories.get(0).getCat_photo();
+        String image2Url = Catogories.get(1).getCat_photo();
+        String image3Url = Catogories.get(2).getCat_photo();
+        String image4Url = Catogories.get(3).getCat_photo();
+
+//        Picasso.with(getActivity()).invalidate(image1Url);
+//        Picasso.with(getActivity()).invalidate(image2Url);
+//        Picasso.with(getActivity()).invalidate(image3Url);
+//        Picasso.with(getActivity()).invalidate(image4Url);
+
+        Glide.with(getActivity()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.familyimage).into(mFamily);
+        Glide.with(getActivity()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
+        Glide.with(getActivity()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
+        Glide.with(getActivity()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);
+
+//        Picasso.with(getActivity()).load(image1Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.familyimage).into(mFamily);
+//        Picasso.with(getActivity()).load(image2Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.cofffe).into(mCofffe);
+//        Picasso.with(getActivity()).load(image3Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.hotle).into(mHotle);
+//        Picasso.with(getActivity()).load(image4Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.resturant).into(mResturant);
+        family_name = Catogories.get(0).getCat_name();
+        coffee_name = Catogories.get(1).getCat_name();
+        hotel_name = Catogories.get(2).getCat_name();
+        resturant_name = Catogories.get(3).getCat_name();
 
     }
 
