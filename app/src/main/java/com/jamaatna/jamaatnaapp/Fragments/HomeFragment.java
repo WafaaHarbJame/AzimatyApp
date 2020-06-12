@@ -517,7 +517,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 //        Picasso.with(getActivity()).invalidate(image3Url);
 //        Picasso.with(getActivity()).invalidate(image4Url);
 
-        Glide.with(getActivity()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.familyimage).into(mFamily);
+        Glide.with(getActivity()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.family).into(mFamily);
         Glide.with(getActivity()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
         Glide.with(getActivity()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
         Glide.with(getActivity()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);

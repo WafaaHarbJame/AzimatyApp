@@ -71,6 +71,7 @@
             android:layout_height="210dp"
             android:layout_centerVertical="true"
             android:gravity="center"
+            android:background="@drawable/darktrans"
             android:orientation="vertical">
 
             <com.github.siyamed.shapeimageview.RoundedImageView
@@ -142,8 +143,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
+                android:layout_marginBottom="4dp"
                 android:orientation="horizontal"
                 app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
                 tools:listitem="@layout/layout_sub_item_white" />

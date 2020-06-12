@@ -90,7 +90,7 @@
     <string name="mReaptedpassword">تأكيد كلمة المرور مطلوب</string>
     <string name="mReaptedpasswordnot">كلمتا المرور غير متطابق</string>
     <string name="items">الاصناف</string>
-    <string name="servicename">مطبخ ميرا جي</string>
+    <string name="servicename"> اسم الخدمة </string>
     <string name="desc">الوصف</string>
     <string name="descdetails">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة </string>
     <string name="counterating">شخص قيموا هذا الصنف</string>
@@ -160,5 +160,6 @@
     <string name="reject">غير موافق</string>
     <string name="termscondition_adding">معاهدة جمعتنا</string>
     <string name="conditions"> -اتعهد واقسم بالله أنا المعلن أن ادفع عمولة الموقع وهي 5% من قيمة البيع سواء تم البيع عن طريق الموقع او بسببه. \n -كما اتعهد بدفع العمولة خلال 10 ايام من استلام مبلغ المبايعة</string>
-
+  <string name="exist_message_tiltle"> هل تريد الخروج ؟</string>
+    <string name="no">لا</string>
 </resources>

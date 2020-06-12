@@ -40,15 +40,20 @@
     <EditText
         android:id="@+id/ratingText"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:hint="@string/addra"
-        android:lineSpacingMultiplier="5"
         android:background="@drawable/gray_bacground"
+        android:hint="@string/addra"
+        android:inputType="text"
+        android:padding="16dp"
+        android:minHeight="80dp"
+        android:imeOptions="actionDone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Rt_rating" />
+<!--    android:inputType="textMultiLine"-->
+<!--    android:minHeight="100dp"-->
+
     <Button
         android:id="@+id/butoonrate"
         android:layout_width="wrap_content"

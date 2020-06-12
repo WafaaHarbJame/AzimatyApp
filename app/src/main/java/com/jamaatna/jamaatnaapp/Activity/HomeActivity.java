@@ -1,12 +1,17 @@
 package com.jamaatna.jamaatnaapp.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.jamaatna.jamaatnaapp.Fragments.FavoiritFragment;
 import com.jamaatna.jamaatnaapp.Fragments.HomeFragment;
@@ -26,6 +31,7 @@ public class HomeActivity extends BaseActivity {
     private ImageView mNavigationMenu;
     private LinearLayout mNavView;
     private RelativeLayout mContainer;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,4 +129,83 @@ public class HomeActivity extends BaseActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainContainer);
+        if (currentFragment instanceof FavoiritFragment) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "AdvisorNotificationsFragment").commit();
+            mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
+            mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
+            mNavigationSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+            mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.homeclick));
+
+        }
+        if (currentFragment instanceof MenuFragment) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "ConsoultAdvisorFragment").commit();
+            mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
+            mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
+            mNavigationSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+            mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.homeclick));
+
+
+        }
+        if (currentFragment instanceof SearchFragment) {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "ConsoultAdvisorFragment").commit();
+            mNavigationSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+            mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
+            mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
+            mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.homeclick));
+
+        }
+        if (currentFragment instanceof HomeFragment) {
+            {
+                mNavigationHome.setImageDrawable(getResources().getDrawable(R.drawable.homeclick));
+                mNavigationSearch.setImageDrawable(getResources().getDrawable(R.drawable.search));
+                mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));
+                mNavigationFavorite.setImageDrawable(getResources().getDrawable(R.drawable.favorite));
+
+                dialog = new Dialog(HomeActivity.this);
+                dialog.setContentView(R.layout.custome_dialog_exit);
+                Button yes = dialog.findViewById(R.id.yes);
+                Button no = dialog.findViewById(R.id.no);
+                ImageView close = dialog.findViewById(R.id.imageexitgame);
+                dialog.setCancelable(true);
+
+                yes.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finish();
+
+                    }
+                });
+                no.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+
+                    }
+                });
+
+
+                close.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+
+                    }
+                });
+
+                dialog.show();
+
+                //super.onBackPressed();
+            }
+
+        }
+
+        //super.onBackPressed();
+    }
 }

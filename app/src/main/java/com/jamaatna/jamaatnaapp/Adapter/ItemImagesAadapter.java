@@ -111,6 +111,12 @@ public class ItemImagesAadapter extends RecyclerView.Adapter<ItemImagesAadapter.
                     String token = UtilityApp.getUserToken();
                     AddToFavorite(items_image_services.get(position).getId(),token);
 
+//                    if(isFavorite){
+//                        holder.whitefavoirute.setImageDrawable(ContextCompat.getDrawable(context,R.drawable.favoritred));
+//
+//
+//                    }
+
 
                 }
                 else {
@@ -140,7 +146,7 @@ public class ItemImagesAadapter extends RecyclerView.Adapter<ItemImagesAadapter.
     @Override
     public int getItemCount() { return items_image_services.size(); }
 
-    class MyHolder extends RecyclerView.ViewHolder  {
+    public class MyHolder extends RecyclerView.ViewHolder  {
       public   RoundedImageView image_item;
 
         public ImageView whitefavoirute;
@@ -188,6 +194,7 @@ public class ItemImagesAadapter extends RecyclerView.Adapter<ItemImagesAadapter.
                     if (status == 1) {
                         isFavorite=true;
                         Toast.makeText(context, ""+message, Toast.LENGTH_SHORT).show();
+                        notifyDataSetChanged();
 
 
 

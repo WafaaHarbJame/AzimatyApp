@@ -25,6 +25,7 @@
     <color name="greycity">#707070</color>
     <color name="darkblue">#009688</color>
     <color name="greenavaliable">#4CD964</color>
-
+    <color name="darkBlue">#55AECF</color>
+    <color name="colorBlue">#55C4CF</color>
 
 </resources>

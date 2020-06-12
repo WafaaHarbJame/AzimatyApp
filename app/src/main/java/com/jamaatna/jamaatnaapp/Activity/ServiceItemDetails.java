@@ -164,7 +164,7 @@ public class ServiceItemDetails extends BaseActivity {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
-                    Log.e("WAFAA", response);
+                    Log.e("WAFAAITEM", response);
                     if (status == 1) {
                         JSONObject data = register_response.getJSONObject("data");
                         JSONArray list = data.getJSONArray("list");
