@@ -162,4 +162,5 @@
     <string name="conditions"> -اتعهد واقسم بالله أنا المعلن أن ادفع عمولة الموقع وهي 5% من قيمة البيع سواء تم البيع عن طريق الموقع او بسببه. \n -كما اتعهد بدفع العمولة خلال 10 ايام من استلام مبلغ المبايعة</string>
   <string name="exist_message_tiltle"> هل تريد الخروج ؟</string>
     <string name="no">لا</string>
+    <string name="this_item_in_favorite">"هذا الصنف موجود مسبقا بالمفضلة "</string>
 </resources>
