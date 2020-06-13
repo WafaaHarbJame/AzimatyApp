@@ -55,12 +55,11 @@ public class FavoiritFragment extends BaseFragment {
     TextView favoritEmptyTv;
     int favorite_int;
     String token;
-    private RecyclerView mBestrating;
-
     View lyt_failed;
+    boolean isrefersh = false;
+    private RecyclerView mBestrating;
     private Button mFailedRetry;
     private SwipeRefreshLayout mAllswip;
-    boolean isrefersh=false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,8 +75,8 @@ public class FavoiritFragment extends BaseFragment {
         itemList = new ArrayList<>();
         subItemList = new ArrayList<>();
         items_image_services = new ArrayList<>();
-        mAllswip =  root.findViewById(R.id.allswip);
-        favoritEmptyTv=root.findViewById(R.id.favoritEmptyTv);
+        mAllswip = root.findViewById(R.id.allswip);
+        favoritEmptyTv = root.findViewById(R.id.favoritEmptyTv);
         mAllswip.setRefreshing(false);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         itemAdapter = new FavoiriteAdapter(itemList, getContext());
@@ -119,11 +118,7 @@ public class FavoiritFragment extends BaseFragment {
         });
 
 
-        mAllswip.setColorSchemeResources
-                (R.color.darkpink, android.R.color.holo_green_dark,
-                        android.R.color.holo_orange_dark,
-                        android.R.color.holo_blue_dark);
-
+        mAllswip.setColorSchemeResources(R.color.darkpink, android.R.color.holo_green_dark, android.R.color.holo_orange_dark, android.R.color.holo_blue_dark);
 
 
         mAllswip.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -132,7 +127,7 @@ public class FavoiritFragment extends BaseFragment {
                 if (InternetConnect) {
 
                     if (UtilityApp.isLogin()) {
-                        isrefersh=true;
+                        isrefersh = true;
                         token = UtilityApp.getUserToken();
                         GetFavorite(token);
 
@@ -162,13 +157,11 @@ public class FavoiritFragment extends BaseFragment {
     public void GetFavorite(final String token) {
 
 
-        if(isrefersh){
+        if (isrefersh) {
 
             hideProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
-        }
-
-        else {
+        } else {
             showProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
 
@@ -207,36 +200,37 @@ public class FavoiritFragment extends BaseFragment {
                                 favorite_int = 0;
 
                             }
+                            JSONObject jsonObjectitem_images = item_images.getJSONObject(0);
+                            int image_id = jsonObjectitem_images.getInt("id");
+                            String image_url = jsonObjectitem_images.getString("name");
+                            items_image_services.add(new Items_image_service(item_id_id, favorite_int, image_url, favorite_int, image_id));
 
-                            for (int k = 0; k < item_images.length(); k++) {
-                                JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
-                                int image_id = jsonObjectitem_images.getInt("id");
-                                String image_url = jsonObjectitem_images.getString("name");
 
+//                            for (int k = 0; k < item_images.length(); k++) {
+//                                JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
+//                                int image_id = jsonObjectitem_images.getInt("id");
+//                                String image_url = jsonObjectitem_images.getString("name");
+//
+//                                items_image_services.add(new Items_image_service(item_id_id, favorite_int, image_url, favorite_int, image_id));
+//
+//                            }
 
-                                items_image_services.add(new Items_image_service(item_id_id, favorite_int, image_url, favorite_int, image_id));
-
-                            }
-
-                            itemList.add(new Item(id,item_id_id,0, name, items_image_services.get(i).getImage(), rating, description, subItemList));
+                            itemList.add(new Item(id, item_id_id, 0, name, items_image_services.get(i).getImage(), rating, description, subItemList));
 
 
                         }
                         mBestrating.setAdapter(itemAdapter);
                         itemAdapter.notifyDataSetChanged();
-                        if(itemList.isEmpty()){
+                        if (itemList.isEmpty()) {
 
                             favoritEmptyTv.setVisibility(View.VISIBLE);
                         }
-
 
 
                         hideProgreesDilaog(getActivity(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 
 
                     } else {
-
-
 
 
                         Toast.makeText(getActivity(), "" + message, Toast.LENGTH_LONG).show();

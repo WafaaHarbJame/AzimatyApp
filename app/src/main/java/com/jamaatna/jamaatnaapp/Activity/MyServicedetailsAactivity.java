@@ -339,15 +339,23 @@ public class MyServicedetailsAactivity extends BaseActivity {
                                     int item_id = jsonObjectlist.getInt("id");
                                     String item_name = jsonObjectlist.getString("name");
                                     String item_descriptione = jsonObjectlist.getString("description");
-
-                                    for (int k = 0; k < item_images.length(); k++) {
-                                        JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
+                                    if(item_images.length()>0) {
+                                        JSONObject jsonObjectitem_images = item_images.getJSONObject(0);
                                         int image_id = jsonObjectitem_images.getInt("id");
                                         String image_url = jsonObjectitem_images.getString("name");
                                         items_image_services.add(
                                                 new Items_image_service(item_id, favorite_int, image_url, list_id,image_id));
 
                                     }
+
+//                                    for (int k = 0; k < item_images.length(); k++) {
+//                                        JSONObject jsonObjectitem_images = item_images.getJSONObject(k);
+//                                        int image_id = jsonObjectitem_images.getInt("id");
+//                                        String image_url = jsonObjectitem_images.getString("name");
+//                                        items_image_services.add(
+//                                                new Items_image_service(item_id, favorite_int, image_url, list_id,image_id));
+//
+//                                    }
 
                                     for (int l = 0; l < item_comments.length(); l++) {
 

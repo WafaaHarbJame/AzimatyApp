@@ -90,7 +90,7 @@
     <string name="mReaptedpassword">تأكيد كلمة المرور مطلوب</string>
     <string name="mReaptedpasswordnot">كلمتا المرور غير متطابق</string>
     <string name="items">الاصناف</string>
-    <string name="servicename"> اسم الخدمة </string>
+    <string name="servicename">  </string>
     <string name="desc">الوصف</string>
     <string name="descdetails">هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة </string>
     <string name="counterating">شخص قيموا هذا الصنف</string>
