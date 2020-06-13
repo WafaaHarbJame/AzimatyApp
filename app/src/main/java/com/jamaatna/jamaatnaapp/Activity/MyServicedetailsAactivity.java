@@ -276,11 +276,14 @@ public class MyServicedetailsAactivity extends BaseActivity {
     }
 
     public void getMyServiceDetails(final String token, final int service_id) {
-
+        subItemList.clear();
+        items_image_services.clear();
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SIGNAL_SERVICE + service_id, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 subItemList.clear();
+                items_image_services.clear();
+
                 try {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
@@ -544,7 +547,11 @@ public class MyServicedetailsAactivity extends BaseActivity {
                         Toast.makeText(MyServicedetailsAactivity.this, "" + message, Toast.LENGTH_SHORT).show();
                         myServiceItemImagesAadapter.notifyDataSetChanged();
                         AddItemdialog.dismiss();
+                        subItemList.clear();
+                        items_image_services.clear();
                         getMyServiceDetails(token, Service_id);
+                        myServiceItemImagesAadapter.notifyDataSetChanged();
+
 
                     } else {
 
