@@ -4,40 +4,42 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
+    android:layoutDirection="rtl"
     android:orientation="vertical"
     android:textDirection="rtl"
-    android:layoutDirection="rtl"
-    android:background="@color/white"
     tools:context=".Activity.RegisterActivity">
+
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#00000000">
 
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <TextView
+                android:id="@+id/catogoryTitleTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/family"
-                android:id="@+id/catogoryTitleTV"
-                android:textAlignment="center"
-                android:textSize="18sp"
-                android:textStyle="bold"
-                android:fontFamily="@font/cairo_bold"
-                android:textColor="@color/darkgrey2"
                 android:layout_centerInParent="true"
-                />
+                android:fontFamily="@font/cairo_bold"
+                android:text="@string/family"
+                android:textAlignment="center"
+                android:textColor="@color/darkgrey2"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
             <ImageButton
+                android:id="@+id/menu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/menu"
-                android:background="#00000000"
-                android:src="@drawable/menuicon"
                 android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
+                android:background="#00000000"
+                android:src="@drawable/menuicon"
 
                 />
 
@@ -53,33 +55,67 @@
 
     </androidx.appcompat.widget.Toolbar>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:orientation="horizontal">
+
+        <Spinner
+            android:id="@+id/citySpinner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:drawableStart="@drawable/locationicon" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/no_data_card"
+        android:gravity="center"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/no_data">
+
+        </TextView>
+
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_city"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        tools:listitem="@layout/row_item"
-        tools:itemCount="3"
+        android:layout_height="wrap_content"
         android:layout_margin="4dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        android:layout_height="wrap_content"/>
+        tools:itemCount="3"
+        tools:listitem="@layout/row_item" />
+
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:layout_width="match_parent"
         android:id="@+id/allswip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_height="match_parent">
+        android:layout_marginEnd="16dp">
 
 
         <androidx.recyclerview.widget.RecyclerView
-            android:layout_width="match_parent"
             android:id="@+id/familyrecycler"
-            android:background="@color/white"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
 
 
 </LinearLayout>

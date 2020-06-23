@@ -92,7 +92,7 @@ public class AddServiceFragment extends BaseFragment {
     File UdateServiceLogo;
 
     //    public SharedPManger sharedPManger;
-    String uploaduserimageename;
+    String uploaduserimageename="";
     String token;
     Dialog CityDialag;
 
@@ -160,7 +160,7 @@ public class AddServiceFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position > 0) {
                     selectedCityId = citiesModelList.get(position - 1).getId();
-//                    Toast("city id " + selectedCityId);
+                  //  Toast("city id " + selectedCityId);
                 } else {
                     selectedCityId = 0;
                 }
@@ -985,7 +985,8 @@ public class AddServiceFragment extends BaseFragment {
                     @Override
                     public void run() {
 
-                        uploaduserimageename = COOKERIMAGEfile.getName();
+
+                        uploaduserimageename = COOKERIMAGEfile.getName().toString();
                         // Uploadfile(token, uploaduserimageename);
 //                               Uploadfile(token, uploaduserimageename, mServicetype.getText().toString(),
 //                                       catogory_id + "", mServiceitem.getText().toString(), city_id + "");

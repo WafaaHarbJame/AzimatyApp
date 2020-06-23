@@ -4,8 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,6 +67,11 @@ public class CatogoryActivity extends BaseActivity {
     private RecyclerView mFamilyrecycler;
     private SwipeRefreshLayout mAllswip;
     int city_id = 0;
+    private Spinner citySpinner;
+    List<String> citylist = new ArrayList<String>();
+
+    List<SubItem> citiesModelList = new ArrayList<>();
+    private LinearLayout mNoDataCard;
 
 
     @Override
@@ -75,12 +85,15 @@ public class CatogoryActivity extends BaseActivity {
         mFamilyrecycler = findViewById(R.id.familyrecycler);
         catogoryTitleTV = findViewById(R.id.catogoryTitleTV);
 
+
+        mNoDataCard = findViewById(R.id.no_data_card);
         buildcityList = new ArrayList<>();
         subItemListCity = new ArrayList<>();
 //        subItemList = new ArrayList<>();
         itemList = new ArrayList<>();
         mAllswip = findViewById(R.id.allswip);
         mAllswip.setRefreshing(false);
+        citySpinner = findViewById(R.id.citySpinner);
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -88,6 +101,7 @@ public class CatogoryActivity extends BaseActivity {
             String categoryName = bundle.getString(AppConstants.Catogory_Name);
             catogoryTitleTV.setText(categoryName);
         }
+
 
         mRvCity.setHasFixedSize(true);
         LinearLayoutManager llm = new LinearLayoutManager(getActiviy());
@@ -98,6 +112,31 @@ public class CatogoryActivity extends BaseActivity {
 
 
         getCacheCities();
+        getCacheCitiesSpinner();
+
+
+        citySpinner.setOnItemSelectedListener(new AdapterView.
+                OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                if (position > 0) {
+                    city_id = citiesModelList.get(position - 1).getId();
+//                                  Toast("city id " + city_id);
+                } else {
+                    city_id = 0;
+                }
+
+                getServiceByCitAndCatogory(city_id, Catogory_id);
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
 
 //        Toast(subItemListCity.toString()+"");
@@ -276,6 +315,7 @@ public class CatogoryActivity extends BaseActivity {
         }
     }
 
+
     private void initCitiesAdapter() {
 
         CityAdapter cityAdapter = new CityAdapter(getActiviy(), subItemListCity, new DataCallback() {
@@ -294,6 +334,30 @@ public class CatogoryActivity extends BaseActivity {
         mRvCity.setAdapter(cityAdapter);
 
 //        cityAdapter.notifyDataSetChanged();
+    }
+
+    private void getCacheCitiesSpinner() {
+
+        citiesModelList = UtilityApp.getCitiesData();
+        if (citiesModelList == null) {
+            getCities();
+        } else {
+
+            citylist.add(getString(R.string.all));
+            for (SubItem subItem : citiesModelList) {
+                citylist.add(subItem.getSubItemTitle());
+            }
+            initCitySpinner(0);
+
+        }
+    }
+
+    private void initCitySpinner(int pos) {
+
+        ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(CatogoryActivity.this, android.R.layout.simple_list_item_1, android.R.id.text1, citylist);
+        citySpinner.setAdapter(cityadapter);
+        citySpinner.setSelection(pos);
+
     }
 
     public void getCities() {
@@ -379,15 +443,7 @@ public class CatogoryActivity extends BaseActivity {
     }
 
     public void getServiceByCitAndCatogory(final int City_Id, final int Catogory_id) {
-//        if (isrefersh) {
-//
-//            hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
-//
-//        } else {
-//            showProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
-//
-//
-//        }
+        itemList.clear();
         mAllswip.setRefreshing(true);
         mFamilyrecycler.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SERVICE_BY_CITY_catogory + Catogory_id + "/" + City_Id, new Response.Listener<String>() {
@@ -405,7 +461,6 @@ public class CatogoryActivity extends BaseActivity {
                         JSONArray jsonArray = data.getJSONArray("Services");
 
                         for (int i = 0; i < jsonArray.length(); i++) {
-
                             JSONObject jsonObject = jsonArray.getJSONObject(i);
                             int id = jsonObject.getInt("id");
                             String name = jsonObject.getString("name");
@@ -427,11 +482,20 @@ public class CatogoryActivity extends BaseActivity {
 //                                System.out.println("item = " + item);
                                 subItemList.add(new SubItem(item, id));
                             }
-                            itemList.add(new Item(id,0,0, name, logo, rating, city_name, subItemList));
+                            itemList.add(new Item(id, 0, 0, name, logo, rating, city_name, subItemList));
+
+                        }
+                        if (itemList.isEmpty()) {
+                            mNoDataCard.setVisibility(View.VISIBLE);
+
+                        }
+                        else{
+                            mNoDataCard.setVisibility(View.GONE);
 
                         }
                         mFamilyrecycler.setAdapter(itemAdapter);
-//                        itemAdapter.notifyDataSetChanged();
+
+                        itemAdapter.notifyDataSetChanged();
 
 //                        hideProgreesDilaog(getActiviy(), getString(R.string.load_data_tittle), getString(R.string.load_data));
 

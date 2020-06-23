@@ -163,4 +163,8 @@
   <string name="exist_message_tiltle"> هل تريد الخروج ؟</string>
     <string name="no">لا</string>
     <string name="this_item_in_favorite">"هذا الصنف موجود مسبقا بالمفضلة "</string>
+    <string name="city_name">المدينة</string>
+    <string name="no_data">لا يوجد بيانات </string>
+    <string name="reload">اعادة تحميل</string>
+
 </resources>
