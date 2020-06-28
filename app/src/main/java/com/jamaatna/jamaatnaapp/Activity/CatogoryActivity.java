@@ -121,7 +121,7 @@ public class CatogoryActivity extends BaseActivity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position > 0) {
                     city_id = citiesModelList.get(position - 1).getId();
-//                                  Toast("city id " + city_id);
+                             //  Toast("city id " + city_id);
                 } else {
                     city_id = 0;
                 }
@@ -134,7 +134,7 @@ public class CatogoryActivity extends BaseActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
+                city_id = 0;
             }
         });
 
@@ -445,6 +445,8 @@ public class CatogoryActivity extends BaseActivity {
     public void getServiceByCitAndCatogory(final int City_Id, final int Catogory_id) {
         itemList.clear();
         mAllswip.setRefreshing(true);
+        //subItemList.clear();
+
         mFamilyrecycler.setVisibility(View.VISIBLE);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.SERVICE_BY_CITY_catogory + Catogory_id + "/" + City_Id, new Response.Listener<String>() {
             @Override
@@ -455,7 +457,7 @@ public class CatogoryActivity extends BaseActivity {
                     JSONObject register_response = new JSONObject(response);
                     String message = register_response.getString("message");
                     int status = register_response.getInt("status");
-                    Log.e("WAFAA", response);
+                    Log.e("ServiceByCitAndCatogory", response);
                     if (status == 1) {
                         JSONObject data = register_response.getJSONObject("data");
                         JSONArray jsonArray = data.getJSONArray("Services");
@@ -468,7 +470,6 @@ public class CatogoryActivity extends BaseActivity {
                             String logo = jsonObject.getString("logo");
                             String Services_status = jsonObject.getString("status");
                             JSONObject city = jsonArray.getJSONObject(i).getJSONObject("city");
-                            int city_id = city.getInt("id");
                             int rating = jsonObject.getInt("rating");
                             String city_name = city.getString("name");
                             String tag = jsonObject.getString("tag");

@@ -1,5 +1,6 @@
 package com.jamaatna.jamaatnaapp.Utlities;
 
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.provider.Settings;
@@ -15,8 +16,12 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
+import static android.content.Context.MODE_PRIVATE;
+
 
 public class UtilityApp {
+    private SharedPreferences preferences;
+
 
     public static String getUnique() {
 
@@ -93,6 +98,9 @@ public class UtilityApp {
     public static void logOut() {
 
         MyApplication.getInstance().getSharedPManger().SetData(AppConstants.KEY_MEMBER, null);
+
+
+
     }
 
     public static void setToShPref(String key, String data) {

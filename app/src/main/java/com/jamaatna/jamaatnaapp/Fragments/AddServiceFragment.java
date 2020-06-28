@@ -1,7 +1,9 @@
 package com.jamaatna.jamaatnaapp.Fragments;
 
 
+import android.Manifest;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -13,12 +15,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -53,6 +57,13 @@ import com.jamaatna.jamaatnaapp.Model.SubItem;
 import com.jamaatna.jamaatnaapp.Model.VolleyMultipartRequest;
 import com.jamaatna.jamaatnaapp.R;
 import com.jamaatna.jamaatnaapp.Utlities.UtilityApp;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.MultiplePermissionsReport;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.DexterError;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.PermissionRequestErrorListener;
+import com.karumi.dexter.listener.multi.MultiplePermissionsListener;
 import com.squareup.picasso.Picasso;
 import com.vansuita.pickimage.bean.PickResult;
 import com.vansuita.pickimage.bundle.PickSetup;
@@ -92,7 +103,7 @@ public class AddServiceFragment extends BaseFragment {
     File UdateServiceLogo;
 
     //    public SharedPManger sharedPManger;
-    String uploaduserimageename="";
+    String uploaduserimageename = "";
     String token;
     Dialog CityDialag;
 
@@ -118,7 +129,7 @@ public class AddServiceFragment extends BaseFragment {
     private LinearLayout mServiceOnOff;
     private Button mSave;
     int my_service_id;
-    int uploadimage=0;
+    int uploadimage = 0;
 
     boolean IsUdateServicelogo;
     private TextView mIsserviceon;
@@ -160,7 +171,7 @@ public class AddServiceFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position > 0) {
                     selectedCityId = citiesModelList.get(position - 1).getId();
-                  //  Toast("city id " + selectedCityId);
+                    //  Toast("city id " + selectedCityId);
                 } else {
                     selectedCityId = 0;
                 }
@@ -289,6 +300,7 @@ public class AddServiceFragment extends BaseFragment {
         mImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                takePermission();
 
                 if (type.equals(AppConstants.UPDATE_SERVICE_FOR_MENU)) {
                     UploadingfromgallaeryUpdate();
@@ -354,8 +366,6 @@ public class AddServiceFragment extends BaseFragment {
                     mPhonenumber.requestFocus();
                     return;
                 }
-
-
 
 
                 if (selectedCityId == 0) {
@@ -488,7 +498,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 //   Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
-                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -531,8 +541,7 @@ public class AddServiceFragment extends BaseFragment {
 
     private void initCitySpinner(int pos) {
 
-        ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,
-                android.R.id.text1, citylist);
+        ArrayAdapter<String> cityadapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, android.R.id.text1, citylist);
         citySpinner.setAdapter(cityadapter);
         citySpinner.setSelection(pos);
 
@@ -601,8 +610,7 @@ public class AddServiceFragment extends BaseFragment {
                         if (citiesModelList != null) {
                             int pos = 0;
                             for (int i1 = 0; i1 < citiesModelList.size(); i1++) {
-                                if (selectedCityId == citiesModelList.get(i1).getId())
-                                    pos = i1 + 1;
+                                if (selectedCityId == citiesModelList.get(i1).getId()) pos = i1 + 1;
                             }
                             initCitySpinner(pos);
                         }
@@ -634,7 +642,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 //   Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
-                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -709,7 +717,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 //Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.addervice), getString(R.string.ADDINGSERVICE));
-                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
 
 
             }
@@ -791,7 +799,7 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.UPDATESERVICETITILE), getString(R.string.UPDATESERVICE));
-                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -869,7 +877,7 @@ public class AddServiceFragment extends BaseFragment {
                         startActivity(intent);
 
                     } else {
-                        Toast.makeText(getActivity(), ""+getString(R.string.adding) , Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), "" + getString(R.string.adding), Toast.LENGTH_SHORT).show();
 
                     }
 
@@ -879,7 +887,7 @@ public class AddServiceFragment extends BaseFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                     hideProgreesDilaog(getActiviy(), getString(R.string.ADDINGSERVICEtitle), getString(R.string.ADDINGSERVICE));
-                    Toast.makeText(getActivity(), ""+getString(R.string.adding) , Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), "" + getString(R.string.adding), Toast.LENGTH_SHORT).show();
 
                     //showUploadSnackBar();
                 }
@@ -888,7 +896,7 @@ public class AddServiceFragment extends BaseFragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 hideProgreesDilaog(getActiviy(), getString(R.string.ADDINGSERVICEtitle), getString(R.string.ADDINGSERVICE));
-                Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
 
             }
         }) {
@@ -941,13 +949,9 @@ public class AddServiceFragment extends BaseFragment {
     public void Uploadingfromgallaeryadd() {
         updateuserImage = true;
         updateuserimage = true;
-        uploadimage=1;
+        uploadimage = 1;
 
-        PickImageDialog.build(new PickSetup().setTitle(getString(R.string.CHOOSE_PHOTO))
-                .setCancelText(getString(R.string.cancelTXT))
-                .setCameraButtonText(getString(R.string.cameratext))
-                .setGalleryButtonText(getString(R.string.gallaytext))
-                .setSystemDialog(false)
+        PickImageDialog.build(new PickSetup().setTitle(getString(R.string.CHOOSE_PHOTO)).setCancelText(getString(R.string.cancelTXT)).setCameraButtonText(getString(R.string.cameratext)).setGalleryButtonText(getString(R.string.gallaytext)).setSystemDialog(false)
 
         ).setOnPickResult(new IPickResult() {
             @Override
@@ -958,6 +962,7 @@ public class AddServiceFragment extends BaseFragment {
                     Picasso.with(getContext()).
                             load(COOKERIMAGEfile).
                             into(mImageView);
+                    uploaduserimageename = COOKERIMAGEfile.getName().toString();
 
                     if (r.getError() == null) {
 
@@ -965,7 +970,7 @@ public class AddServiceFragment extends BaseFragment {
                     } else {
                         //Handle possible errors
                         //TODO: do what you have to do with r.getError();
-                        Toast.makeText(getActiviy(), " "+getString(R.string.error), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActiviy(), " " + getString(R.string.error), Toast.LENGTH_SHORT).show();
                     }
 
 
@@ -985,13 +990,12 @@ public class AddServiceFragment extends BaseFragment {
                     @Override
                     public void run() {
 
+                        if(uploaduserimageename!=null){
+                            uploaduserimageename = COOKERIMAGEfile.getName().toString();
 
-                        uploaduserimageename = COOKERIMAGEfile.getName().toString();
-                        // Uploadfile(token, uploaduserimageename);
-//                               Uploadfile(token, uploaduserimageename, mServicetype.getText().toString(),
-//                                       catogory_id + "", mServiceitem.getText().toString(), city_id + "");
+                        }
 
-                        // AddingService(token, mServicetype.getText().toString(), catogory_id + "", mServiceitem.getText().toString(), city_id + "");
+
 
 
                     }
@@ -1179,15 +1183,14 @@ public class AddServiceFragment extends BaseFragment {
 
     }
 
-    public void ShowTermsAndCondition(){
+    public void ShowTermsAndCondition() {
         dialog = new Dialog(getActiviy());
         dialog.setContentView(R.layout.terms_condition_foradding_service);
         Button agree = dialog.findViewById(R.id.agree);
         Button reject = dialog.findViewById(R.id.reject);
         dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
         WindowManager.LayoutParams p = dialog.getWindow().getAttributes();
-        p.width =
-                ViewGroup.LayoutParams.MATCH_PARENT;
+        p.width = ViewGroup.LayoutParams.MATCH_PARENT;
         p.height = ViewGroup.LayoutParams.WRAP_CONTENT;
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
@@ -1220,9 +1223,47 @@ public class AddServiceFragment extends BaseFragment {
         dialog.show();
 
 
+    }
+
+
+    public void takePermission() {
+        Dexter.withActivity(getActivity()).withPermissions(Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.CAMERA,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE).withListener(new MultiplePermissionsListener() {
+            @Override
+            public void onPermissionsChecked(MultiplePermissionsReport report) {
+                if (report.areAllPermissionsGranted()) {
+
+                }
+                if (report.isAnyPermissionPermanentlyDenied()) {
+                    Toast.makeText(getActivity(), "لا يمكنك عمل بث بدون الموافقة على هذه الصلاحيات ", Toast.LENGTH_SHORT).show();
+
+                }
+
+
+
+                /* ... */
+            }
+
+            @Override
+            public void onPermissionRationaleShouldBeShown(List<PermissionRequest> permissions, PermissionToken token) {
+                token.continuePermissionRequest();
+            }
+        }).
+                withErrorListener(new PermissionRequestErrorListener() {
+                    @Override
+                    public void onError(DexterError error) {
+                        Toast.makeText(getActivity(), "Error occurred! ", Toast.LENGTH_SHORT).show();
+                    }
+                }).onSameThread().check();
 
     }
+
 }
+
+
+
+
 
 
 

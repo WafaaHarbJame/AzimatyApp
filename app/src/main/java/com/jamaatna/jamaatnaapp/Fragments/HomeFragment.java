@@ -443,7 +443,21 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
                         }
                         categoriesLY.setVisibility(View.VISIBLE);
-                        initCatogory();
+                       // initCatogory();
+                        String image1Url = Catogories.get(0).getCat_photo();
+                        String image2Url = Catogories.get(1).getCat_photo();
+                        String image3Url = Catogories.get(2).getCat_photo();
+                        String image4Url = Catogories.get(3).getCat_photo();
+                        if(getContext()!=null){
+
+                            Glide.with(getContext()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.family).into(mFamily);
+                            Glide.with(getContext()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
+                            Glide.with(getContext()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
+                            Glide.with(getContext()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);
+
+                        }
+
+
                     } else {
 //                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
@@ -532,5 +546,6 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         resturant_name = Catogories.get(3).getCat_name();
 
     }
+
 
 }

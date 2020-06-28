@@ -1,6 +1,7 @@
 package com.jamaatna.jamaatnaapp.Fragments;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -40,6 +41,8 @@ import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class MenuFragment extends BaseFragment {
 
 
@@ -57,6 +60,8 @@ public class MenuFragment extends BaseFragment {
     private TextView mTvTermsconditionApp;
     private TextView mTvLogout;
     private ConstraintLayout mUserlogindata;
+    SharedPreferences prefs;
+    SharedPreferences.Editor editor;
 
     MemberModel user;
 
@@ -78,6 +83,7 @@ public class MenuFragment extends BaseFragment {
         InternetConnect = CheckInternet();
 
        token = UtilityApp.getUserToken();
+        prefs = getContext().getSharedPreferences(AppConstants.KEY_FILE, MODE_PRIVATE);
 
 
         if (UtilityApp.isLogin()) {
@@ -186,6 +192,11 @@ public class MenuFragment extends BaseFragment {
 
                     if (status == 1) {
                         UtilityApp.logOut();
+
+                        editor = prefs.edit();
+                        editor.clear();
+                        editor.apply();
+                        editor.commit();
                         Intent intent = new Intent(getActivity(), HomeActivity.class);
                         startActivity(intent);
 
