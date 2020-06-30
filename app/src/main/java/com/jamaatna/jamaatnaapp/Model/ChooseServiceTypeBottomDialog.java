@@ -115,19 +115,16 @@ public class ChooseServiceTypeBottomDialog extends BottomSheetDialogFragment {
 
             }
         });
-        //GONE=8,VISBLW=0,INVISBLE4
-        mTvSave.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("WrongConstant")
-            @Override
-            public void onClick(View view) {
-                if(dataCallback!=null){
-                    Catogories catogories=new Catogories(type_id,selectedType);
-                    dataCallback.dataResult(catogories,"amerr",true);
-                }
 
-                dismiss();
 
+        mTvSave.setOnClickListener(view -> {
+            if(dataCallback!=null){
+                Catogories catogories=new Catogories(type_id,selectedType);
+                dataCallback.dataResult(catogories,"amerr",true);
             }
+
+            dismiss();
+
         });
         mButtonCancel.setOnClickListener(new View.OnClickListener() {
             @Override

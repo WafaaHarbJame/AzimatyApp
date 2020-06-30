@@ -457,6 +457,12 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
 
                         }
 
+                        family_name = Catogories.get(0).getCat_name();
+                        coffee_name = Catogories.get(1).getCat_name();
+                        hotel_name = Catogories.get(2).getCat_name();
+                        resturant_name = Catogories.get(3).getCat_name();
+
+
 
                     } else {
 //                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();

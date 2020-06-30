@@ -61,7 +61,7 @@ public class CatogoryActivity extends BaseActivity {
     boolean isrefersh = false;
     SubItem subItem1;
     //    CitiesModel citiesModel;
-    private ImageButton mMenu;
+    private TextView mMenu;
     private ImageView mBack;
     private RecyclerView mRvCity;
     private RecyclerView mFamilyrecycler;
@@ -99,6 +99,7 @@ public class CatogoryActivity extends BaseActivity {
         if (bundle != null) {
             Catogory_id = bundle.getInt(AppConstants.Catogory_id);
             String categoryName = bundle.getString(AppConstants.Catogory_Name);
+
             catogoryTitleTV.setText(categoryName);
         }
 
