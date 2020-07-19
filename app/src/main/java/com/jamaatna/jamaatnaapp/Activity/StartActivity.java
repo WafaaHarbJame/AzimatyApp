@@ -15,6 +15,11 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.androidnetworking.AndroidNetworking;
+import com.androidnetworking.common.Priority;
+import com.androidnetworking.error.ANError;
+import com.androidnetworking.interfaces.JSONArrayRequestListener;
+import com.androidnetworking.interfaces.JSONObjectRequestListener;
 import com.jamaatna.jamaatnaapp.Api.MyApplication;
 import com.jamaatna.jamaatnaapp.Model.AppConstants;
 import com.jamaatna.jamaatnaapp.Model.Catogoriies;
@@ -51,7 +56,7 @@ public class StartActivity extends BaseActivity {
         mBustart = findViewById(R.id.bustart);
         subItemListCity = new ArrayList<>();
         Catogories=new ArrayList<>();
-
+      //  getLatAndLong();
         InternetConnect = CheckInternet();
         if (InternetConnect) {
             getSetting();
@@ -77,6 +82,8 @@ public class StartActivity extends BaseActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
+                getLatAndLong();
+
 
             }
         });
@@ -184,8 +191,9 @@ public class StartActivity extends BaseActivity {
                         String watsapp = data.getString("watsapp");
                         String about_app = data.getString("about_app");
                         String privacy_app = data.getString("privacy_app");
+                        String tax=data.getString("tax");
 
-                        Setting setting = new Setting(phone, email, facebook, tweeter, instagram, watsapp, about_app, privacy_app);
+                        Setting setting = new Setting(phone, email, facebook, tweeter, instagram, watsapp, about_app, privacy_app,tax);
                         UtilityApp.setSettingData(setting);
 
 
@@ -404,4 +412,71 @@ public class StartActivity extends BaseActivity {
 
     }
 
+//    public void getLatAndLong() {
+//        StringRequest stringRequest = new StringRequest(Request.Method.GET, "http://ip-api.com/json/", new Response.Listener<String>() {
+//            @Override
+//            public void onResponse(String response) {
+//                try {
+//                    JSONObject register_response = new JSONObject(response);
+//                    Log.e("WAFAAatogories", response);
+//
+//
+//                } catch (JSONException e) {
+//                    e.printStackTrace();
+//
+//                }
+//            }
+//        }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//            }
+//        }) {
+//            @Override
+//            protected Map<String, String> getParams() throws AuthFailureError {
+//                Map<String, String> map = new HashMap();
+//
+//
+//                return map;
+//
+//            }
+//
+//
+//            @Override
+//            public Map<String, String> getHeaders() throws AuthFailureError {
+//                HashMap<String, String> headers = new HashMap<>();
+//                return headers;
+//            }
+//
+//            @Override
+//            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+//                return super.parseNetworkResponse(response);
+//            }
+//        };
+//
+//        MyApplication.getInstance().addToRequestQueue(stringRequest);
+//
+//
+//    }
+
+    public void getLatAndLong() {
+        AndroidNetworking.get("http://ip-api.com/json/")
+                .addPathParameter("pageNumber", "0")
+                .addQueryParameter("limit", "3")
+                .addHeaders("token", "1234")
+                .setTag("test")
+                .setPriority(Priority.LOW)
+                .build().getAsJSONObject(new JSONObjectRequestListener() {
+            @Override
+            public void onResponse(JSONObject response) {
+                Log.e("getLatAndLong",response+"");
+
+            }
+
+            @Override
+            public void onError(ANError anError) {
+
+            }
+        });
+
+}
 }

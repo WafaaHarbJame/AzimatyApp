@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -53,6 +54,7 @@ import com.jamaatna.jamaatnaapp.Model.AppHelper;
 import com.jamaatna.jamaatnaapp.Model.Catogories;
 import com.jamaatna.jamaatnaapp.Model.ChooseServiceTypeBottomDialog;
 import com.jamaatna.jamaatnaapp.Model.DataCallback;
+import com.jamaatna.jamaatnaapp.Model.Setting;
 import com.jamaatna.jamaatnaapp.Model.SubItem;
 import com.jamaatna.jamaatnaapp.Model.VolleyMultipartRequest;
 import com.jamaatna.jamaatnaapp.R;
@@ -112,7 +114,9 @@ public class AddServiceFragment extends BaseFragment {
     Dialog dialog;
 
     String logo;
+    Setting setting;
 
+    String tax="0";
     int selectedCityId = 0;
     boolean InternetConnect = false;
     int service_on_off = 0;
@@ -133,6 +137,7 @@ public class AddServiceFragment extends BaseFragment {
 
     boolean IsUdateServicelogo;
     private TextView mIsserviceon;
+    TextView tVConditionText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -1184,6 +1189,14 @@ public class AddServiceFragment extends BaseFragment {
     }
 
     public void ShowTermsAndCondition() {
+        setting = UtilityApp.getSettingData();
+        if (setting != null) {
+             tax = setting.getTax().concat(" "+"%");
+        }
+        else {
+            getSetting();
+
+        }
         dialog = new Dialog(getActiviy());
         dialog.setContentView(R.layout.terms_condition_foradding_service);
         Button agree = dialog.findViewById(R.id.agree);
@@ -1195,6 +1208,8 @@ public class AddServiceFragment extends BaseFragment {
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
+        tVConditionText=dialog.findViewById(R.id.tVConditionText);
+        tVConditionText.setText(getString(R.string.conditions).concat(" "+ tax).concat("  " + getString(R.string.complete_condition)));
         layoutParams.x = 0; // right margin
         layoutParams.y = 50; // top margin
         dialog.getWindow().setAttributes(layoutParams);
@@ -1256,6 +1271,70 @@ public class AddServiceFragment extends BaseFragment {
                         Toast.makeText(getActivity(), "Error occurred! ", Toast.LENGTH_SHORT).show();
                     }
                 }).onSameThread().check();
+
+    }
+
+    public void getSetting() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.setting , new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject register_response = new JSONObject(response);
+                    String message = register_response.getString("message");
+                    int status = register_response.getInt("status");
+                    Log.e("WAFAA", response);
+                    if (status == 1) {
+                        JSONObject data = register_response.getJSONObject("data");
+                        String tax = data.getString("tax");
+
+                    } else {
+                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
+
+                    }
+
+
+
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+
+
+                }
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> map = new HashMap();
+
+
+                return map;
+
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> header = new HashMap();
+                return header;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                return super.parseNetworkResponse(response);
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(stringRequest);
+
 
     }
 

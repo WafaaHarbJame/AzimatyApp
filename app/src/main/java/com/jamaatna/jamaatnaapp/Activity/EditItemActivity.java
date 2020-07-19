@@ -228,7 +228,12 @@ public class EditItemActivity extends BaseActivity {
 
     private void UpdateListItems(final List<File> fileList, final String token, final int item_id, final String name, final String description, final int service_id) {
         showProgreesDilaog(getActiviy(), getString(R.string.DELETEITEMTITLE), getString(R.string.DELETEITEM));
-        AndroidNetworking.upload(AppConstants.EDITlist + item_id + "/edit").addMultipartParameter("service_id", String.valueOf(service_id)).addMultipartParameter("name", name).addMultipartParameter("description", description).addMultipartFileList("image[]", fileList).addHeaders("Authorization", token).setTag("uploadTest").setPriority(Priority.HIGH).build().setUploadProgressListener(new UploadProgressListener() {
+        AndroidNetworking.upload(AppConstants.EDITlist + item_id + "/edit")
+                .addMultipartParameter("service_id", String.valueOf(service_id))
+                .addMultipartParameter("name", name).addMultipartParameter("description", description)
+                .addMultipartFileList("image[]", fileList).addHeaders("Authorization", token)
+                .setTag("uploadTest").setPriority(Priority.HIGH).build()
+                .setUploadProgressListener(new UploadProgressListener() {
             @Override
             public void onProgress(long bytesUploaded, long totalBytes) {
                 // do anything with progress

@@ -9,8 +9,9 @@ public class Setting {
     private  String watsapp;
     private  String about_app;
     private  String privacy_app;
+    private String tax;
 
-    public Setting(String phone, String email, String facebook, String tweeter, String instagram, String watsapp, String about_app, String privacy_app) {
+    public Setting(String phone, String email, String facebook, String tweeter, String instagram, String watsapp, String about_app, String privacy_app, String tax) {
         this.phone = phone;
         this.email = email;
         this.facebook = facebook;
@@ -19,6 +20,7 @@ public class Setting {
         this.watsapp = watsapp;
         this.about_app = about_app;
         this.privacy_app = privacy_app;
+        this.tax = tax;
     }
 
     public String getPhone() {
@@ -83,5 +85,13 @@ public class Setting {
 
     public void setPrivacy_app(String privacy_app) {
         this.privacy_app = privacy_app;
+    }
+
+    public String getTax() {
+        return tax;
+    }
+
+    public void setTax(String tax) {
+        this.tax = tax;
     }
 }
