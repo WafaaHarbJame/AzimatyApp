@@ -1191,7 +1191,7 @@ public class AddServiceFragment extends BaseFragment {
     public void ShowTermsAndCondition() {
         setting = UtilityApp.getSettingData();
         if (setting != null) {
-             tax = setting.getTax().concat(" "+"%");
+             tax = setting.getTax();
         }
         else {
             getSetting();
@@ -1209,7 +1209,7 @@ public class AddServiceFragment extends BaseFragment {
         dialog.getWindow().setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER);
         WindowManager.LayoutParams layoutParams = dialog.getWindow().getAttributes();
         tVConditionText=dialog.findViewById(R.id.tVConditionText);
-        tVConditionText.setText(getString(R.string.conditions).concat(" "+ tax).concat("  " + getString(R.string.complete_condition)));
+        tVConditionText.setText(tax);
         layoutParams.x = 0; // right margin
         layoutParams.y = 50; // top margin
         dialog.getWindow().setAttributes(layoutParams);
@@ -1285,7 +1285,7 @@ public class AddServiceFragment extends BaseFragment {
                     Log.e("WAFAA", response);
                     if (status == 1) {
                         JSONObject data = register_response.getJSONObject("data");
-                        String tax = data.getString("tax");
+                         tax = data.getString("tax");
 
                     } else {
                         Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
