@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_margin="16dp"
+    android:background="@drawable/image_item_style"
+    android:layout_height="wrap_content">
+
+   <TextView
+       android:layout_width="match_parent"
+       android:text="@string/choose_contact"
+       android:gravity="center"
+       android:paddingBottom="8dp"
+       android:textStyle="bold"
+       android:paddingTop="8dp"
+       android:layout_height="wrap_content">
+
+   </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray3" />
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/call"
+        android:paddingBottom="8dp"
+        android:id="@+id/callTv"
+        android:paddingTop="8dp"
+        android:drawablePadding="16dp"
+        android:drawableEnd="@drawable/call"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray3" />
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/whatup"
+        android:paddingBottom="8dp"
+        android:id="@+id/whatsUpTv"
+        android:paddingTop="8dp"
+        android:drawablePadding="16dp"
+        android:drawableEnd="@drawable/whatsupicon"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray3" />
+    <TextView
+        android:layout_width="match_parent"
+        android:text="@string/cancelTXT"
+        android:paddingBottom="8dp"
+        android:paddingTop="8dp"
+        android:id="@+id/cancelTv"
+        android:drawablePadding="16dp"
+        android:drawableEnd="@drawable/close"
+        android:layout_height="wrap_content">
+
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/gray3" />
+</LinearLayout>
