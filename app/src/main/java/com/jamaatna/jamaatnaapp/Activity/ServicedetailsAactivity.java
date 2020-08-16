@@ -1,8 +1,13 @@
 package com.jamaatna.jamaatnaapp.Activity;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -58,6 +63,8 @@ public class ServicedetailsAactivity extends BaseActivity {
     private TextView mIsServiceon;
     int list_id;
     int favorite_int;
+    Dialog dialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +99,9 @@ public class ServicedetailsAactivity extends BaseActivity {
         mPhonenumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                dailus(mPhonenumber.getText().toString());
+                ShowChooseDialog();
+
+
             }
         });
         mRvitems.setNestedScrollingEnabled(false);
@@ -116,6 +125,28 @@ public class ServicedetailsAactivity extends BaseActivity {
         });
 
 
+    }
+
+    private void ShowChooseDialog() {
+        dialog = new Dialog(ServicedetailsAactivity.this);
+        dialog.setContentView(R.layout.contact_dialag);
+        TextView callTv = dialog.findViewById(R.id.callTv);
+        TextView  whatsUpTv = dialog.findViewById(R.id.whatsUpTv);
+        TextView cancelTv = dialog.findViewById(R.id.cancelTv);
+        dialog.setCancelable(true);
+        callTv.setOnClickListener(v -> {
+                    dailus("+"+mPhonenumber.getText().toString());
+                    dialog.dismiss();
+
+        });
+        cancelTv.setOnClickListener(v -> dialog.dismiss());
+        whatsUpTv.setOnClickListener(v ->
+        {
+            openChatByWhatUp(ServicedetailsAactivity.this,
+                    "+"+mPhonenumber.getText().toString());
+            dialog.dismiss();
+        });
+        dialog.show();
     }
 
     public void getSingleService(int service_id) {
@@ -280,7 +311,6 @@ public class ServicedetailsAactivity extends BaseActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-
                 //Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
                 hideProgreesDilaog(getActiviy(), getString(R.string.logintitle), getString(R.string.loadlogin));
 
@@ -303,6 +333,19 @@ public class ServicedetailsAactivity extends BaseActivity {
         };
 
         MyApplication.getInstance().addToRequestQueue(stringRequest);
+
+
+    }
+    public static void openChatByWhatUp(Context context, String phone) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setPackage("com.whatsapp");
+        intent.setData(Uri.parse(String.format("https://api.whatsapp.com/send?phone=%s", phone)));
+        if (context.getPackageManager().resolveActivity(intent, 0) != null) {
+            context.startActivity(intent);
+        } else {
+            Toast.makeText(context, ""+context.getResources().getString(R.string.install_whats), Toast.LENGTH_SHORT).show();
+
+        }
 
 
     }

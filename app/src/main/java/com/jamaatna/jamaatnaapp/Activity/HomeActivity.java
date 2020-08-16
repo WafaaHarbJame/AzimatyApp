@@ -133,6 +133,7 @@ public class HomeActivity extends BaseActivity {
     public void onBackPressed() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment currentFragment = fragmentManager.findFragmentById(R.id.mainContainer);
+
         if (currentFragment instanceof FavoiritFragment) {
             getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment(), "AdvisorNotificationsFragment").commit();
             mNavigationMenu.setImageDrawable(getResources().getDrawable(R.drawable.menu));

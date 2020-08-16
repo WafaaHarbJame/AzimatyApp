@@ -167,5 +167,9 @@
     <string name="city_name">المدينة</string>
     <string name="no_data">لا يوجد بيانات </string>
     <string name="reload">اعادة تحميل</string>
+    <string name="choose_contact">أختر جهة الاتصال </string>
+    <string name="call">اتصال</string>
+    <string name="whatup">واتساب</string>
+    <string name="install_whats">الرجاء تنزيل تطبيق الواتس اب </string>
 
 </resources>

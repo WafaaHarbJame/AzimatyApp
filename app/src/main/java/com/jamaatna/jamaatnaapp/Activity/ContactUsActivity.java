@@ -93,7 +93,7 @@ public class ContactUsActivity extends BaseActivity {
         mTvadvertisawahats.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ContatWhats(mAdvertisawahats.getText().toString());
+                contactByWhatUp(mAdvertisawahats.getText().toString());
             }
         });
     }
