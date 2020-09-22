@@ -176,7 +176,7 @@ public class AddServiceFragment extends BaseFragment {
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 if (position > 0) {
                     selectedCityId = citiesModelList.get(position - 1).getId();
-                    //  Toast("city id " + selectedCityId);
+                    //  Toast("city id " + selectedCityId);p
                 } else {
                     selectedCityId = 0;
                 }
