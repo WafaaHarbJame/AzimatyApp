@@ -8,12 +8,8 @@
 	android:layout_gravity="end"
 	android:layoutDirection="rtl"
 	android:gravity="end"
-	android:background="@color/gray3"
+	android:background="@color/gray3">
 
-	>
-	<!--
-    android:paddingTop="?attr/actionBarSize"
--->
 	<FrameLayout
 		android:id="@+id/mainContainer"
 		android:layout_width="match_parent"

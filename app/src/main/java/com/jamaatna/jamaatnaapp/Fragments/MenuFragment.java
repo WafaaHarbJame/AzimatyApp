@@ -350,7 +350,7 @@ public class MenuFragment extends BaseFragment {
                     .placeholder(R.drawable.profile_image)
                     .into(mMenuImage);
 
-//            Picasso.with(getActiviy())
+//           Picasso.get()(getActiviy())
 //                    .load(user.photo).error(R.drawable.profile_image)
 //                    .placeholder(R.drawable.profile_image).
 //                    into(mMenuImage);

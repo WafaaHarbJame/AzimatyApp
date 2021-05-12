@@ -50,7 +50,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ItemViewHo
         itemViewHolder.mLocation.setText(item.getLocation());
         itemViewHolder.mRatingBar.setRating(item.getRatingNumber());
         itemViewHolder.mFavoirite.setVisibility(View.GONE);
-        Picasso.with(context)
+        Picasso.get()
                 .load(item.getFamily_image())
                 .error(R.drawable.familyimage)
                 .into(itemViewHolder.mFamilyimage);

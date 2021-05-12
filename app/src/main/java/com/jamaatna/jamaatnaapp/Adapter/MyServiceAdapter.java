@@ -69,7 +69,7 @@ public class MyServiceAdapter extends RecyclerSwipeAdapter<MyServiceAdapter.Item
         itemViewHolder.mTvFamilyName.setText(item.getFamily_name());
         itemViewHolder.mLocation.setText(item.getLocation());
         itemViewHolder.mRatingBar.setRating(item.getRatingNumber());
-        Picasso.with(context).load(item.getFamily_image()).error(R.drawable.familyimage).into(itemViewHolder.mFamilyimage);
+        Picasso.get().load(item.getFamily_image()).error(R.drawable.familyimage).into(itemViewHolder.mFamilyimage);
         itemViewHolder.mFavoirite.setVisibility(View.GONE);
 
         // Create layout manager with initial prefetch item count

@@ -145,6 +145,7 @@ public class BaseActivity extends AppCompatActivity {
     public void Toast(String msg) {
 
         Toast.makeText(getActiviy(), msg, Toast.LENGTH_SHORT).show();
+
     }
 
     public void Toast(int resId) {

@@ -52,7 +52,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         //itemViewHolder.mRatingBar2.setNumStars(3);
 
-        Picasso.with(context).load(item.getFamily_image()).error(R.drawable.familyimage)
+        Picasso.get().load(item.getFamily_image()).error(R.drawable.familyimage)
                 .into(itemViewHolder.mFamilyimage);
 
         // Create layout manager with initial prefetch item count

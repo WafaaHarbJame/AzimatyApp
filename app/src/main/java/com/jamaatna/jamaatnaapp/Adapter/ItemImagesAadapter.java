@@ -83,7 +83,7 @@ public class ItemImagesAadapter extends RecyclerView.Adapter<ItemImagesAadapter.
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
-        Picasso.with(context).load(items_image_services.get(position).getImage()).error(R.drawable.image_item).into(holder.image_item);
+        Picasso.get().load(items_image_services.get(position).getImage()).error(R.drawable.image_item).into(holder.image_item);
 
 
         if (items_image_services.get(position).getFavooirte() == 1) {

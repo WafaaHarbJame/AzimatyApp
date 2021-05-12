@@ -65,7 +65,7 @@ public class FavoiriteAdapter extends RecyclerView.Adapter<FavoiriteAdapter.Item
         itemViewHolder.mTvFamilyName.setText(item.getFamily_name());
         itemViewHolder.mLocation.setText(item.getLocation());
         itemViewHolder.mRatingBar.setRating(item.getRatingNumber());
-        Picasso.with(context)
+        Picasso.get()
                 .load(item.getFamily_image())
                 .error(R.drawable.familyimage)
                 .into(itemViewHolder.mFamilyimage);

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -43,7 +44,7 @@ import com.daimajia.slider.library.SliderLayout;
 import com.daimajia.slider.library.SliderTypes.BaseSliderView;
 import com.daimajia.slider.library.Tricks.ViewPagerEx;
 import com.jamaatna.jamaatnaapp.Utlities.UtilityApp;
-import com.smarteist.autoimageslider.IndicatorAnimations;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 import com.squareup.picasso.NetworkPolicy;
@@ -96,7 +97,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mProgressBar = root.findViewById(R.id.progress_bar);
         Catogories = new ArrayList<>();
 
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        homeViewModel.getText().observe(getActivity(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 //  textView.setText(s);
@@ -119,7 +120,7 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         mHotle = root.findViewById(R.id.hotle);
         mResturant = root.findViewById(R.id.resturant);
         adapter = new SliderAdapterExample(getContext(), mSliderItems);
-        sliderView.setIndicatorAnimation(IndicatorAnimations.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        sliderView.setIndicatorAnimation(IndicatorAnimationType.THIN_WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
         sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
         sliderView.setAutoCycleDirection(SliderView.AUTO_CYCLE_DIRECTION_RIGHT);
         sliderView.setIndicatorSelectedColor(Color.WHITE);
@@ -265,6 +266,10 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         MyApplication.getInstance().addToRequestQueue(stringRequest);
 
 
@@ -412,107 +417,120 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
             }
         };
 
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
         MyApplication.getInstance().addToRequestQueue(stringRequest);
 
 
     }
 
     public void getCatogories() {
-        categoriesLoading.setVisibility(View.VISIBLE);
-        categoriesLY.setVisibility(View.GONE);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.categories, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                categoriesLoading.setVisibility(View.GONE);
-
-                try {
-                    JSONObject register_response = new JSONObject(response);
-                    String message = register_response.getString("message");
-                    int status = register_response.getInt("status");
-                    Log.e("WAFAA", response);
-                    if (status == 1) {
-                        JSONObject data = register_response.getJSONObject("data");
-                        JSONArray jsonArray = data.getJSONArray("category");
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jsonObject = jsonArray.getJSONObject(i);
-                            int id = jsonObject.getInt("id");
-                            String name = jsonObject.getString("name");
-                            String image = jsonObject.getString("image");
-                            String icon = jsonObject.getString("icon");
-                            Catogories.add(new Catogoriies(name, image));
-
-                        }
-                        categoriesLY.setVisibility(View.VISIBLE);
-                       // initCatogory();
-                        String image1Url = Catogories.get(0).getCat_photo();
-                        String image2Url = Catogories.get(1).getCat_photo();
-                        String image3Url = Catogories.get(2).getCat_photo();
-                        String image4Url = Catogories.get(3).getCat_photo();
-                        if(getContext()!=null){
-
-                            Glide.with(getContext()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.family).into(mFamily);
-                            Glide.with(getContext()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
-                            Glide.with(getContext()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
-                            Glide.with(getContext()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);
-
-                        }
-
-                        family_name = Catogories.get(0).getCat_name();
-                        coffee_name = Catogories.get(1).getCat_name();
-                        hotel_name = Catogories.get(2).getCat_name();
-                        resturant_name = Catogories.get(3).getCat_name();
 
 
+            categoriesLoading.setVisibility(View.VISIBLE);
+            categoriesLY.setVisibility(View.GONE);
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, AppConstants.categories, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
 
-                    } else {
+                    if (isVisible()) {
+                        categoriesLoading.setVisibility(View.GONE);
+
+                        try {
+                            JSONObject register_response = new JSONObject(response);
+                            String message = register_response.getString("message");
+                            int status = register_response.getInt("status");
+                            Log.e("WAFAA", response);
+                            if (status == 1) {
+                                JSONObject data = register_response.getJSONObject("data");
+                                JSONArray jsonArray = data.getJSONArray("category");
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject = jsonArray.getJSONObject(i);
+                                    int id = jsonObject.getInt("id");
+                                    String name = jsonObject.getString("name");
+                                    String image = jsonObject.getString("image");
+                                    String icon = jsonObject.getString("icon");
+                                    Catogories.add(new Catogoriies(name, image));
+
+                                }
+                                categoriesLY.setVisibility(View.VISIBLE);
+                                // initCatogory();
+                                String image1Url = Catogories.get(0).getCat_photo();
+                                String image2Url = Catogories.get(1).getCat_photo();
+                                String image3Url = Catogories.get(2).getCat_photo();
+                                String image4Url = Catogories.get(3).getCat_photo();
+                                if (getContext() != null) {
+
+                                    Glide.with(getContext()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.family).into(mFamily);
+                                    Glide.with(getContext()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
+                                    Glide.with(getContext()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
+                                    Glide.with(getContext()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);
+
+                                }
+
+                                family_name = Catogories.get(0).getCat_name();
+                                coffee_name = Catogories.get(1).getCat_name();
+                                hotel_name = Catogories.get(2).getCat_name();
+                                resturant_name = Catogories.get(3).getCat_name();
+
+
+                            } else {
 //                        Toast.makeText(getActiviy(), "" + message, Toast.LENGTH_LONG).show();
 
+                            }
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+
+
+                        }
+
                     }
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                    // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
 
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> map = new HashMap();
 
+
+                    return map;
 
                 }
 
 
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    HashMap<String, String> headers = new HashMap<>();
+                    return headers;
+                }
 
-                // Toast.makeText(getActiviy(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                @Override
+                protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                    return super.parseNetworkResponse(response);
+                }
+            };
+            stringRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
-
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> map = new HashMap();
-
-
-                return map;
-
-            }
-
-
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                HashMap<String, String> headers = new HashMap<>();
-                return headers;
-            }
-
-            @Override
-            protected Response<String> parseNetworkResponse(NetworkResponse response) {
-                return super.parseNetworkResponse(response);
-            }
-        };
-
-        MyApplication.getInstance().addToRequestQueue(stringRequest);
+            MyApplication.getInstance().addToRequestQueue(stringRequest);
 
 
-    }
+        }
+
 
     private void getCacheCatogories() {
 
@@ -532,20 +550,20 @@ public class HomeFragment extends BaseFragment implements BaseSliderView.OnSlide
         String image3Url = Catogories.get(2).getCat_photo();
         String image4Url = Catogories.get(3).getCat_photo();
 
-//        Picasso.with(getActivity()).invalidate(image1Url);
-//        Picasso.with(getActivity()).invalidate(image2Url);
-//        Picasso.with(getActivity()).invalidate(image3Url);
-//        Picasso.with(getActivity()).invalidate(image4Url);
+//       Picasso.get()(getActivity()).invalidate(image1Url);
+//       Picasso.get()(getActivity()).invalidate(image2Url);
+//       Picasso.get()(getActivity()).invalidate(image3Url);
+//       Picasso.get()(getActivity()).invalidate(image4Url);
 
         Glide.with(getActivity()).load(image1Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.family).into(mFamily);
         Glide.with(getActivity()).load(image2Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.cofffe).into(mCofffe);
         Glide.with(getActivity()).load(image3Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.hotle).into(mHotle);
         Glide.with(getActivity()).load(image4Url).diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true).placeholder(R.drawable.resturant).into(mResturant);
 
-//        Picasso.with(getActivity()).load(image1Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.familyimage).into(mFamily);
-//        Picasso.with(getActivity()).load(image2Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.cofffe).into(mCofffe);
-//        Picasso.with(getActivity()).load(image3Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.hotle).into(mHotle);
-//        Picasso.with(getActivity()).load(image4Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.resturant).into(mResturant);
+//       Picasso.get()(getActivity()).load(image1Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.familyimage).into(mFamily);
+//       Picasso.get()(getActivity()).load(image2Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.cofffe).into(mCofffe);
+//       Picasso.get()(getActivity()).load(image3Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.hotle).into(mHotle);
+//       Picasso.get()(getActivity()).load(image4Url).networkPolicy(NetworkPolicy.NO_CACHE).error(R.drawable.resturant).into(mResturant);
         family_name = Catogories.get(0).getCat_name();
         coffee_name = Catogories.get(1).getCat_name();
         hotel_name = Catogories.get(2).getCat_name();

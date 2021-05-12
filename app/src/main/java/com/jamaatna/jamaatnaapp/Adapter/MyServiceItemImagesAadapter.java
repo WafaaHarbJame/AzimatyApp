@@ -86,7 +86,7 @@ public class MyServiceItemImagesAadapter extends RecyclerView.Adapter<MyServiceI
 
     @Override
     public void onBindViewHolder(@NonNull final MyHolder holder, final int position) {
-       Picasso.with(context)
+       Picasso.get()
               .load(items_image_services.get(position).getImage())
                .error(R.drawable.image_item)
                .into(holder.image_item);

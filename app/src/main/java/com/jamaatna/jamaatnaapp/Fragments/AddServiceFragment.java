@@ -607,7 +607,7 @@ public class AddServiceFragment extends BaseFragment {
                             // mCity.setText(city_name);
                             mServiceitem.setText(tag);
 
-                            Picasso.with(getActiviy()).load(logo).error(R.drawable.imagedetails).into(mImageView);
+                           Picasso.get().load(logo).error(R.drawable.imagedetails).into(mImageView);
 
 
                         }
@@ -964,7 +964,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 try {
                     COOKERIMAGEfile = new Compressor(getContext()).compressToFile(new File(r.getPath()));
-                    Picasso.with(getContext()).
+                   Picasso.get().
                             load(COOKERIMAGEfile).
                             into(mImageView);
                     uploaduserimageename = COOKERIMAGEfile.getName().toString();
@@ -981,7 +981,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Picasso.with(getActivity()).load(r.getUri()).error(R.drawable.profile_image)
+                   Picasso.get().load(r.getUri()).error(R.drawable.profile_image)
                             // .resize(100,100)
                             .into(mImageView);
 
@@ -1039,7 +1039,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 try {
                     UdateServiceLogo = new Compressor(getContext()).compressToFile(new File(r.getPath()));
-                    Picasso.with(getContext()).
+                   Picasso.get().
                             load(UdateServiceLogo).
                             into(mImageView);
                     if (r.getError() == null) {
@@ -1054,7 +1054,7 @@ public class AddServiceFragment extends BaseFragment {
 
                 } catch (IOException e) {
                     e.printStackTrace();
-                    Picasso.with(getActivity()).load(r.getUri()).error(R.drawable.profile_image).into(mImageView);
+                   Picasso.get().load(r.getUri()).error(R.drawable.profile_image).into(mImageView);
 
                 }
                 new Handler().postDelayed(new Runnable() {

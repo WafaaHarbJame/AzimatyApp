@@ -273,9 +273,9 @@ public class ServicedetailsAactivity extends BaseActivity {
                             String user_phone = user.getString("phone");
                             String user_photo = user.getString("photo");
 
-                            Picasso.with(getActiviy()).load(logo).error(R.drawable.imagedetails).into(mBackfround);
+                           Picasso.get().load(logo).error(R.drawable.imagedetails).into(mBackfround);
 
-                            Picasso.with(getActiviy()).load(user_photo).error(R.drawable.imageservice).into(mProfileserviceimage);
+                           Picasso.get().load(user_photo).error(R.drawable.imageservice).into(mProfileserviceimage);
 
 
 

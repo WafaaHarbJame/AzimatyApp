@@ -147,7 +147,7 @@ public class UpdateDataActivity extends BaseActivity {
                         try {
                             COOKERIMAGEfile = new Compressor(UpdateDataActivity.this).compressToFile(new File(r.getPath()));
 
-                            Picasso.with(UpdateDataActivity.this).
+                           Picasso.get().
                                     load(COOKERIMAGEfile).
                                     into(mImageView);
 
@@ -162,7 +162,7 @@ public class UpdateDataActivity extends BaseActivity {
 
                         } catch (IOException e) {
                             e.printStackTrace();
-                            Picasso.with(UpdateDataActivity.this).load(r.getUri()).error(R.drawable.profile_image).into(mImageView);
+                           Picasso.get().load(r.getUri()).error(R.drawable.profile_image).into(mImageView);
 
                         }
 
@@ -458,7 +458,7 @@ public class UpdateDataActivity extends BaseActivity {
         if(UtilityApp.isLogin()) {
             mName.setText(user.name);
             mPhonenumber.setText(user.phone);
-            Picasso.with(UpdateDataActivity.this).
+           Picasso.get().
                     load(user.photo)
                     .placeholder(R.drawable.profile_image)
                     .into(mImageView);
